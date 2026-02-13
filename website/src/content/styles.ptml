@@ -1,0 +1,233 @@
+define: page-container
+- min-height: 100vh
+- display: flex
+- flex-direction: column
+- background-color: #ffffff
+
+define: nav-bar
+- display: flex
+- gap: 0.5rem
+- padding: 0.75rem 2rem
+- background-color: #0f172a
+- align-items: center
+
+define: nav-brand
+- color: #f8fafc
+- font-weight: 700
+- font-size: 1.5rem
+- letter-spacing: -0.025em
+- margin-right: 1.5rem
+
+define: nav-button
+- background-color: transparent
+- border: none
+- color: #94a3b8
+- cursor: pointer
+- font-size: 0.9375rem
+- padding: 0.5rem 0.75rem
+- border-radius: 0.375rem
+- font-family: Inter, system-ui, sans-serif
+
+define: main-content
+- flex: 1
+- max-width: 52rem
+- margin: 0 auto
+- padding: 3rem 2rem
+- width: 100%
+
+define: footer-bar
+- padding: 1.5rem 2rem
+- color: #94a3b8
+- background-color: #0f172a
+- font-size: 0.875rem
+
+define: footer-top
+- display: flex
+- justify-content: space-between
+- align-items: center
+
+define: editor-toggle
+- background-color: transparent
+- border: 1px solid #475569
+- color: #94a3b8
+- cursor: pointer
+- font-size: 0.8125rem
+- padding: 0.375rem 0.75rem
+- border-radius: 0.375rem
+- font-family: Inter, system-ui, sans-serif
+
+define: editor-tray
+- margin-top: 1rem
+- border-top: 1px solid #1e293b
+- padding-top: 1rem
+
+define: editor-textarea
+- width: 100%
+- height: 20rem
+- font-family: JetBrains Mono, monospace
+- font-size: 0.8125rem
+- line-height: 1.6
+- background-color: #1e293b
+- color: #e2e8f0
+- border: 1px solid #334155
+- border-radius: 0.5rem
+- padding: 1rem
+- resize: vertical
+
+define: hero-section
+- padding: 3rem 0 2rem 0
+
+define: hero-title
+- font-size: 2.75rem
+- font-weight: 700
+- color: #0f172a
+- letter-spacing: -0.025em
+- line-height: 1.2
+- margin-bottom: 1rem
+
+define: hero-subtitle
+- font-size: 1.1875rem
+- color: #475569
+- line-height: 1.7
+- margin-top: 0.5rem
+
+define: badge
+- display: inline-block
+- padding: 0.25rem 0.75rem
+- border-radius: 9999px
+- background-color: #dbeafe
+- color: #1d4ed8
+- font-size: 0.8125rem
+- font-weight: 500
+- margin-bottom: 1rem
+
+define: section
+- margin-top: 3rem
+
+define: section-title
+- font-size: 1.5rem
+- font-weight: 600
+- color: #0f172a
+- margin-bottom: 1rem
+- letter-spacing: -0.015em
+
+define: subsection-title
+- font-size: 1.1875rem
+- font-weight: 600
+- color: #1e293b
+- margin-bottom: 0.75rem
+- margin-top: 2rem
+
+define: body-text
+- color: #334155
+- font-size: 1rem
+- line-height: 1.7
+- margin-bottom: 0.75rem
+
+define: feature-grid
+- display: grid
+- grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr))
+- gap: 1.25rem
+- margin-top: 1.5rem
+
+define: feature-card
+- padding: 1.5rem
+- border-radius: 0.75rem
+- border: 1px solid #e2e8f0
+- background-color: #f8fafc
+
+define: feature-title
+- font-size: 1.0625rem
+- font-weight: 600
+- color: #0f172a
+- margin-bottom: 0.5rem
+
+define: feature-desc
+- font-size: 0.9375rem
+- color: #475569
+- line-height: 1.6
+
+define: code-block
+- font-family: JetBrains Mono, monospace
+- font-size: 0.8125rem
+- background-color: #0f172a
+- color: #e2e8f0
+- padding: 1.25rem 1.5rem
+- border-radius: 0.5rem
+- line-height: 1.8
+- white-space: pre
+- overflow-x: auto
+- margin: 1rem 0
+
+define: code-line
+- display: block
+- color: #e2e8f0
+
+define: code-keyword
+- display: block
+- color: #7dd3fc
+
+define: code-prefix
+- display: block
+- color: #a5b4fc
+
+define: code-comment
+- display: block
+- color: #64748b
+- font-style: italic
+
+define: code-inline
+- font-family: JetBrains Mono, monospace
+- font-size: 0.875em
+- background-color: #f1f5f9
+- padding: 0.125rem 0.375rem
+- border-radius: 0.25rem
+- color: #0f172a
+
+define: callout-box
+- padding: 1rem 1.25rem
+- border-radius: 0.5rem
+- border-left: 4px solid #3b82f6
+- background-color: #eff6ff
+- margin: 1rem 0
+
+define: callout-text
+- color: #1e40af
+- font-size: 0.9375rem
+- line-height: 1.6
+
+define: divider
+- height: 1px
+- background-color: #e2e8f0
+- margin: 2.5rem 0
+
+define: ref-row
+- display: flex
+- padding: 0.625rem 0
+- border-bottom: 1px solid #f1f5f9
+- gap: 1rem
+- align-items: baseline
+
+define: ref-name
+- width: 10rem
+- flex-shrink: 0
+- font-family: JetBrains Mono, monospace
+- font-size: 0.875rem
+- color: #0f172a
+- font-weight: 500
+
+define: ref-desc
+- flex: 1
+- color: #475569
+- font-size: 0.9375rem
+- line-height: 1.5
+
+define: prefix-label
+- display: inline-block
+- font-family: JetBrains Mono, monospace
+- font-size: 0.875rem
+- background-color: #0f172a
+- color: #e2e8f0
+- padding: 0.125rem 0.5rem
+- border-radius: 0.25rem
+- margin-right: 0.5rem

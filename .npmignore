@@ -1,0 +1,14 @@
+src/
+examples/
+website/
+*.spec.ts
+*.spec.tsx
+*.example.ts
+__tests__/
+.eslintrc.cjs
+.prettierrc.json
+vitest.config.ts
+vitest.setup.ts
+tsconfig.json
+tsconfig.build.json
+coverage/

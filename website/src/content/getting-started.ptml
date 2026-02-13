@@ -1,0 +1,208 @@
+ptml:
+> box:
+  > header:
+    > text: Getting Started
+      - styles: section-title
+  > text: PTML is a declarative markup language for building web application prototypes. It uses indentation to represent structure and compiles to React components.
+    - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Node Categories
+        - styles: section-title
+    > text: Every line in PTML is a node. Nodes are organized into categories, each with its own prefix character:
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: >
+        - styles: prefix-label
+      > text: Blocks are renderable UI elements: box, text, button, header, input, textarea, form, list, and more.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: -
+        - styles: prefix-label
+      > text: Properties configure their parent node: styles, click, value, type, href, role, and CSS properties.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: ?
+        - styles: prefix-label
+      > text: Conditionals control rendering and styling: if and else.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: !
+        - styles: prefix-label
+      > text: Actions modify state: set, clear, call, and list operations like addValue and removeValue.
+        - styles: ref-desc
+    > box:
+      - styles: callout-box
+      > text: Root-level declarations like state:, ptml:, define:, and template: have no prefix. They sit at the left edge of the file.
+        - styles: callout-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Your First PTML
+        - styles: section-title
+    > text: The simplest PTML file has a ptml: declaration containing block nodes:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: ptml:
+        - styles: code-keyword
+      > text: > box:
+        - styles: code-prefix
+      > text:   > text: Hello, world!
+        - styles: code-line
+    > text: This renders a div containing the text "Hello, world!". The box node creates a container and the text node displays content.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Adding State
+        - styles: section-title
+    > text: Declare state variables with the state: root node. Reference them in text with the dollar sign prefix:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: state:
+        - styles: code-keyword
+      > text: - name: World
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > text: Hello, $name!
+        - styles: code-line
+    > text: The $name token is replaced with the value "World" at render time. State supports strings, numbers, booleans, null, and nested objects.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Interactivity
+        - styles: section-title
+    > text: Add click handlers to buttons to update state. Actions like set change state values:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: state:
+        - styles: code-keyword
+      > text: - greeting: Hello
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > text: $greeting
+        - styles: code-line
+      > text: > button:
+        - styles: code-prefix
+      > text:   > text: Say goodbye
+        - styles: code-line
+      > text:   - click:
+        - styles: code-line
+      > text:     ! set: greeting Goodbye
+        - styles: code-line
+    > text: Clicking the button sets the greeting state to "Goodbye", and the text updates automatically.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Styling
+        - styles: section-title
+    > text: Apply CSS properties to any node with inline styles or reusable named styles:
+      - styles: body-text
+    > header: h3
+      > text: Inline Styles
+        - styles: subsection-title
+    > box:
+      - styles: code-block
+      > text: ptml:
+        - styles: code-keyword
+      > text: > text: Styled text
+        - styles: code-line
+      > text:   - styles:
+        - styles: code-line
+      > text:     - color: #2563eb
+        - styles: code-line
+      > text:     - font-weight: bold
+        - styles: code-line
+    > header: h3
+      > text: Named Styles
+        - styles: subsection-title
+    > text: Define reusable style sets with the define: declaration and reference them by name:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: define: primary-text
+        - styles: code-keyword
+      > text: - color: #2563eb
+        - styles: code-line
+      > text: - font-weight: bold
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > text: Styled text
+        - styles: code-line
+      > text:   - styles: primary-text
+        - styles: code-line
+  > box:
+    - styles: section
+    > header: h2
+      > text: Conditionals
+        - styles: section-title
+    > text: Use if and else to conditionally render content based on state:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: state:
+        - styles: code-keyword
+      > text: - loggedIn: true
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > box:
+        - styles: code-prefix
+      > text:   ? if: $loggedIn
+        - styles: code-line
+      > text:     > text: Welcome back!
+        - styles: code-line
+      > text:   ? else:
+        - styles: code-line
+      > text:     > text: Please log in.
+        - styles: code-line
+    > text: The if condition supports truthiness checks, the is operator for equality, and special keywords like empty and not empty.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Templates
+        - styles: section-title
+    > text: Define reusable components with the template: declaration and render them with show:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: template: greeting-card
+        - styles: code-keyword
+      > text: > box:
+        - styles: code-prefix
+      > text:   > header: h2
+        - styles: code-line
+      > text:     > text: Hello!
+        - styles: code-line
+      > text:   > text: Welcome to the site.
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > show: greeting-card
+        - styles: code-line
+    > text: Templates can accept arguments and be imported from other files, enabling modular PTML projects.
+      - styles: body-text

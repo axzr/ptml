@@ -1,0 +1,86 @@
+import: styles.ptml
+
+state:
+- currentPage: home
+- homeSource: file(home.ptml)
+- gettingStartedSource: file(getting-started.ptml)
+- referenceSource: file(reference.ptml)
+- showEditor: false
+
+ptml:
+> box:
+  - styles: page-container
+  > box:
+    - role: header
+    - styles: nav-bar
+    > text: PTML
+      - styles: nav-brand
+    > button:
+      - styles: nav-button
+      - styles
+        ? if: $currentPage is home
+          - color: #f8fafc
+          - background-color: #334155
+      > text: Home
+      - click:
+        ! set: $currentPage home
+    > button:
+      - styles: nav-button
+      - styles
+        ? if: $currentPage is getting-started
+          - color: #f8fafc
+          - background-color: #334155
+      > text: Getting Started
+      - click:
+        ! set: $currentPage getting-started
+    > button:
+      - styles: nav-button
+      - styles
+        ? if: $currentPage is reference
+          - color: #f8fafc
+          - background-color: #334155
+      > text: Reference
+      - click:
+        ! set: $currentPage reference
+  > box:
+    - role: main
+    - styles: main-content
+    ? if: $currentPage is home
+      > compile: $homeSource
+    ? if: $currentPage is getting-started
+      > compile: $gettingStartedSource
+    ? if: $currentPage is reference
+      > compile: $referenceSource
+  > box:
+    - role: footer
+    - styles: footer-bar
+    > box:
+      - styles: footer-top
+      > text: Built with PTML
+      ? if: $showEditor is false
+        > button:
+          - styles: editor-toggle
+          > text: Edit PTML
+          - click:
+            ! set: $showEditor !$showEditor
+      ? if: $showEditor is true
+        > button:
+          - styles: editor-toggle
+          > text: Close Editor
+          - click:
+            ! set: $showEditor !$showEditor
+    ? if: $showEditor is true
+      > box:
+        - styles: editor-tray
+        ? if: $currentPage is home
+          > textarea:
+            - value: $homeSource
+            - styles: editor-textarea
+        ? if: $currentPage is getting-started
+          > textarea:
+            - value: $gettingStartedSource
+            - styles: editor-textarea
+        ? if: $currentPage is reference
+          > textarea:
+            - value: $referenceSource
+            - styles: editor-textarea

@@ -1,0 +1,428 @@
+ptml:
+> box:
+  > header:
+    > text: Language Reference
+      - styles: section-title
+  > text: A complete reference for the PTML markup language.
+    - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Root Declarations
+        - styles: section-title
+    > text: These nodes sit at the top level of a PTML file with no indentation and no prefix:
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: ptml:
+        - styles: ref-name
+      > text: The renderable root. Contains the block nodes that make up the visible UI. At most one per file.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: state:
+        - styles: ref-name
+      > text: Declares state variables. Children define key-value pairs. Values can be strings, numbers, booleans, null, or nested objects.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: define:
+        - styles: ref-name
+      > text: Defines a named style set. Children are CSS properties. Referenced by name via - styles: name.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: template:
+        - styles: ref-name
+      > text: Defines a reusable component. Rendered with > show: template-name. Can accept arguments.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: function:
+        - styles: ref-name
+      > text: Defines a named sequence of actions. Called with ! call: function-name.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: valueList:
+        - styles: ref-name
+      > text: Declares a list of scalar values. Used with each loops and list operations.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: recordList:
+        - styles: ref-name
+      > text: Declares a list of records (objects with fields). Used with each loops and record operations.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: import:
+        - styles: ref-name
+      > text: Imports templates and named styles from another PTML file. Requires a files map at render time.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: init:
+        - styles: ref-name
+      > text: Runs actions on initial render. Useful for setting computed initial state.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: breakpoints:
+        - styles: ref-name
+      > text: Defines named viewport width breakpoints for responsive layouts and conditional styles.
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Block Nodes
+        - styles: section-title
+    > text: Block nodes are renderable UI elements. They use the > prefix.
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: box
+        - styles: ref-name
+      > text: A container element. Renders as a div, or a semantic element when role is set (main, header, footer, article, section, nav, aside).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: text
+        - styles: ref-name
+      > text: Displays literal text. Supports $variable interpolation and (expression) evaluation. Requires data.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: header
+        - styles: ref-name
+      > text: A heading element (h1 through h6). Optional data specifies the level: h1, h2, h3, h4, h5, h6. Default is h1.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: button
+        - styles: ref-name
+      > text: A clickable button. Add a click property with action children to handle clicks.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: input
+        - styles: ref-name
+      > text: A text input field. Bind to state with - value: $variable. Set type with - type: (text, number, email, password).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: textarea
+        - styles: ref-name
+      > text: A multi-line text input. Bind to state with - value: $variable.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: checkbox
+        - styles: ref-name
+      > text: A checkbox input. Binds a boolean value to state.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: radio
+        - styles: ref-name
+      > text: A radio button input. Groups by name for single-selection behavior.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: select
+        - styles: ref-name
+      > text: A dropdown selection input.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: form
+        - styles: ref-name
+      > text: A form container that groups inputs and handles submission.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: link
+        - styles: ref-name
+      > text: A hyperlink element. Requires - href: property. Optional - text:, - target: properties.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: image
+        - styles: ref-name
+      > text: An image element. Requires a source URL in its data field.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: list
+        - styles: ref-name
+      > text: A list container (ul or ol). Children must be listItem nodes. Set type with - type: ordered.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: listItem
+        - styles: ref-name
+      > text: A list item (li). Place inside a list node. Content comes from children.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: each
+        - styles: ref-name
+      > text: Iterates over a list, rendering children for each item. Provides $item and $index variables.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: show
+        - styles: ref-name
+      > text: Renders a template by name. Supports dynamic names via state: > show: $templateName.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: table
+        - styles: ref-name
+      > text: A table container. Children are row nodes. Rows can have role header, body, or footer.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: row
+        - styles: ref-name
+      > text: A table row (tr). Children are cell nodes.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: cell
+        - styles: ref-name
+      > text: A table cell (td or th based on parent row role).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: debug
+        - styles: ref-name
+      > text: Renders current state as formatted JSON for debugging.
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Property Nodes
+        - styles: section-title
+    > text: Property nodes configure their parent. They use the - prefix.
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: styles
+        - styles: ref-name
+      > text: Applies CSS styles. With no data, children are CSS properties. With data, references a named style.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: click
+        - styles: ref-name
+      > text: Defines a click handler. Children are action nodes (set, call, etc).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: value
+        - styles: ref-name
+      > text: Binds a form element to state. Use - value: $variableName for two-way binding.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: type
+        - styles: ref-name
+      > text: Sets the type of an input (text, number, email, password) or list (ordered, unordered).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: role
+        - styles: ref-name
+      > text: Sets the semantic role of a box (main, header, footer, article, section, nav, aside).
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: href
+        - styles: ref-name
+      > text: Sets the URL for a link element.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: disabled
+        - styles: ref-name
+      > text: Disables a button or input element.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: id
+        - styles: ref-name
+      > text: Sets the identifier for a form element.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: where
+        - styles: ref-name
+      > text: Filters items in an each loop based on a condition.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: CSS properties
+        - styles: ref-name
+      > text: Any CSS property (color, font-size, padding, display, etc.) can be a direct property child of styles or define.
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Conditional Nodes
+        - styles: section-title
+    > text: Conditional nodes control rendering. They use the ? prefix.
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: if
+        - styles: ref-name
+      > text: Renders children when the condition is true. Supports: $variable (truthiness), $var is value (equality), $var is empty, $var is not empty.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: else
+        - styles: ref-name
+      > text: Renders children when the preceding if condition is false.
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Action Nodes
+        - styles: section-title
+    > text: Action nodes modify state. They use the ! prefix and must appear inside a click handler, init block, or function body.
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: set
+        - styles: ref-name
+      > text: Sets a state variable. Syntax: ! set: variableName value. Supports expressions.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: clear
+        - styles: ref-name
+      > text: Resets a state variable to its initial value.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: call
+        - styles: ref-name
+      > text: Calls a named function defined with function:.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: addValue
+        - styles: ref-name
+      > text: Adds a value to a valueList.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: removeValue
+        - styles: ref-name
+      > text: Removes a value from a valueList.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: addRecord
+        - styles: ref-name
+      > text: Adds a record to a recordList.
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: removeRecord
+        - styles: ref-name
+      > text: Removes a record from a recordList.
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Expressions
+        - styles: section-title
+    > text: PTML supports inline computations using parentheses and pipe syntax. Wrap arguments and a pipe function in parentheses:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: Syntax: args | function
+        - styles: code-comment
+      > text: .
+        - styles: code-comment
+      > text: $count 1 | add         => adds 1 to $count
+        - styles: code-line
+      > text: $price $tax | multiply => multiplies price by tax
+        - styles: code-line
+      > text: $items | length        => length of a list
+        - styles: code-line
+    > text: Available pipe functions: add, subtract, multiply, divide, length. Expressions can be nested and used anywhere a value is expected.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: State Variable Types
+        - styles: section-title
+    > text: State values are declared under the state: root node. Supported types:
+      - styles: body-text
+    > box:
+      - styles: ref-row
+      > text: String
+        - styles: ref-name
+      > text: Any text: - name: Hello World
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: Number
+        - styles: ref-name
+      > text: Numeric literals: - count: 42
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: Boolean
+        - styles: ref-name
+      > text: true or false: - isActive: true
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: Null
+        - styles: ref-name
+      > text: The literal null: - middleName: null
+        - styles: ref-desc
+    > box:
+      - styles: ref-row
+      > text: Object
+        - styles: ref-name
+      > text: Nested children define properties. Access with dot notation: $user.name
+        - styles: ref-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Breakpoints
+        - styles: section-title
+    > text: Define named viewport breakpoints for responsive design:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: breakpoints:
+        - styles: code-keyword
+      > text: - small: 768
+        - styles: code-line
+      > text: - medium: 1024
+        - styles: code-line
+      > text: - large:
+        - styles: code-line
+    > text: Each label defines a range. With the above, small is 0-767px, medium is 768-1023px, and large is 1024px and up. Use breakpoint blocks to conditionally render content or apply styles per range.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Import System
+        - styles: section-title
+    > text: Share templates and named styles across files:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: import: shared-styles.ptml
+        - styles: code-keyword
+      > text: import: components.ptml
+        - styles: code-keyword
+    > text: Imported templates and named styles become available as if declared locally. The application must provide a files map at render time for imports to resolve.
+      - styles: body-text

@@ -1,0 +1,40 @@
+import React from 'react';
+import { getNodeStyles } from '../../renderers/helpers';
+import { renderNode } from '../../renderers/renderNode';
+import type { RenderContext } from '../../renderers/types';
+
+const VALID_HEADING_LEVELS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
+const getHeadingTag = (data: string | undefined): string => {
+  if (!data || !data.trim()) {
+    return 'h1';
+  }
+  const normalized = data.trim().toLowerCase();
+  return VALID_HEADING_LEVELS.includes(normalized) ? normalized : 'h1';
+};
+
+export const headerNodeToReact = (context: RenderContext): React.ReactNode => {
+  const { node, keyPrefix = '', namedStyles, state, loopVariables, setLists } = context;
+  const style = getNodeStyles(node, namedStyles, state, loopVariables, context.viewportWidth, context.breakpoints);
+  const tag = getHeadingTag(node.data);
+
+  const renderedChildren: React.ReactNode[] = [];
+
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i];
+    const childKey = `${keyPrefix}-${i}`;
+    const nextSibling = i < node.children.length - 1 ? node.children[i + 1] : undefined;
+    const childContext = { ...context, node: child, keyPrefix: childKey, loopVariables, setLists, nextSibling };
+
+    const rendered = renderNode(childContext);
+    if (rendered) {
+      renderedChildren.push(React.createElement(React.Fragment, { key: childKey }, rendered));
+    }
+  }
+
+  return React.createElement(
+    tag,
+    { key: keyPrefix, style: style as React.CSSProperties | undefined },
+    renderedChildren,
+  );
+};

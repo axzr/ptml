@@ -1,0 +1,96 @@
+ptml:
+> box:
+  > box:
+    - styles: hero-section
+    > text: Declarative Markup Language
+      - styles: badge
+    > header:
+      > text: Build web prototypes with simple, readable markup
+        - styles: hero-title
+    > text: PTML transforms indented, human-readable syntax into fully interactive web interfaces. Describe your UI with clean markup and get working React components.
+      - styles: hero-subtitle
+  > box:
+    - styles: section
+    > header: h2
+      > text: Key Features
+        - styles: section-title
+    > box:
+      - styles: feature-grid
+      > box:
+        - styles: feature-card
+        > text: Declarative Syntax
+          - styles: feature-title
+        > text: Describe your UI with clean, indentation-based markup. No closing tags, no boilerplate, no ceremony.
+          - styles: feature-desc
+      > box:
+        - styles: feature-card
+        > text: Built-in State
+          - styles: feature-title
+        > text: Declare state variables and bind them to your UI. Buttons and form inputs update state automatically.
+          - styles: feature-desc
+      > box:
+        - styles: feature-card
+        > text: Renders to React
+          - styles: feature-title
+        > text: PTML compiles to React components. You get full interactivity with buttons, forms, conditionals, and loops.
+          - styles: feature-desc
+      > box:
+        - styles: feature-card
+        > text: Templates
+          - styles: feature-title
+        > text: Create reusable templates and share them across files with the import system.
+          - styles: feature-desc
+      > box:
+        - styles: feature-card
+        > text: Responsive Design
+          - styles: feature-title
+        > text: Define named breakpoints and conditionally render content or apply styles based on viewport width.
+          - styles: feature-desc
+      > box:
+        - styles: feature-card
+        > text: Expressions
+          - styles: feature-title
+        > text: Use pipe expressions for inline computations. Add, subtract, multiply, and transform values directly in markup.
+          - styles: feature-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Design Philosophy
+        - styles: section-title
+    > text: PTML is inspired by the Pareto principle: make 80% of building a website easy by making 20% of it impossible.
+      - styles: body-text
+    > text: This is a deliberate trade. By constraining what you can express -- no imperative logic, no custom data structures, no low-level performance tuning -- everything you can express stays simple, readable, and fast to build. If PTML can describe it, PTML makes it effortless.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: What does PTML look like?
+        - styles: section-title
+    > text: PTML uses indentation to represent structure, with category prefixes to distinguish node types. Here is a greeting toggle with state and a button:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: state:
+        - styles: code-keyword
+      > text: - greeting: Hello
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: ptml:
+        - styles: code-keyword
+      > text: > box:
+        - styles: code-prefix
+      > text:   > text: $greeting, World!
+        - styles: code-line
+      > text:   > button:
+        - styles: code-prefix
+      > text:     > text: Change Greeting
+        - styles: code-line
+      > text:     - click:
+        - styles: code-line
+      > text:       ! set: $greeting Goodbye
+        - styles: code-line
+    > box:
+      - styles: callout-box
+      > text: This website itself is built entirely in PTML. The navigation, layout, routing, and all page content you see here is PTML rendered by a single React entry point.
+        - styles: callout-text
