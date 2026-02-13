@@ -12,6 +12,7 @@ module.exports = {
     'vite.config.ts',
     'vitest.config.ts',
     'vitest.setup.ts',
+    'tsup.config.ts',
   ],
   env: {
     browser: true,

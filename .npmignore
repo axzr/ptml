@@ -11,4 +11,5 @@ vitest.config.ts
 vitest.setup.ts
 tsconfig.json
 tsconfig.build.json
+tsup.config.ts
 coverage/

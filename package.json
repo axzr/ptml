@@ -39,7 +39,7 @@
     "react": "^18.0.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup",
     "prepare": "npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -67,6 +67,7 @@
     "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
     "vitest": "^3.2.4"
