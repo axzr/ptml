@@ -19,36 +19,42 @@ ptml:
       > box:
         - styles: feature-card
         > text: Declarative Syntax
+          - newline
           - styles: feature-title
         > text: Describe your UI with clean, indentation-based markup. No closing tags, no boilerplate, no ceremony.
           - styles: feature-desc
       > box:
         - styles: feature-card
         > text: Built-in State
+          - newline
           - styles: feature-title
         > text: Declare state variables and bind them to your UI. Buttons and form inputs update state automatically.
           - styles: feature-desc
       > box:
         - styles: feature-card
         > text: Renders to React
+          - newline
           - styles: feature-title
         > text: PTML compiles to React components. You get full interactivity with buttons, forms, conditionals, and loops.
           - styles: feature-desc
       > box:
         - styles: feature-card
         > text: Templates
+          - newline
           - styles: feature-title
         > text: Create reusable templates and share them across files with the import system.
           - styles: feature-desc
       > box:
         - styles: feature-card
         > text: Responsive Design
+          - newline
           - styles: feature-title
         > text: Define named breakpoints and conditionally render content or apply styles based on viewport width.
           - styles: feature-desc
       > box:
         - styles: feature-card
         > text: Expressions
+          - newline
           - styles: feature-title
         > text: Use pipe expressions for inline computations. Add, subtract, multiply, and transform values directly in markup.
           - styles: feature-desc

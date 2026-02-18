@@ -13,7 +13,7 @@ export const textSchema: NodeSchema = {
     list: [],
   },
   properties: {
-    list: [{ name: 'styles' }],
+    list: [{ name: 'styles' }, { name: 'newline' }],
   },
   data: {
     required: false,

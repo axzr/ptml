@@ -13,4 +13,12 @@ ptml:
   > text: Hello, ($count 1 | add) | ($count 1 | add)!
 `;
 
-export { textWithPipe, textWithPipes };
+const textWithNewline = `
+ptml:
+> box:
+  > text: Hello
+    - newline
+  > text: World
+`;
+
+export { textWithPipe, textWithPipes, textWithNewline };

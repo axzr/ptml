@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { textWithPipe, textWithPipes } from './text.example';
+import { textWithPipe, textWithPipes, textWithNewline } from './text.example';
 import { render as renderPtml, validate, parse } from '../../index';
 
 describe('Text with pipe expression (textWithPipe)', () => {
@@ -63,5 +63,50 @@ describe('Text with multiple pipe expressions (textWithPipes)', () => {
     render(<div>{node}</div>);
 
     expect(screen.getByText('Hello, 1 | 1!')).toBeInTheDocument();
+  });
+});
+
+describe('Text with newline property (textWithNewline)', () => {
+  it('validates textWithNewline', () => {
+    const validation = validate(textWithNewline);
+    expect(validation.isValid).toBe(true);
+  });
+
+  it('parses textWithNewline with newline child node', () => {
+    const nodes = parse(textWithNewline);
+    const ptmlNode = nodes.find((n) => n.type === 'ptml');
+    const boxNode = ptmlNode?.children.find((n) => n.type === 'box');
+    const textNodes = boxNode?.children.filter((child) => child.type === 'text');
+    expect(textNodes).toHaveLength(2);
+
+    const firstText = textNodes![0];
+    const newlineNode = firstText.children.find((child) => child.type === 'newline');
+    expect(newlineNode).toBeDefined();
+
+    const secondText = textNodes![1];
+    const noNewline = secondText.children.find((child) => child.type === 'newline');
+    expect(noNewline).toBeUndefined();
+  });
+
+  it('renders a <br> after text when newline is present', () => {
+    const node = renderPtml(textWithNewline);
+    const { container } = render(<div>{node}</div>);
+
+    const brElements = container.querySelectorAll('br');
+    expect(brElements).toHaveLength(1);
+  });
+
+  it('does not render <br> when newline is absent', () => {
+    const noNewlinePtml = `
+ptml:
+> box:
+  > text: Hello
+  > text: World
+`;
+    const node = renderPtml(noNewlinePtml);
+    const { container } = render(<div>{node}</div>);
+
+    const brElements = container.querySelectorAll('br');
+    expect(brElements).toHaveLength(0);
   });
 });

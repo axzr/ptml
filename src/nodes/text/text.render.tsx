@@ -34,13 +34,20 @@ const processTextWithExpressions = (
   return processedText;
 };
 
+const hasNewlineProperty = (node: RenderContext['node']): boolean => {
+  const newlineNode = node.children.find((child) => child.type === 'newline');
+  return !!newlineNode && newlineNode.data?.trim() !== 'false';
+};
+
 export const textNodeToReact = (context: RenderContext): React.ReactNode => {
   const { node, namedStyles, state, loopVariables, lists } = context;
   const style = getNodeStyles(node, namedStyles, state, loopVariables, context.viewportWidth, context.breakpoints);
   const content = processTextWithExpressions(node.data || '', state, loopVariables, lists);
-  if (!style) {
-    return content;
-  }
+  const newline = hasNewlineProperty(node);
 
-  return React.createElement('span', { style: style as React.CSSProperties }, content);
+  const textContent = style ? React.createElement('span', { style: style as React.CSSProperties }, content) : content;
+
+  if (!newline) return textContent;
+
+  return React.createElement(React.Fragment, null, textContent, React.createElement('br'));
 };
