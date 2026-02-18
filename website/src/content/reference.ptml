@@ -137,6 +137,8 @@ ptml:
         - styles: node-doc-tag
       > text: updateValue
         - styles: node-doc-tag
+      > text: window
+        - styles: node-doc-tag
   > box:
     - styles: section
     > header: h2
@@ -1953,3 +1955,28 @@ ptml:
       > box:
         - styles: node-doc-code
         > text: - updateValue: items $index newValue
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: window
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Performs a browser window operation. Currently supports scrollTop to scroll the page to the top. Extensible for future operations.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: operation (required) -- The window operation to perform. Supported: scrollTop.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ! window: scrollTop

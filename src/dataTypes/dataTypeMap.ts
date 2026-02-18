@@ -22,6 +22,7 @@ import { listNameReferenceSchema } from './listNameReference/listNameReference.s
 import { ifConditionSchema } from './ifCondition/ifCondition.schema';
 import { whereConditionSchema } from './whereCondition/whereCondition.schema';
 import { importFilenameSchema } from './importFilename/importFilename.schema';
+import { windowOperationSchema } from './windowOperation/windowOperation.schema';
 
 const dataTypeSchemas: DataTypeSchema[] = [
   boxRoleSchema,
@@ -47,6 +48,7 @@ const dataTypeSchemas: DataTypeSchema[] = [
   ifConditionSchema,
   whereConditionSchema,
   importFilenameSchema,
+  windowOperationSchema,
 ];
 
 const dataTypeMap = new Map<string, DataTypeSchema>(dataTypeSchemas.map((s) => [s.name, s]));

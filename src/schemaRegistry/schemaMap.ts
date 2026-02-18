@@ -58,6 +58,7 @@ import { templateSchema } from '../nodes/template/template.schema';
 import { showSchema } from '../nodes/show/show.schema';
 import { valueSchema } from '../nodes/value/value.schema';
 import { whereSchema } from '../nodes/where/where.schema';
+import { windowSchema } from '../nodes/window/window.schema';
 
 import { ptmlSchema } from '../nodes/ptml/ptml.schema';
 
@@ -121,6 +122,7 @@ const nodeSchemas: NodeSchema[] = [
   showSchema,
   valueSchema,
   whereSchema,
+  windowSchema,
   ptmlSchema,
 ];
 

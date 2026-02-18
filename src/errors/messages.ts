@@ -196,6 +196,8 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} must specify a template name. Use format: show: <template-name> [arg1] [arg2] ...`,
   templateNotFound: (nodeType: string, lineNumber: number, templateName: string) =>
     `${nodeType} node on line ${lineNumber} references template "${templateName}" which does not exist.`,
+  windowOperationInvalid: (lineNumber: number, found: string, supported: string) =>
+    `window node on line ${lineNumber} has unknown operation "${found}". Supported: ${supported}`,
   headingLevelInvalid: (nodeType: string, lineNumber: number, found: string) =>
     `${nodeType} node on line ${lineNumber} must have heading level h1, h2, h3, h4, h5, or h6. Found: "${found}"`,
   rowRoleInvalid: (nodeType: string, lineNumber: number, found: string) =>

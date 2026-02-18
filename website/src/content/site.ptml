@@ -24,6 +24,7 @@ ptml:
       > text: Home
       - click:
         ! set: $currentPage home
+        ! window: scrollTop
     > button:
       - styles: nav-button
       - styles
@@ -33,6 +34,7 @@ ptml:
       > text: Getting Started
       - click:
         ! set: $currentPage getting-started
+        ! window: scrollTop
     > button:
       - styles: nav-button
       - styles
@@ -42,6 +44,7 @@ ptml:
       > text: Reference
       - click:
         ! set: $currentPage reference
+        ! window: scrollTop
   > box:
     - role: main
     - styles: main-content

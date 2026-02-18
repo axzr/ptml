@@ -139,3 +139,4 @@ ptml:
       > text: Get Started
       - click:
         ! set: $currentPage getting-started
+        ! window: scrollTop
