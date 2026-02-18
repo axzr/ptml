@@ -3,75 +3,456 @@ ptml:
   > header:
     > text: Language Reference
       - styles: section-title
-  > text: A complete reference for the PTML markup language.
+  > text: Complete reference for every PTML node, generated from the source schema definitions.
     - styles: body-text
+  > box:
+    - styles: toc-section
+    > text: Declaration
+      - styles: toc-category-title
+    > box:
+      - styles: toc-list
+      > text: breakpoints
+        - styles: node-doc-tag
+      > text: define
+        - styles: node-doc-tag
+      > text: function
+        - styles: node-doc-tag
+      > text: import
+        - styles: node-doc-tag
+      > text: init
+        - styles: node-doc-tag
+      > text: ptml
+        - styles: node-doc-tag
+      > text: recordList
+        - styles: node-doc-tag
+      > text: state
+        - styles: node-doc-tag
+      > text: template
+        - styles: node-doc-tag
+      > text: valueList
+        - styles: node-doc-tag
+    > text: Block
+      - styles: toc-category-title
+    > box:
+      - styles: toc-list
+      > text: box
+        - styles: node-doc-tag
+      > text: breakpoint
+        - styles: node-doc-tag
+      > text: button
+        - styles: node-doc-tag
+      > text: cell
+        - styles: node-doc-tag
+      > text: checkbox
+        - styles: node-doc-tag
+      > text: compile
+        - styles: node-doc-tag
+      > text: debug
+        - styles: node-doc-tag
+      > text: each
+        - styles: node-doc-tag
+      > text: form
+        - styles: node-doc-tag
+      > text: header
+        - styles: node-doc-tag
+      > text: image
+        - styles: node-doc-tag
+      > text: input
+        - styles: node-doc-tag
+      > text: label
+        - styles: node-doc-tag
+      > text: link
+        - styles: node-doc-tag
+      > text: list
+        - styles: node-doc-tag
+      > text: listItem
+        - styles: node-doc-tag
+      > text: option
+        - styles: node-doc-tag
+      > text: radio
+        - styles: node-doc-tag
+      > text: range
+        - styles: node-doc-tag
+      > text: row
+        - styles: node-doc-tag
+      > text: select
+        - styles: node-doc-tag
+      > text: show
+        - styles: node-doc-tag
+      > text: table
+        - styles: node-doc-tag
+      > text: text
+        - styles: node-doc-tag
+      > text: textarea
+        - styles: node-doc-tag
+    > text: Property
+      - styles: toc-category-title
+    > box:
+      - styles: toc-list
+      > text: click
+        - styles: node-doc-tag
+      > text: record
+        - styles: node-doc-tag
+      > text: role
+        - styles: node-doc-tag
+      > text: styles
+        - styles: node-doc-tag
+      > text: where
+        - styles: node-doc-tag
+    > text: Conditional
+      - styles: toc-category-title
+    > box:
+      - styles: toc-list
+      > text: else
+        - styles: node-doc-tag
+      > text: if
+        - styles: node-doc-tag
+    > text: Action
+      - styles: toc-category-title
+    > box:
+      - styles: toc-list
+      > text: addRecord
+        - styles: node-doc-tag
+      > text: addValue
+        - styles: node-doc-tag
+      > text: call
+        - styles: node-doc-tag
+      > text: clear
+        - styles: node-doc-tag
+      > text: getRecord
+        - styles: node-doc-tag
+      > text: getValue
+        - styles: node-doc-tag
+      > text: removeRecord
+        - styles: node-doc-tag
+      > text: removeValue
+        - styles: node-doc-tag
+      > text: set
+        - styles: node-doc-tag
+      > text: setRecord
+        - styles: node-doc-tag
+      > text: setValue
+        - styles: node-doc-tag
+      > text: updateRecord
+        - styles: node-doc-tag
+      > text: updateValue
+        - styles: node-doc-tag
   > box:
     - styles: section
     > header: h2
-      > text: Root Declarations
+      > text: Declaration Nodes
         - styles: section-title
-    > text: These nodes sit at the top level of a PTML file with no indentation and no prefix:
+    > text: Declaration nodes sit at the top level of a PTML file with no indentation and no prefix.
       - styles: body-text
     > box:
-      - styles: ref-row
-      > text: ptml:
-        - styles: ref-name
-      > text: The renderable root. Contains the block nodes that make up the visible UI. At most one per file.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: breakpoints
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Root node that defines named breakpoint labels and their pixel widths. Children are label: width pairs in ascending order; the last child has no width (and above tier). Used by breakpoint blocks and define for responsive layout and conditional styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property (Breakpoint label and optional width (pixels, no unit). Last child has no width.)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: breakpoints:
+        > text: - small: 768
+        > text: - medium: 1024
+        > text: - large:
     > box:
-      - styles: ref-row
-      > text: state:
-        - styles: ref-name
-      > text: Declares state variables. Children define key-value pairs. Values can be strings, numbers, booleans, null, or nested objects.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: define
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: style-name (required) -- Style name (required). Must be a valid identifier that can be referenced from styles properties.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: breakpoint
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property (Any CSS property name)
+        - styles: node-doc-detail-value
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: define: myStyle
     > box:
-      - styles: ref-row
-      > text: define:
-        - styles: ref-name
-      > text: Defines a named style set. Children are CSS properties. Referenced by name via - styles: name.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: function
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Defines a reusable function with optional parameters. Functions can contain actions like set, list operations, and calls to other functions.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: function name (required) -- The name of the function. Cannot start with $. Function names must be unique within the document.
+        - styles: node-doc-detail-value
+      > text: parameter (optional) -- Optional parameter names. Parameters cannot start with $ and must be unique within the function. Parameters are available as variables within the function body.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: range
+          - styles: node-doc-tag
+        > text: each
+          - styles: node-doc-tag
+      > text: Supports action children (! set, ! call, etc).
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: function: increment
     > box:
-      - styles: ref-row
-      > text: template:
-        - styles: ref-name
-      > text: Defines a reusable component. Rendered with > show: template-name. Can accept arguments.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: import
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Root node for importing templates and named styles from another PTML file. The data is a simple filename (e.g. templates.ptml) with no path. Imported templates and defines become available as if declared in the current file.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: filename (required) -- Simple filename with no path (e.g. templates.ptml)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: import: templates.ptml
     > box:
-      - styles: ref-row
-      > text: function:
-        - styles: ref-name
-      > text: Defines a named sequence of actions. Called with ! call: function-name.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: init
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: May only contain call nodes; runs those function calls when PTML first renders.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: init:
     > box:
-      - styles: ref-row
-      > text: valueList:
-        - styles: ref-name
-      > text: Declares a list of scalar values. Used with each loops and list operations.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: ptml
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: The only renderable root node. Contains blocks that define the user interface. Optional: 0 or 1 per file.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
     > box:
-      - styles: ref-row
-      > text: recordList:
-        - styles: ref-name
-      > text: Declares a list of records (objects with fields). Used with each loops and record operations.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: recordList
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Defines a list of record items. Records contain key-value pairs as their children. Record items are written as "- record:" with key-value children.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- Required list name. Must be a single word. Inline items are not supported - use child syntax with "- record:" instead.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: record
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: recordList: expenses
     > box:
-      - styles: ref-row
-      > text: import:
-        - styles: ref-name
-      > text: Imports templates and named styles from another PTML file. Requires a files map at render time.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: state
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: A state node that declares state variables. State nodes have no data themselves, but contain children where each child type is a variable name (key). Children can be scalar key-value pairs (with data, no children), nested objects (with children, no data), or arrays (with children using -: prefix, no data). Variable names must be unique within a state node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property
+        - styles: node-doc-detail-value
+      > box:
+        - styles: toc-list
+        > text: key-value
+          - styles: node-doc-tag
+        > text: state-object
+          - styles: node-doc-tag
+        > text: state-array
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: state:
     > box:
-      - styles: ref-row
-      > text: init:
-        - styles: ref-name
-      > text: Runs actions on initial render. Useful for setting computed initial state.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: template
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Defines a reusable template with optional parameters. Templates can contain any renderable nodes (box, text, button, etc.) and are rendered via show nodes.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: template name (required) -- The name of the template. Cannot start with $. Template names must be unique within the document.
+        - styles: node-doc-detail-value
+      > text: parameter (optional) -- Optional parameter names. Parameters cannot start with $ and must be unique within the template. Parameters are available as variables within the template body.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: template: contact-card contact
     > box:
-      - styles: ref-row
-      > text: breakpoints:
-        - styles: ref-name
-      > text: Defines named viewport width breakpoints for responsive layouts and conditional styles.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: valueList
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Defines a list of simple string values. Value items are written as "- value" without a type prefix.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- Required list name. Must be a single word. Inline items are not supported - use child syntax with "- value" (no type prefix) instead.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: value
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: valueList: items
   > box:
     - styles: section
     > header: h2
@@ -80,192 +461,1043 @@ ptml:
     > text: Block nodes are renderable UI elements. They use the > prefix.
       - styles: body-text
     > box:
-      - styles: ref-row
-      > text: box
-        - styles: ref-name
-      > text: A container element. Renders as a div, or a semantic element when role is set (main, header, footer, article, section, nav, aside).
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: box
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A container element that can hold other nodes. Optional role (main, header, footer, article, section, nav, aside) renders as that HTML element instead of div. Boxes can be nested and can contain text, buttons, other boxes, and control structures.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+        > text: role
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - box:
+        > text:   - role: main
     > box:
-      - styles: ref-row
-      > text: text
-        - styles: ref-name
-      > text: Displays literal text. Supports $variable interpolation and (expression) evaluation. Requires data.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: breakpoint
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Conditionally renders its children when the viewport matches the breakpoint condition. Data is a breakpoint label (e.g. small) or "label or more" or "label or less". Requires a breakpoints declaration and viewportWidth in render context.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: breakpoint-reference (required) -- Breakpoint label or "label or more" or "label or less". Must match a label defined in a breakpoints declaration.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property (When under define: CSS properties. When in block context: N/A (block children only).)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > breakpoint: small
     > box:
-      - styles: ref-row
-      > text: header
-        - styles: ref-name
-      > text: A heading element (h1 through h6). Optional data specifies the level: h1, h2, h3, h4, h5, h6. Default is h1.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: button
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A clickable button element that can contain text, styles, click handlers, and conditional disabling.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: text
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+        > text: click
+          - styles: node-doc-tag
+        > text: disabled
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - button:
     > box:
-      - styles: ref-row
-      > text: button
-        - styles: ref-name
-      > text: A clickable button. Add a click property with action children to handle clicks.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: cell
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A table cell that renders as th or td based on the row section. Content comes from children (e.g. text, box). Only valid as a direct block child of a row node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > cell:
     > box:
-      - styles: ref-row
-      > text: input
-        - styles: ref-name
-      > text: A text input field. Bind to state with - value: $variable. Set type with - type: (text, number, email, password).
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: checkbox
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). Checkboxes require an id (as a key-value child) and can have optional value (for state binding) and styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: id (required)
+          - styles: node-doc-tag
+        > text: value
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - checkbox:
     > box:
-      - styles: ref-row
-      > text: textarea
-        - styles: ref-name
-      > text: A multi-line text input. Bind to state with - value: $variable.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: compile
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Renders a PTML string from state inline. The data field must be a state variable reference (e.g., $source). The resolved string is parsed as PTML and rendered within the parent context, sharing state.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: state variable (required) -- A state variable reference containing PTML source (e.g., $source).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > compile: $source
     > box:
-      - styles: ref-row
-      > text: checkbox
-        - styles: ref-name
-      > text: A checkbox input. Binds a boolean value to state.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: debug
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Displays debugging information showing the current state, lists, and loop context in a readable format. Useful for development and troubleshooting.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - debug:
     > box:
-      - styles: ref-row
-      > text: radio
-        - styles: ref-name
-      > text: A radio button input. Groups by name for single-selection behavior.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: each
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Iterates over a list, rendering its children for each item. Can optionally bind the item and/or index to variables.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required (comma-separated)
+        - styles: node-doc-detail-value
+      > text: list specification (required) -- List name followed by optional "as $variable" to bind the item. Format: <listName> [as $variable]
+        - styles: node-doc-detail-value
+      > text: index specification (optional) -- Optional index binding. Format: index as $variable
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: box
+          - styles: node-doc-tag
+        > text: text
+          - styles: node-doc-tag
+        > text: button
+          - styles: node-doc-tag
+        > text: each
+          - styles: node-doc-tag
+        > text: if
+          - styles: node-doc-tag
+        > text: else
+          - styles: node-doc-tag
+        > text: show
+          - styles: node-doc-tag
+        > text: link
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: Supports action children (! set, ! call, etc).
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - each: items as $item
     > box:
-      - styles: ref-row
-      > text: select
-        - styles: ref-name
-      > text: A dropdown selection input.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: form
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A form container element that groups form inputs and buttons together. Form fields can be accessed via form.fieldName syntax (e.g., form.name, form.email). Forms can contain inputs, buttons, text, styles, and other container elements.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - form:
     > box:
-      - styles: ref-row
-      > text: form
-        - styles: ref-name
-      > text: A form container that groups inputs and handles submission.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: header
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A heading element that renders as HTML h1–h6. Optional data specifies the level (h1–h6); default is h1. Content comes from children (e.g. text).
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Optional
+        - styles: node-doc-detail-value
+      > text: heading level (optional) -- Optional h1, h2, h3, h4, h5, or h6. Default is h1.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > header: h1
     > box:
-      - styles: ref-row
-      > text: link
-        - styles: ref-name
-      > text: A hyperlink element. Requires - href: property. Optional - text:, - target: properties.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: image
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: An image element that displays a picture from a URL. Requires src (as a key-value child); can have optional alt text for accessibility and styles. Src can be a literal URL or a state reference (e.g. $imageUrl).
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: src (required)
+          - styles: node-doc-tag
+        > text: alt
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - image:
+        > text:   - src: https://example.com/photo.jpg
+        > text:   - alt: Description
     > box:
-      - styles: ref-row
-      > text: image
-        - styles: ref-name
-      > text: An image element. Requires a source URL in its data field.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: input
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). Inputs require an id and type (as key-value children), and can have optional styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: id (required)
+          - styles: node-doc-tag
+        > text: type (required)
+          - styles: node-doc-tag
+        > text: value
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - input:
     > box:
-      - styles: ref-row
-      > text: list
-        - styles: ref-name
-      > text: A list container (ul or ol). Children must be listItem nodes. Set type with - type: ordered.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: label
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A form label that associates text with a form control for accessibility. Use optional "for" (id of the control) to associate with a control elsewhere, or wrap the control and text as children.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: for
+          - styles: node-doc-tag
+        > text: text
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - label:
+        > text:   - for: email
+        > text:   - text: Email
     > box:
-      - styles: ref-row
-      > text: listItem
-        - styles: ref-name
-      > text: A list item (li). Place inside a list node. Content comes from children.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: link
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A hyperlink element for external URLs or in-app navigation. Requires href (as a key-value child). Can have optional text, target (e.g. _blank), styles, and a click handler for in-app navigation (e.g. set: page shop with show: $page).
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: href (required)
+          - styles: node-doc-tag
+        > text: text
+          - styles: node-doc-tag
+        > text: target
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+        > text: click
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - link:
+        > text:   - href: https://example.com
+        > text:   - text: Example
     > box:
-      - styles: ref-row
-      > text: each
-        - styles: ref-name
-      > text: Iterates over a list, rendering children for each item. Provides $item and $index variables.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: list
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A list container that renders as an HTML ul (unordered) or ol (ordered) based on the optional type property. Use - type: ordered or - type: decimal for ordered lists; - type: lower-alpha, upper-alpha, lower-roman, upper-roman for ordered lists with that list style. Omit type for unordered (bullet) list. Only listItem nodes may be direct block children.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: listItem
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: type
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > list:
     > box:
-      - styles: ref-row
-      > text: show
-        - styles: ref-name
-      > text: Renders a template by name. Supports dynamic names via state: > show: $templateName.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: listItem
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A list item that renders as an HTML li element. Content comes from children (e.g. text, box). Typically used inside a list node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > listItem:
     > box:
-      - styles: ref-row
-      > text: table
-        - styles: ref-name
-      > text: A table container. Children are row nodes. Rows can have role header, body, or footer.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: option
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: An option element for select dropdowns. Option elements define the choices available in a select dropdown. The data field contains the display text (visible to the user), and a value key-value child specifies the option value.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: value (required)
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - option: Display Text
     > box:
-      - styles: ref-row
-      > text: row
-        - styles: ref-name
-      > text: A table row (tr). Children are cell nodes.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: radio
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A radio button input for forms. Multiple radios with the same name form a group; form state holds the selected option value at form.name. Radios require name and value (as key-value children) and can have optional id, selected (state ref for two-way binding), and styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: name (required)
+          - styles: node-doc-tag
+        > text: value (required)
+          - styles: node-doc-tag
+        > text: id
+          - styles: node-doc-tag
+        > text: selected
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - radio:
     > box:
-      - styles: ref-row
-      > text: cell
-        - styles: ref-name
-      > text: A table cell (td or th based on parent row role).
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: range
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A range node that iterates over a state variable. Range nodes must have at least one child.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required (comma-separated)
+        - styles: node-doc-detail-value
+      > text: range specification (required) -- State variable and index binding. Format: $stateVariable as $index
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: range
+          - styles: node-doc-tag
+      > text: Supports action children (! set, ! call, etc).
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - range: $items as $index
     > box:
-      - styles: ref-row
-      > text: debug
-        - styles: ref-name
-      > text: Renders current state as formatted JSON for debugging.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: row
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A table row that renders as HTML tr. Optional property - role: header | body | footer (default body). Only cell nodes may be direct block children. Only valid as a direct block child of a table node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: cell
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: role
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > row:
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: select
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). Selects require an id (as a key-value child) and one or more option children, and can have optional value (for default/state binding) and styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: option
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: id (required)
+          - styles: node-doc-tag
+        > text: value
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - select:
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: show
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments are bound to template parameters.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: template name (required) -- The name of the template to render, or a state variable reference (e.g., $page) for dynamic template selection.
+        - styles: node-doc-detail-value
+      > text: argument (optional) -- Optional argument values to pass to the template. Can be literal values or variable references (e.g., $contact).
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - show: contact-card $contact
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: table
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A table container that renders as HTML table. Groups row children by role (header/body/footer) into thead, tbody, tfoot. Only row nodes may be direct block children.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: row
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: > table:
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: text
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Displays text content. Text can contain interpolated expressions using $variable syntax and pipe expressions. Text nodes can have optional inline styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: styles
+          - styles: node-doc-tag
+        > text: newline
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - text: Hello
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: textarea
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). Textareas require an id (as a key-value child), and can have optional styles.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: id (required)
+          - styles: node-doc-tag
+        > text: value
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - textarea:
   > box:
     - styles: section
     > header: h2
       > text: Property Nodes
         - styles: section-title
-    > text: Property nodes configure their parent. They use the - prefix.
+    > text: Property nodes configure their parent node. They use the - prefix.
       - styles: body-text
     > box:
-      - styles: ref-row
-      > text: styles
-        - styles: ref-name
-      > text: Applies CSS styles. With no data, children are CSS properties. With data, references a named style.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: click
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: Defines click handler actions for buttons and other clickable elements. Contains one or more actions to execute when clicked.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: Supports action children (! set, ! call, etc).
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - click:
     > box:
-      - styles: ref-row
-      > text: click
-        - styles: ref-name
-      > text: Defines a click handler. Children are action nodes (set, call, etc).
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: record
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: A record node that stores key-value pairs. Records have no data themselves, but contain children where each child type is a key and child data is the value. Keys must be unique within a record.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property
+        - styles: node-doc-detail-value
+      > box:
+        - styles: toc-list
+        > text: key-value (required)
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - record:
     > box:
-      - styles: ref-row
-      > text: value
-        - styles: ref-name
-      > text: Binds a form element to state. Use - value: $variableName for two-way binding.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: role
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: Property that specifies a row section: header, body, or footer. Used as child of row. Default is body.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Optional
+        - styles: node-doc-detail-value
+      > text: role (optional) -- Optional header, body, or footer. Default is body.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - role: header
     > box:
-      - styles: ref-row
-      > text: type
-        - styles: ref-name
-      > text: Sets the type of an input (text, number, email, password) or list (ordered, unordered).
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: styles
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: Property node that applies CSS styles to elements. Can optionally reference a named style defined with define: or define inline styles. Styles can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Optional
+        - styles: node-doc-detail-value
+      > text: style-name (optional) -- Optional reference to a named style defined with define:. When present, must be a valid identifier that matches a defined style name.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property
+        - styles: node-doc-detail-value
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - styles:
     > box:
-      - styles: ref-row
-      > text: role
-        - styles: ref-name
-      > text: Sets the semantic role of a box (main, header, footer, article, section, nav, aside).
-        - styles: ref-desc
-    > box:
-      - styles: ref-row
-      > text: href
-        - styles: ref-name
-      > text: Sets the URL for a link element.
-        - styles: ref-desc
-    > box:
-      - styles: ref-row
-      > text: disabled
-        - styles: ref-name
-      > text: Disables a button or input element.
-        - styles: ref-desc
-    > box:
-      - styles: ref-row
-      > text: id
-        - styles: ref-name
-      > text: Sets the identifier for a form element.
-        - styles: ref-desc
-    > box:
-      - styles: ref-row
-      > text: where
-        - styles: ref-name
-      > text: Filters items in an each loop based on a condition.
-        - styles: ref-desc
-    > box:
-      - styles: ref-row
-      > text: CSS properties
-        - styles: ref-name
-      > text: Any CSS property (color, font-size, padding, display, etc.) can be a direct property child of styles or define.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: where
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: Specifies a condition to match items in a list. Used as a child of updateRecord to find items by property value.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: condition (required) -- Required condition expression in format "PROPERTYNAME is MATCHVALUE". The property name can be a simple property (e.g., "id") or nested property (e.g., "contact.id"). The match value can be a literal or variable reference (e.g., "$contactId").
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - where: id is $contactId
   > box:
     - styles: section
     > header: h2
@@ -274,17 +1506,65 @@ ptml:
     > text: Conditional nodes control rendering. They use the ? prefix.
       - styles: body-text
     > box:
-      - styles: ref-row
-      > text: if
-        - styles: ref-name
-      > text: Renders children when the condition is true. Supports: $variable (truthiness), $var is value (equality), $var is empty, $var is not empty.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: else
+          - styles: node-doc-name
+        > text: Conditional
+          - styles: category-badge-conditional
+      > text: Provides alternative content when the preceding sibling if node condition is false. Must be paired with a sibling if node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ? (question mark)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - else:
     > box:
-      - styles: ref-row
-      > text: else
-        - styles: ref-name
-      > text: Renders children when the preceding if condition is false.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: if
+          - styles: node-doc-name
+        > text: Conditional
+          - styles: category-badge-conditional
+      > text: Conditionally renders its children based on a condition. The condition can be a simple variable check or a comparison expression.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ? (question mark)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: condition (required) -- Required condition expression. Can be a simple variable (e.g., $isActive) or a comparison expression (e.g., $variable is value). Variables must start with $.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - if: $isActive
   > box:
     - styles: section
     > header: h2
@@ -293,136 +1573,383 @@ ptml:
     > text: Action nodes modify state. They use the ! prefix and must appear inside a click handler, init block, or function body.
       - styles: body-text
     > box:
-      - styles: ref-row
-      > text: set
-        - styles: ref-name
-      > text: Sets a state variable. Syntax: ! set: variableName value. Supports expressions.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: addRecord
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Adds a record to a list. The record is defined as a child node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to add the record to
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: record (required)
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - addRecord: expenses
+        > text:     - record:
+        > text:       - name: Item
     > box:
-      - styles: ref-row
-      > text: clear
-        - styles: ref-name
-      > text: Resets a state variable to its initial value.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: addValue
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Adds a simple value to a list. The value can be an expression with variables, pipes, etc.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to add the item to
+        - styles: node-doc-detail-value
+      > text: item-value (required) -- Required item value to add to the list (expression with variables, pipes, etc.)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - addValue: items value
     > box:
-      - styles: ref-row
-      > text: call
-        - styles: ref-name
-      > text: Calls a named function defined with function:.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: call
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Calls a function with optional arguments. The function name can be a literal function name or a variable (starting with $) that resolves to a function name.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: function-name (required) -- The name of the function to call. Can be a literal function name or a variable (starting with $) that resolves to a function name. Variables can reference state variables, loop variables, list names, or function parameters.
+        - styles: node-doc-detail-value
+      > text: argument (optional) -- Optional arguments to pass to the function. Each argument is an expression that can include variables, pipes, and other operations.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - call: $myFunction
     > box:
-      - styles: ref-row
-      > text: addValue
-        - styles: ref-name
-      > text: Adds a value to a valueList.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: clear
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Clears a state variable or form field by setting it to an empty string
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: variable-name (required) -- The name of the state variable or form field to clear (with or without $ prefix)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - clear: $input
     > box:
-      - styles: ref-row
-      > text: removeValue
-        - styles: ref-name
-      > text: Removes a value from a valueList.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: getRecord
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Gets a record from a list at a specific index and makes it available as a loop variable. The index can be a number or a variable reference. The retrieved record is assigned to the specified variable name for use in subsequent nodes.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to get the record from
+        - styles: node-doc-detail-value
+      > text: index (required) -- The index (number or variable reference starting with $) of the record to retrieve
+        - styles: node-doc-detail-value
+      > text: variable-binding (required) -- Variable binding in format "as $variableName" to assign the retrieved record
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - getRecord: contacts $index as $contact
     > box:
-      - styles: ref-row
-      > text: addRecord
-        - styles: ref-name
-      > text: Adds a record to a recordList.
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: getValue
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Gets a value from a list at a specific index and makes it available as a loop variable. The index can be a number or a variable reference. The retrieved value is assigned to the specified variable name for use in subsequent nodes.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to get the value from
+        - styles: node-doc-detail-value
+      > text: index (required) -- The index (number or variable reference starting with $) of the value to retrieve
+        - styles: node-doc-detail-value
+      > text: variable-binding (required) -- Variable binding in format "as $variableName" to assign the retrieved value
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - getValue: items $index as $item
     > box:
-      - styles: ref-row
-      > text: removeRecord
-        - styles: ref-name
-      > text: Removes a record from a recordList.
-        - styles: ref-desc
-  > box:
-    - styles: section
-    > header: h2
-      > text: Expressions
-        - styles: section-title
-    > text: PTML supports inline computations using parentheses and pipe syntax. Wrap arguments and a pipe function in parentheses:
-      - styles: body-text
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: removeRecord
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Removes a record from a list by variable reference. Typically used within each loops where the record is available as a loop variable.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to remove the record from
+        - styles: node-doc-detail-value
+      > text: item-variable (required) -- Required item variable value (must start with $) to the record to remove. Must specify both list name and item variable. Use format: removeRecord: <listName> $item
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - removeRecord: items $item
     > box:
-      - styles: code-block
-      > text: Syntax: args | function
-        - styles: code-comment
-      > text: .
-        - styles: code-comment
-      > text: $count 1 | add         => adds 1 to $count
-        - styles: code-line
-      > text: $price $tax | multiply => multiplies price by tax
-        - styles: code-line
-      > text: $items | length        => length of a list
-        - styles: code-line
-    > text: Available pipe functions: add, subtract, multiply, divide, length. Expressions can be nested and used anywhere a value is expected.
-      - styles: body-text
-  > box:
-    - styles: section
-    > header: h2
-      > text: State Variable Types
-        - styles: section-title
-    > text: State values are declared under the state: root node. Supported types:
-      - styles: body-text
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: removeValue
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Removes a value from a list by matching the value directly.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to remove the value from
+        - styles: node-doc-detail-value
+      > text: item-value (required) -- The value expression to remove from the list
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - removeValue: items value
     > box:
-      - styles: ref-row
-      > text: String
-        - styles: ref-name
-      > text: Any text: - name: Hello World
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: set
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Sets a state variable to a value. The variable name must start with $. The value can be a literal or an expression using pipes.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: variable-name (required) -- The state variable to set (must start with $)
+        - styles: node-doc-detail-value
+      > text: value-expression (optional) -- Optional value expression. Can be a literal value or an expression using pipes. Variables in the expression must be defined in state, available in the current loop context, be list names, or be function parameters.
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - set: $x 0
     > box:
-      - styles: ref-row
-      > text: Number
-        - styles: ref-name
-      > text: Numeric literals: - count: 42
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: setRecord
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Sets a record in a list at a specific index. The index can be a number or a variable reference. The record is defined as a child node.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to set the record in
+        - styles: node-doc-detail-value
+      > text: index (required) -- The index (number or variable reference starting with $) where to set the record
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: record (required)
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - setRecord: items $index
+        > text:     - record:
+        > text:       - name: Item
     > box:
-      - styles: ref-row
-      > text: Boolean
-        - styles: ref-name
-      > text: true or false: - isActive: true
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: setValue
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Sets a value in a list at a specific index. The index can be a number or a variable reference. The value can be an expression with variables, pipes, etc.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to set the value in
+        - styles: node-doc-detail-value
+      > text: index (required) -- The index (number or variable reference starting with $) where to set the value
+        - styles: node-doc-detail-value
+      > text: value-expression (required) -- The value expression to set at the specified index (can include variables, pipes, etc.)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - setValue: items $index value
     > box:
-      - styles: ref-row
-      > text: Null
-        - styles: ref-name
-      > text: The literal null: - middleName: null
-        - styles: ref-desc
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: updateRecord
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Updates a record in a list by finding it using a where clause and replacing it with a new record. The where clause specifies which property to match, and the record child defines the new values.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to update a record in
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: where (required)
+          - styles: node-doc-tag
+        > text: record (required)
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - updateRecord: contacts
+        > text:   - where: id is $contactId
+        > text:   - record:
+        > text:     - name: $name
+        > text:     - email: $email
     > box:
-      - styles: ref-row
-      > text: Object
-        - styles: ref-name
-      > text: Nested children define properties. Access with dot notation: $user.name
-        - styles: ref-desc
-  > box:
-    - styles: section
-    > header: h2
-      > text: Breakpoints
-        - styles: section-title
-    > text: Define named viewport breakpoints for responsive design:
-      - styles: body-text
-    > box:
-      - styles: code-block
-      > text: breakpoints:
-        - styles: code-keyword
-      > text: - small: 768
-        - styles: code-line
-      > text: - medium: 1024
-        - styles: code-line
-      > text: - large:
-        - styles: code-line
-    > text: Each label defines a range. With the above, small is 0-767px, medium is 768-1023px, and large is 1024px and up. Use breakpoint blocks to conditionally render content or apply styles per range.
-      - styles: body-text
-  > box:
-    - styles: section
-    > header: h2
-      > text: Import System
-        - styles: section-title
-    > text: Share templates and named styles across files:
-      - styles: body-text
-    > box:
-      - styles: code-block
-      > text: import: shared-styles.ptml
-        - styles: code-keyword
-      > text: import: components.ptml
-        - styles: code-keyword
-    > text: Imported templates and named styles become available as if declared locally. The application must provide a files map at render time for imports to resolve.
-      - styles: body-text
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: updateValue
+          - styles: node-doc-name
+        > text: Action
+          - styles: category-badge-action
+      > text: Updates a value in a list at a specific index. The index can be a number or a variable reference. The value can be an expression with variables, pipes, etc.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: ! (exclamation)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: list-name (required) -- The name of the list to update the value in
+        - styles: node-doc-detail-value
+      > text: index (required) -- The index (number or variable reference starting with $) where to update the value
+        - styles: node-doc-detail-value
+      > text: value-expression (required) -- The value expression to set at the specified index (can include variables, pipes, etc.)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: - updateValue: items $index newValue

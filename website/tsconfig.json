@@ -17,5 +17,5 @@
       "@axzr/ptml": ["../src/index.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }

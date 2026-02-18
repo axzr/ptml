@@ -3,8 +3,125 @@ ptml:
   > header:
     > text: Getting Started
       - styles: section-title
-  > text: PTML is a declarative markup language for building web application prototypes. It uses indentation to represent structure and compiles to React components.
+  > text: PTML is a declarative markup language that compiles to React components. This guide takes you from install to working prototype.
     - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Installation
+        - styles: section-title
+    > text: Install the package with npm. PTML requires React 18 or later as a peer dependency.
+      - styles: body-text
+    > box:
+      - styles: install-command
+      > text: npm install @axzr/ptml
+    > box:
+      - styles: callout-box
+      > text: Source code and issue tracker are on GitHub at github.com/axzr/ptml.
+        - styles: callout-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Quick Setup
+        - styles: section-title
+    > text: PTML works inside any React app. Import the hook, pass it a PTML string, and render the result:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: import { usePtmlRender } from '@axzr/ptml';
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: const ptml = `
+        - styles: code-line
+      > text: ptml:
+        - styles: code-keyword
+      > text: > text: Hello, world!
+        - styles: code-line
+      > text: `;
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: function App() {
+        - styles: code-line
+      > text:   const { node, error } = usePtmlRender(ptml);
+        - styles: code-line
+      > text:   if (error) return <pre>{error}</pre>;
+        - styles: code-line
+      > text:   return <>{node}</>;
+        - styles: code-line
+      > text: }
+        - styles: code-line
+    > text: That is the entire integration. PTML handles parsing, validation, state management, and rendering internally.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: API Reference
+        - styles: section-title
+    > text: The package exports four main functions:
+      - styles: body-text
+    > box:
+      - styles: api-card
+      > text: usePtmlRender(ptml, options?)
+        - styles: api-name
+      > text: React hook. Returns { node, error }. Re-renders when the PTML string changes. Pass { files } in options for multi-file projects.
+        - styles: api-desc
+    > box:
+      - styles: api-card
+      > text: validate(ptml)
+        - styles: api-name
+      > text: Returns { isValid: true } or { isValid: false, errorMessage: string }. Use for editor tooling or pre-flight checks.
+        - styles: api-desc
+    > box:
+      - styles: api-card
+      > text: render(ptml)
+        - styles: api-name
+      > text: Returns a React node directly, or null on failure. Simpler than the hook but does not support state re-renders.
+        - styles: api-desc
+    > box:
+      - styles: api-card
+      > text: parse(ptml)
+        - styles: api-name
+      > text: Returns the raw AST (array of root nodes). Useful for building tooling or inspecting PTML structure programmatically.
+        - styles: api-desc
+  > box:
+    - styles: section
+    > header: h2
+      > text: Multi-File Projects
+        - styles: section-title
+    > text: PTML supports importing templates and styles from other files. Pass a files map as the second argument to the hook:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: import { usePtmlRender } from '@axzr/ptml';
+        - styles: code-line
+      > text: import mainPtml from './main.ptml?raw';
+        - styles: code-line
+      > text: import sharedPtml from './shared.ptml?raw';
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: const files = {
+        - styles: code-line
+      > text:   'shared.ptml': sharedPtml,
+        - styles: code-line
+      > text: };
+        - styles: code-line
+      > text: .
+        - styles: code-comment
+      > text: function App() {
+        - styles: code-line
+      > text:   const { node, error } =
+        - styles: code-line
+      > text:     usePtmlRender(mainPtml, { files });
+        - styles: code-line
+      > text:   return <>{node}</>;
+        - styles: code-line
+      > text: }
+        - styles: code-line
+    > text: The keys in the files map match the filenames used in import: declarations inside your PTML code. Vite's ?raw suffix imports files as strings.
+      - styles: body-text
   > box:
     - styles: section
     > header: h2

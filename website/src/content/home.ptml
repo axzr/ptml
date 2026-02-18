@@ -2,101 +2,140 @@ ptml:
 > box:
   > box:
     - styles: hero-section
-    > text: Declarative Markup Language
+    > text: For developers who prototype
       - styles: badge
     > header:
-      > text: Build web prototypes with simple, readable markup
+      > text: Build interactive UIs with markup, not code
         - styles: hero-title
-    > text: PTML transforms indented, human-readable syntax into fully interactive web interfaces. Describe your UI with clean markup and get working React components.
+    > text: PTML is a declarative language that compiles to React. Describe your layout, state, and interactions in clean, indented markup -- and get a working prototype in minutes, not hours.
       - styles: hero-subtitle
   > box:
     - styles: section
     > header: h2
-      > text: Key Features
+      > text: The 80/20 trade
+        - styles: section-title
+    > text: PTML makes 80% of building a website trivially easy by making the other 20% impossible.
+      - styles: body-text
+    > text: No build configs. No component architecture. No state management libraries. Just describe what you want and it works. By deliberately constraining what you can express -- no imperative logic, no custom data structures -- everything you can express stays simple, readable, and fast to build. If PTML can describe it, PTML makes it effortless.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: React vs PTML
+        - styles: section-title
+    > text: A counter with a button. First in React, then in PTML:
+      - styles: body-text
+    > box:
+      - styles: comparison-grid
+      > box:
+        - styles: comparison-column
+        > text: React (JSX + hooks)
+          - styles: comparison-label
+        > box:
+          - styles: code-block
+          > text: import { useState } from 'react';
+            - styles: code-line
+          > text: .
+            - styles: code-comment
+          > text: function Counter() {
+            - styles: code-line
+          > text:   const [count, setCount] =
+            - styles: code-line
+          > text:     useState(0);
+            - styles: code-line
+          > text:   return (
+            - styles: code-line
+          > text:     <div>
+            - styles: code-line
+          > text:       <p>Count: {count}</p>
+            - styles: code-line
+          > text:       <button onClick={() =>
+            - styles: code-line
+          > text:         setCount(c => c + 1)}>
+            - styles: code-line
+          > text:         Increment
+            - styles: code-line
+          > text:       </button>
+            - styles: code-line
+          > text:     </div>
+            - styles: code-line
+          > text:   );
+            - styles: code-line
+          > text: }
+            - styles: code-line
+      > box:
+        - styles: comparison-column
+        > text: PTML
+          - styles: comparison-label
+        > box:
+          - styles: code-block
+          > text: state:
+            - styles: code-keyword
+          > text: - count: 0
+            - styles: code-line
+          > text: .
+            - styles: code-comment
+          > text: ptml:
+            - styles: code-keyword
+          > text: > box:
+            - styles: code-prefix
+          > text:   > text: Count: $count
+            - styles: code-line
+          > text:   > button:
+            - styles: code-prefix
+          > text:     > text: Increment
+            - styles: code-line
+          > text:     - click:
+            - styles: code-line
+          > text:       ! set: $count $count 1 | add
+            - styles: code-line
+  > box:
+    - styles: section
+    > header: h2
+      > text: Why PTML?
         - styles: section-title
     > box:
       - styles: feature-grid
       > box:
         - styles: feature-card
-        > text: Declarative Syntax
+        > text: No boilerplate
           - newline
           - styles: feature-title
-        > text: Describe your UI with clean, indentation-based markup. No closing tags, no boilerplate, no ceremony.
+        > text: No imports, no closing tags, no JSX ceremony. Indentation is your structure. Start writing UI immediately.
           - styles: feature-desc
       > box:
         - styles: feature-card
-        > text: Built-in State
+        > text: State that just works
           - newline
           - styles: feature-title
-        > text: Declare state variables and bind them to your UI. Buttons and form inputs update state automatically.
+        > text: Declare variables, bind them to inputs and text, update them with actions. Two-way binding without useEffect or reducers.
           - styles: feature-desc
       > box:
         - styles: feature-card
-        > text: Renders to React
+        > text: Real interactivity
           - newline
           - styles: feature-title
-        > text: PTML compiles to React components. You get full interactivity with buttons, forms, conditionals, and loops.
+        > text: Buttons, forms, conditionals, loops, and computed values. Not a static mockup -- a working prototype you can click through.
           - styles: feature-desc
       > box:
         - styles: feature-card
-        > text: Templates
+        > text: Reusable templates
           - newline
           - styles: feature-title
-        > text: Create reusable templates and share them across files with the import system.
-          - styles: feature-desc
-      > box:
-        - styles: feature-card
-        > text: Responsive Design
-          - newline
-          - styles: feature-title
-        > text: Define named breakpoints and conditionally render content or apply styles based on viewport width.
-          - styles: feature-desc
-      > box:
-        - styles: feature-card
-        > text: Expressions
-          - newline
-          - styles: feature-title
-        > text: Use pipe expressions for inline computations. Add, subtract, multiply, and transform values directly in markup.
+        > text: Define components once, render them anywhere. Import templates and styles across files for modular projects.
           - styles: feature-desc
   > box:
-    - styles: section
-    > header: h2
-      > text: Design Philosophy
-        - styles: section-title
-    > text: PTML is inspired by the Pareto principle: make 80% of building a website easy by making 20% of it impossible.
-      - styles: body-text
-    > text: This is a deliberate trade. By constraining what you can express -- no imperative logic, no custom data structures, no low-level performance tuning -- everything you can express stays simple, readable, and fast to build. If PTML can describe it, PTML makes it effortless.
-      - styles: body-text
+    - styles: callout-box
+    > text: This website is built entirely in PTML. The navigation, layout, routing, and all content you see here is PTML rendered by a single React entry point.
+      - styles: callout-text
   > box:
-    - styles: section
-    > header: h2
-      > text: What does PTML look like?
-        - styles: section-title
-    > text: PTML uses indentation to represent structure, with category prefixes to distinguish node types. Here is a greeting toggle with state and a button:
+    - styles: cta-section
+    > text: Ready to try it?
+      - styles: section-title
+    > text: Install the package, write some markup, and see it render. No config required.
       - styles: body-text
-    > box:
-      - styles: code-block
-      > text: state:
-        - styles: code-keyword
-      > text: - greeting: Hello
-        - styles: code-line
-      > text: .
-        - styles: code-comment
-      > text: ptml:
-        - styles: code-keyword
-      > text: > box:
-        - styles: code-prefix
-      > text:   > text: $greeting, World!
-        - styles: code-line
-      > text:   > button:
-        - styles: code-prefix
-      > text:     > text: Change Greeting
-        - styles: code-line
-      > text:     - click:
-        - styles: code-line
-      > text:       ! set: $greeting Goodbye
-        - styles: code-line
-    > box:
-      - styles: callout-box
-      > text: This website itself is built entirely in PTML. The navigation, layout, routing, and all page content you see here is PTML rendered by a single React entry point.
-        - styles: callout-text
+    > button:
+      - styles: cta-button
+      > text: Get Started
+      - click:
+        ! set: $currentPage getting-started

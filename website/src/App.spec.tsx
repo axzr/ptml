@@ -7,17 +7,17 @@ describe('App', () => {
   it('renders the navigation bar with PTML branding', () => {
     render(<App />);
 
-    expect(screen.getByText('PTML')).toBeInTheDocument();
+    expect(screen.getAllByText('PTML').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Getting Started')).toBeInTheDocument();
+    expect(screen.getAllByText('Getting Started').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('Reference')).toBeInTheDocument();
   });
 
   it('renders the home page content by default', () => {
     render(<App />);
 
-    expect(screen.getByText('Declarative Markup Language')).toBeInTheDocument();
-    expect(screen.getByText('Build web prototypes with simple, readable markup')).toBeInTheDocument();
+    expect(screen.getByText('For developers who prototype')).toBeInTheDocument();
+    expect(screen.getByText('Build interactive UIs with markup, not code')).toBeInTheDocument();
   });
 
   it('renders the footer', () => {
@@ -30,7 +30,7 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByText('Getting Started'));
+    await user.click(screen.getAllByText('Getting Started')[0]);
 
     expect(screen.getByText('Node Categories')).toBeInTheDocument();
     expect(screen.getByText('Your First PTML')).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('App', () => {
     await user.click(screen.getByText('Reference'));
 
     expect(screen.getByText('Language Reference')).toBeInTheDocument();
-    expect(screen.getByText('Root Declarations')).toBeInTheDocument();
+    expect(screen.getByText('Declaration Nodes')).toBeInTheDocument();
   });
 
   it('navigates back to Home from another page', async () => {
@@ -54,37 +54,35 @@ describe('App', () => {
     expect(screen.getByText('Language Reference')).toBeInTheDocument();
 
     await user.click(screen.getByText('Home'));
-    expect(screen.getByText('Build web prototypes with simple, readable markup')).toBeInTheDocument();
+    expect(screen.getByText('Build interactive UIs with markup, not code')).toBeInTheDocument();
   });
 
   it('renders the home page feature cards', () => {
     render(<App />);
 
-    expect(screen.getByText('Declarative Syntax')).toBeInTheDocument();
-    expect(screen.getByText('Built-in State')).toBeInTheDocument();
-    expect(screen.getByText('Renders to React')).toBeInTheDocument();
-    expect(screen.getByText('Templates')).toBeInTheDocument();
-    expect(screen.getByText('Responsive Design')).toBeInTheDocument();
-    expect(screen.getByText('Expressions')).toBeInTheDocument();
+    expect(screen.getByText('No boilerplate')).toBeInTheDocument();
+    expect(screen.getByText('State that just works')).toBeInTheDocument();
+    expect(screen.getByText('Real interactivity')).toBeInTheDocument();
+    expect(screen.getByText('Reusable templates')).toBeInTheDocument();
   });
 
-  it('renders the code example on the home page', () => {
+  it('renders the code comparison on the home page', () => {
     render(<App />);
 
-    expect(screen.getByText('state:')).toBeInTheDocument();
-    expect(screen.getByText('- greeting: Hello')).toBeInTheDocument();
-    expect(screen.getByText('ptml:')).toBeInTheDocument();
+    expect(screen.getByText('React (JSX + hooks)')).toBeInTheDocument();
+    expect(screen.getByText('The 80/20 trade')).toBeInTheDocument();
   });
 
   it('renders the Getting Started page with all sections', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByText('Getting Started'));
+    await user.click(screen.getAllByText('Getting Started')[0]);
 
+    expect(screen.getByText('Installation')).toBeInTheDocument();
+    expect(screen.getByText('Quick Setup')).toBeInTheDocument();
+    expect(screen.getByText('API Reference')).toBeInTheDocument();
     expect(screen.getByText('Node Categories')).toBeInTheDocument();
-    expect(screen.getByText('Your First PTML')).toBeInTheDocument();
-    expect(screen.getByText('Adding State')).toBeInTheDocument();
     expect(screen.getByText('Interactivity')).toBeInTheDocument();
     expect(screen.getByText('Styling')).toBeInTheDocument();
     expect(screen.getByText('Conditionals')).toBeInTheDocument();
@@ -96,13 +94,11 @@ describe('App', () => {
 
     await user.click(screen.getByText('Reference'));
 
-    expect(screen.getByText('Root Declarations')).toBeInTheDocument();
+    expect(screen.getByText('Declaration Nodes')).toBeInTheDocument();
     expect(screen.getByText('Block Nodes')).toBeInTheDocument();
     expect(screen.getByText('Property Nodes')).toBeInTheDocument();
     expect(screen.getByText('Conditional Nodes')).toBeInTheDocument();
     expect(screen.getByText('Action Nodes')).toBeInTheDocument();
-    expect(screen.getByText('Expressions')).toBeInTheDocument();
-    expect(screen.getByText('Import System')).toBeInTheDocument();
   });
 
   it('renders the Edit PTML button in the footer', () => {
