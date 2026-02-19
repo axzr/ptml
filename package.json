@@ -6,7 +6,7 @@
   "author": "axzr",
   "repository": {
     "type": "git",
-    "url": "https://github.com/axzr/ptml.git"
+    "url": "git+https://github.com/axzr/ptml.git"
   },
   "homepage": "https://github.com/axzr/ptml",
   "bugs": {
