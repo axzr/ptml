@@ -14,7 +14,7 @@ ptml:
       - styles: body-text
     > box:
       - styles: install-command
-      > text: npm install @axzr/ptml
+      > text: npm install ptml
     > box:
       - styles: callout-box
       > text: Source code and issue tracker are on GitHub at github.com/axzr/ptml.
@@ -28,7 +28,7 @@ ptml:
       - styles: body-text
     > box:
       - styles: code-block
-      > text: import { usePtmlRender } from '@axzr/ptml';
+      > text: import { usePtmlRender } from 'ptml';
         - styles: code-line
       > text: .
         - styles: code-comment
@@ -94,7 +94,7 @@ ptml:
       - styles: body-text
     > box:
       - styles: code-block
-      > text: import { usePtmlRender } from '@axzr/ptml';
+      > text: import { usePtmlRender } from 'ptml';
         - styles: code-line
       > text: import mainPtml from './main.ptml?raw';
         - styles: code-line

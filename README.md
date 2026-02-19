@@ -1,4 +1,4 @@
-# @axzr/ptml
+# ptml
 
 Parse, validate, and render PTML markup to React.
 
@@ -11,7 +11,7 @@ PTML is inspired by the Pareto principle: it aims to make 80% of building a webs
 ## Install
 
 ```bash
-npm install @axzr/ptml
+npm install ptml
 ```
 
 **Peer dependency:** React 18+.
@@ -19,7 +19,7 @@ npm install @axzr/ptml
 ## Usage
 
 ```tsx
-import { validate, render, parse, usePtmlRender } from '@axzr/ptml';
+import { validate, render, parse, usePtmlRender } from 'ptml';
 
 const ptml = `
 state:

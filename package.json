@@ -1,5 +1,5 @@
 {
-  "name": "@axzr/ptml",
+  "name": "ptml",
   "version": "1.0.0",
   "description": "PTML - Declarative markup language for web prototypes",
   "license": "MIT",

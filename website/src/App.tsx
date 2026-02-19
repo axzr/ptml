@@ -1,5 +1,5 @@
-import { usePtmlRender } from '@axzr/ptml';
-import type { PtmlFilesMap } from '@axzr/ptml';
+import { usePtmlRender } from 'ptml';
+import type { PtmlFilesMap } from 'ptml';
 
 import sitePtml from './content/site.ptml?raw';
 import stylesPtml from './content/styles.ptml?raw';

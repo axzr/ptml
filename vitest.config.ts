@@ -11,7 +11,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@axzr/ptml': path.resolve(__dirname, 'src/index.ts'),
+      ptml: path.resolve(__dirname, 'src/index.ts'),
     },
   },
   test: {

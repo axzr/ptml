@@ -14,7 +14,7 @@
     "noEmit": true,
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "paths": {
-      "@axzr/ptml": ["../src/index.ts"]
+      "ptml": ["../src/index.ts"]
     }
   },
   "include": ["src", "scripts"]
