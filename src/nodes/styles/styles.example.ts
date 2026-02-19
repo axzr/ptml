@@ -246,3 +246,12 @@ export {
   inlineStylesWithBreakpoint,
   stylesWithStateInterpolation,
 };
+
+export const docExample = `
+ptml:
+> text: Styled text
+  - styles:
+    - color: white
+    - background-color: #1e40af
+    - padding: 8px 16px
+`;

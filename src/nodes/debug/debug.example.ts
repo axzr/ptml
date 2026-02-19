@@ -72,3 +72,12 @@ ptml:
 `;
 
 export { debugSimpleState, debugComplexState, debugList, debugListWithRecords, debugInEachLoop, debugWithChild };
+
+export const docExample = `
+state:
+- username: Alice
+- score: 42
+
+ptml:
+> debug:
+`;

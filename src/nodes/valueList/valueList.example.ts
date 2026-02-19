@@ -60,3 +60,14 @@ ptml:
 `;
 
 export { basicValueList, invalidValueListData, invalidLoopVariable, valueListWithOddChildren, valueListItemsFromState };
+
+export const docExample = `
+valueList: fruits
+- Apple
+- Banana
+- Cherry
+
+ptml:
+> each: fruits as $fruit
+  > text: $fruit
+`;

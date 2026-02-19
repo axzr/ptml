@@ -148,3 +148,16 @@ export {
   invalidEachData,
   stateGetEach,
 };
+
+export const docExample = `
+valueList: colours
+- Red
+- Green
+- Blue
+
+ptml:
+> list:
+  > each: colours as $colour
+    > listItem:
+      > text: $colour
+`;

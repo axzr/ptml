@@ -43,3 +43,16 @@ const labelWithStyles = `ptml:
 `;
 
 export { labelWithForAndText, labelWrappingCheckbox, labelInFormWithInput, labelWithStyles };
+
+export const docExample = `
+state:
+- email:
+
+ptml:
+> label:
+  - for: email
+  > text: Email Address
+> input:
+  - id: email
+  - value: $email
+`;

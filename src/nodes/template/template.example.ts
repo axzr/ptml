@@ -138,3 +138,15 @@ export {
   templateParameterNestedPropertyInIfCondition,
   templateParameterNestedPropertyInIfConditionEmpty,
 };
+
+export const docExample = `
+template: badge label
+> text: $label
+  - styles:
+    - background-color: #dbeafe
+    - padding: 4px 8px
+
+ptml:
+> show: badge New
+> show: badge Sale
+`;

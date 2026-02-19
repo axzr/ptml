@@ -70,3 +70,15 @@ const multipleGroupsInForm = `ptml:
 `;
 
 export { basicRadio, radioWithSelected, radioInForm, radioWithStyles, multipleGroupsInForm };
+
+export const docExample = `
+state:
+- size: medium
+
+ptml:
+> radio:
+  - value: $size
+  - option: small
+  - option: medium
+  - option: large
+`;

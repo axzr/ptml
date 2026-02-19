@@ -117,3 +117,11 @@ export {
   compileWithFileAndImport,
   compileWithMissingFileReference,
 };
+
+export const docExample = `
+state:
+- source: > text: Hello from compiled PTML!
+
+ptml:
+> compile: $source
+`;

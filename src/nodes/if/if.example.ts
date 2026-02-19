@@ -114,3 +114,13 @@ export {
   nestedIfElseBugCase,
   nestedIfElseSibling,
 };
+
+export const docExample = `
+state:
+- showDetails: true
+
+ptml:
+> text: Product Name
+? if: $showDetails
+  > text: This product is available in three sizes.
+`;

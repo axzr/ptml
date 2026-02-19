@@ -95,3 +95,12 @@ export {
   boxWithRoleArticle,
   boxWithInvalidRole,
 };
+
+export const docExample = `
+ptml:
+> box:
+  - role: main
+  > text: Welcome to the app
+  > box:
+    > text: Nested content goes here
+`;

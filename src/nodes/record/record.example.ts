@@ -57,3 +57,13 @@ export {
   invalidRecordDuplicateKeys,
   invalidRecordEmptyKey,
 };
+
+export const docExample = `
+recordList: contacts
+- record:
+  - name: Alice
+  - email: alice@example.com
+- record:
+  - name: Bob
+  - email: bob@example.com
+`;

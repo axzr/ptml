@@ -19,3 +19,17 @@ ptml:
 `;
 
 export { recordListWithRecords };
+
+export const docExample = `
+recordList: expenses
+- record:
+  - name: Rent
+  - amount: 1200
+- record:
+  - name: Food
+  - amount: 300
+
+ptml:
+> each: expenses as $expense
+  > text: $expense.name -- $expense.amount
+`;

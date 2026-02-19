@@ -173,9 +173,13 @@ ptml:
       > box:
         - styles: node-doc-code
         > text: breakpoints:
+          - newline
         > text: - small: 768
+          - newline
         > text: - medium: 1024
+          - newline
         > text: - large:
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -212,7 +216,20 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: define: myStyle
+        > text: define: highlight
+          - newline
+        > text: - background-color: #fef08a
+          - newline
+        > text: - padding: 4px 8px
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Important note
+          - newline
+        > text:   - styles: highlight
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -249,7 +266,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: state:
+          - newline
+        > text: - count: 0
+          - newline
+        > text:  
+          - newline
         > text: function: increment
+          - newline
+        > text: ! set: $count ($count 1 | add)
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Count: $count
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Add one
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! call: $increment
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -274,7 +314,18 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: import: templates.ptml
+        > text: import: shared-styles.ptml
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > box:
+          - newline
+        > text:   - styles: card
+          - newline
+        > text:   > text: Content styled by imported styles
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -297,7 +348,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: state:
+          - newline
+        > text: - page: home
+          - newline
+        > text:  
+          - newline
         > text: init:
+          - newline
+        > text: ! set: $page getting-started
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Current page: $page
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -325,6 +391,9 @@ ptml:
       > box:
         - styles: node-doc-code
         > text: ptml:
+          - newline
+        > text: > text: Hello, world!
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -356,6 +425,27 @@ ptml:
       > box:
         - styles: node-doc-code
         > text: recordList: expenses
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Rent
+          - newline
+        > text:   - amount: 1200
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Food
+          - newline
+        > text:   - amount: 300
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: expenses as $expense
+          - newline
+        > text:   > text: $expense.name -- $expense.amount
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -391,6 +481,19 @@ ptml:
       > box:
         - styles: node-doc-code
         > text: state:
+          - newline
+        > text: - username: Alice
+          - newline
+        > text: - score: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Player: $username
+          - newline
+        > text: > text: Score: $score
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -423,7 +526,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: template: contact-card contact
+        > text: template: badge label
+          - newline
+        > text: > text: $label
+          - newline
+        > text:   - styles:
+          - newline
+        > text:     - background-color: #dbeafe
+          - newline
+        > text:     - padding: 4px 8px
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > show: badge New
+          - newline
+        > text: > show: badge Sale
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -454,7 +574,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: valueList: items
+        > text: valueList: fruits
+          - newline
+        > text: - Apple
+          - newline
+        > text: - Banana
+          - newline
+        > text: - Cherry
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: fruits as $fruit
+          - newline
+        > text:   > text: $fruit
+          - newline
   > box:
     - styles: section
     > header: h2
@@ -498,8 +633,18 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - box:
+        > text: ptml:
+          - newline
+        > text: > box:
+          - newline
         > text:   - role: main
+          - newline
+        > text:   > text: Welcome to the app
+          - newline
+        > text:   > box:
+          - newline
+        > text:     > text: Nested content goes here
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -532,7 +677,34 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: breakpoints:
+          - newline
+        > text: - small: 768
+          - newline
+        > text: - large:
+          - newline
+        > text:  
+          - newline
+        > text: define: card
+          - newline
         > text: > breakpoint: small
+          - newline
+        > text:   - width: 100%
+          - newline
+        > text: > breakpoint: large
+          - newline
+        > text:   - width: 50%
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > box:
+          - newline
+        > text:   - styles: card
+          - newline
+        > text:   > text: Responsive card
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -573,7 +745,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - button:
+        > text: state:
+          - newline
+        > text: - count: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Clicked $count times
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! set: $count ($count 1 | add)
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -608,7 +795,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: > cell:
+        > text: ptml:
+          - newline
+        > text: > table:
+          - newline
+        > text:   > row:
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Name
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Age
+          - newline
+        > text:   > row:
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Alice
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: 30
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -641,7 +851,20 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - checkbox:
+        > text: state:
+          - newline
+        > text: - agreed: false
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > checkbox:
+          - newline
+        > text:   - value: $agreed
+          - newline
+        > text:   - label: I agree to the terms
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -672,7 +895,16 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: state:
+          - newline
+        > text: - source: > text: Hello from compiled PTML!
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
         > text: > compile: $source
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -695,7 +927,18 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - debug:
+        > text: state:
+          - newline
+        > text: - username: Alice
+          - newline
+        > text: - score: 42
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > debug:
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -752,7 +995,26 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - each: items as $item
+        > text: valueList: colours
+          - newline
+        > text: - Red
+          - newline
+        > text: - Green
+          - newline
+        > text: - Blue
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > list:
+          - newline
+        > text:   > each: colours as $colour
+          - newline
+        > text:     > listItem:
+          - newline
+        > text:       > text: $colour
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -787,7 +1049,34 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - form:
+        > text: state:
+          - newline
+        > text: - username:
+          - newline
+        > text: - email:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > form:
+          - newline
+        > text:   > input:
+          - newline
+        > text:     - value: $username
+          - newline
+        > text:     - type: text
+          - newline
+        > text:   > input:
+          - newline
+        > text:     - value: $email
+          - newline
+        > text:     - type: email
+          - newline
+        > text:   > button:
+          - newline
+        > text:     > text: Submit
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -824,7 +1113,16 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: ptml:
+          - newline
         > text: > header: h1
+          - newline
+        > text:   > text: Page Title
+          - newline
+        > text: > header: h2
+          - newline
+        > text:   > text: Section Heading
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -857,9 +1155,14 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - image:
+        > text: ptml:
+          - newline
+        > text: > image:
+          - newline
         > text:   - src: https://example.com/photo.jpg
-        > text:   - alt: Description
+          - newline
+        > text:   - alt: A scenic mountain view
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -894,7 +1197,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - input:
+        > text: state:
+          - newline
+        > text: - name:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > input:
+          - newline
+        > text:   - value: $name
+          - newline
+        > text:   - type: text
+          - newline
+        > text: > text: Hello, $name!
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -931,9 +1249,26 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - label:
+        > text: state:
+          - newline
+        > text: - email:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > label:
+          - newline
         > text:   - for: email
-        > text:   - text: Email
+          - newline
+        > text:   > text: Email Address
+          - newline
+        > text: > input:
+          - newline
+        > text:   - id: email
+          - newline
+        > text:   - value: $email
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -974,9 +1309,14 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - link:
+        > text: ptml:
+          - newline
+        > text: > link:
+          - newline
         > text:   - href: https://example.com
-        > text:   - text: Example
+          - newline
+        > text:   > text: Visit Example
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1015,7 +1355,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: ptml:
+          - newline
         > text: > list:
+          - newline
+        > text:   > listItem:
+          - newline
+        > text:     > text: First item
+          - newline
+        > text:   > listItem:
+          - newline
+        > text:     > text: Second item
+          - newline
+        > text:   > listItem:
+          - newline
+        > text:     > text: Third item
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1050,7 +1405,18 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: > listItem:
+        > text: ptml:
+          - newline
+        > text: > list:
+          - newline
+        > text:   > listItem:
+          - newline
+        > text:     > text: Buy groceries
+          - newline
+        > text:   > listItem:
+          - newline
+        > text:     > text: Walk the dog
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1077,7 +1443,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - option: Display Text
+        > text: state:
+          - newline
+        > text: - country: uk
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > select:
+          - newline
+        > text:   - value: $country
+          - newline
+        > text:   - option: us
+          - newline
+        > text:   - option: uk
+          - newline
+        > text:   - option: de
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1114,7 +1497,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - radio:
+        > text: state:
+          - newline
+        > text: - size: medium
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > radio:
+          - newline
+        > text:   - value: $size
+          - newline
+        > text:   - option: small
+          - newline
+        > text:   - option: medium
+          - newline
+        > text:   - option: large
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1147,7 +1547,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - range: $items as $index
+        > text: state:
+          - newline
+        > text: - items:
+          - newline
+        > text:   - 0:
+          - newline
+        > text:   - 1:
+          - newline
+        > text:   - 2:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > range: $items as $index
+          - newline
+        > text:   > text: Item number $index
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1186,7 +1603,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: > row:
+        > text: ptml:
+          - newline
+        > text: > table:
+          - newline
+        > text:   > row: header
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Name
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Score
+          - newline
+        > text:   > row:
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Alice
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: 95
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1225,7 +1665,26 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - select:
+        > text: state:
+          - newline
+        > text: - colour: blue
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > select:
+          - newline
+        > text:   - value: $colour
+          - newline
+        > text:   - option: red
+          - newline
+        > text:   - option: green
+          - newline
+        > text:   - option: blue
+          - newline
+        > text: > text: You picked: $colour
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1258,7 +1717,16 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - show: contact-card $contact
+        > text: template: greeting name
+          - newline
+        > text: > text: Hello, $name!
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > show: greeting World
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1295,7 +1763,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: ptml:
+          - newline
         > text: > table:
+          - newline
+        > text:   > row: header
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: City
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: Population
+          - newline
+        > text:   > row:
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: London
+          - newline
+        > text:     > cell:
+          - newline
+        > text:       > text: 9 million
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1322,7 +1813,16 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - text: Hello
+        > text: state:
+          - newline
+        > text: - name: World
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Hello, $name!
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1355,7 +1855,20 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - textarea:
+        > text: state:
+          - newline
+        > text: - notes:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > textarea:
+          - newline
+        > text:   - value: $notes
+          - newline
+        > text: > text: You wrote: $notes
+          - newline
   > box:
     - styles: section
     > header: h2
@@ -1387,7 +1900,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - click:
+        > text: state:
+          - newline
+        > text: - name: Dave
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Change name
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! set: $name Alice
+          - newline
+        > text: > text: Hello, $name!
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1418,7 +1948,20 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
+        > text: recordList: contacts
+          - newline
         > text: - record:
+          - newline
+        > text:   - name: Alice
+          - newline
+        > text:   - email: alice@example.com
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Bob
+          - newline
+        > text:   - email: bob@example.com
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1443,7 +1986,14 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - role: header
+        > text: ptml:
+          - newline
+        > text: > box:
+          - newline
+        > text:   - role: nav
+          - newline
+        > text:   > text: Navigation content
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1474,7 +2024,18 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - styles:
+        > text: ptml:
+          - newline
+        > text: > text: Styled text
+          - newline
+        > text:   - styles:
+          - newline
+        > text:     - color: white
+          - newline
+        > text:     - background-color: #1e40af
+          - newline
+        > text:     - padding: 8px 16px
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1499,7 +2060,34 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - where: id is $contactId
+        > text: recordList: tasks
+          - newline
+        > text: - record:
+          - newline
+        > text:   - id: 1
+          - newline
+        > text:   - title: Buy milk
+          - newline
+        > text: - record:
+          - newline
+        > text:   - id: 2
+          - newline
+        > text:   - title: Walk dog
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Remove task 1
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! removeRecord: tasks
+          - newline
+        > text:       - where: id is 1
+          - newline
   > box:
     - styles: section
     > header: h2
@@ -1535,7 +2123,22 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - else:
+        > text: state:
+          - newline
+        > text: - loggedIn: false
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: ? if: $loggedIn
+          - newline
+        > text:   > text: Welcome back!
+          - newline
+        > text: ? else:
+          - newline
+        > text:   > text: Please log in.
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1566,7 +2169,20 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - if: $isActive
+        > text: state:
+          - newline
+        > text: - showDetails: true
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Product Name
+          - newline
+        > text: ? if: $showDetails
+          - newline
+        > text:   > text: This product is available in three sizes.
+          - newline
   > box:
     - styles: section
     > header: h2
@@ -1604,9 +2220,32 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - addRecord: expenses
-        > text:     - record:
-        > text:       - name: Item
+        > text: recordList: tasks
+          - newline
+        > text: - record:
+          - newline
+        > text:   - title: Buy milk
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: tasks as $task
+          - newline
+        > text:   > text: $task.title
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Add task
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! addRecord: tasks
+          - newline
+        > text:       - record:
+          - newline
+        > text:         - title: New task
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1633,7 +2272,26 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - addValue: items value
+        > text: valueList: tags
+          - newline
+        > text: - urgent
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: tags as $tag
+          - newline
+        > text:   > text: $tag
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Add tag
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! addValue: tags new-tag
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1660,7 +2318,28 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - call: $myFunction
+        > text: state:
+          - newline
+        > text: - count: 0
+          - newline
+        > text:  
+          - newline
+        > text: function: increment
+          - newline
+        > text: ! set: $count ($count 1 | add)
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Count: $count
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! call: $increment
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1685,7 +2364,28 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - clear: $input
+        > text: state:
+          - newline
+        > text: - search:
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > input:
+          - newline
+        > text:   - value: $search
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Clear
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! clear: $search
+          - newline
+        > text: > text: Search: $search
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1714,7 +2414,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - getRecord: contacts $index as $contact
+        > text: recordList: users
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Alice
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Bob
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - index: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > getRecord: users $index as $user
+          - newline
+        > text:   > text: $user.name
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1743,7 +2466,28 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - getValue: items $index as $item
+        > text: valueList: colours
+          - newline
+        > text: - Red
+          - newline
+        > text: - Green
+          - newline
+        > text: - Blue
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - index: 1
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > getValue: colours $index as $colour
+          - newline
+        > text:   > text: Selected: $colour
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1770,7 +2514,32 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - removeRecord: items $item
+        > text: recordList: items
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Apple
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Banana
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: items as $item
+          - newline
+        > text:   > text: $item.name
+          - newline
+        > text:   > button:
+          - newline
+        > text:     > text: Remove
+          - newline
+        > text:     - click:
+          - newline
+        > text:       ! removeRecord: items $item
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1797,7 +2566,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - removeValue: items value
+        > text: valueList: tags
+          - newline
+        > text: - urgent
+          - newline
+        > text: - review
+          - newline
+        > text: - done
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > each: tags as $tag
+          - newline
+        > text:   > text: $tag
+          - newline
+        > text:   > button:
+          - newline
+        > text:     > text: Remove
+          - newline
+        > text:     - click:
+          - newline
+        > text:       ! removeValue: tags $tag
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1824,7 +2616,24 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - set: $x 0
+        > text: state:
+          - newline
+        > text: - greeting: Hello
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: $greeting
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Change greeting
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! set: $greeting Goodbye
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1857,9 +2666,34 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - setRecord: items $index
-        > text:     - record:
-        > text:       - name: Item
+        > text: recordList: users
+          - newline
+        > text: - record:
+          - newline
+        > text:   - name: Alice
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - index: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Update user
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! setRecord: users $index
+          - newline
+        > text:       - record:
+          - newline
+        > text:         - name: Bob
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1888,7 +2722,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - setValue: items $index value
+        > text: valueList: items
+          - newline
+        > text: - Apple
+          - newline
+        > text: - Banana
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - index: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Replace first item
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! setValue: items $index Cherry
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1921,11 +2778,38 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - updateRecord: contacts
-        > text:   - where: id is $contactId
-        > text:   - record:
-        > text:     - name: $name
-        > text:     - email: $email
+        > text: recordList: contacts
+          - newline
+        > text: - record:
+          - newline
+        > text:   - id: 1
+          - newline
+        > text:   - name: Alice
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - newName: Bob
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Rename to $newName
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! updateRecord: contacts
+          - newline
+        > text:       - where: id is 1
+          - newline
+        > text:       - record:
+          - newline
+        > text:         - name: $newName
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1954,7 +2838,30 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: - updateValue: items $index newValue
+        > text: valueList: items
+          - newline
+        > text: - Apple
+          - newline
+        > text: - Banana
+          - newline
+        > text:  
+          - newline
+        > text: state:
+          - newline
+        > text: - index: 0
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Update first item
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! updateValue: items $index Cherry
+          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1979,4 +2886,19 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: ! window: scrollTop
+        > text: state:
+          - newline
+        > text: - page: home
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   > text: Back to top
+          - newline
+        > text:   - click:
+          - newline
+        > text:     ! window: scrollTop
+          - newline

@@ -72,3 +72,10 @@ export {
   linkWithChild,
   linkWithClick,
 };
+
+export const docExample = `
+ptml:
+> link:
+  - href: https://example.com
+  > text: Visit Example
+`;

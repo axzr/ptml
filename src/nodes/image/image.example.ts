@@ -39,3 +39,10 @@ ptml:
 `;
 
 export { basicImage, imageWithAlt, imageWithStyles, imageWithStateBoundSrc, imageWithStateBoundAlt };
+
+export const docExample = `
+ptml:
+> image:
+  - src: https://example.com/photo.jpg
+  - alt: A scenic mountain view
+`;

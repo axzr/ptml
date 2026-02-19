@@ -47,3 +47,15 @@ function: addDigit digit
 `;
 
 export { multiSet, multiSetFunction, invalidSet };
+
+export const docExample = `
+state:
+- greeting: Hello
+
+ptml:
+> text: $greeting
+> button:
+  > text: Change greeting
+  - click:
+    ! set: $greeting Goodbye
+`;

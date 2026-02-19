@@ -44,3 +44,20 @@ ptml:
 `;
 
 export { breakpointRendersWithViewport, breakpointRendersNothingWhenViewportOmitted, breakpointExample };
+
+export const docExample = `
+breakpoints:
+- small: 768
+- large:
+
+define: card
+> breakpoint: small
+  - width: 100%
+> breakpoint: large
+  - width: 50%
+
+ptml:
+> box:
+  - styles: card
+  > text: Responsive card
+`;

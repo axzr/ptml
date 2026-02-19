@@ -22,3 +22,11 @@ const headerInvalidLevelFoo = `ptml:
   > text: Invalid`;
 
 export { defaultHeader, headerH1, headerH2, headerWithTextChild, headerInvalidLevel, headerInvalidLevelFoo };
+
+export const docExample = `
+ptml:
+> header: h1
+  > text: Page Title
+> header: h2
+  > text: Section Heading
+`;

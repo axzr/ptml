@@ -30,3 +30,14 @@ ptml:
 `;
 
 export { windowScrollTop, windowInvalidOperation, windowMissingData };
+
+export const docExample = `
+state:
+- page: home
+
+ptml:
+> button:
+  > text: Back to top
+  - click:
+    ! window: scrollTop
+`;

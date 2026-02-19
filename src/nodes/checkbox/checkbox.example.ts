@@ -48,3 +48,13 @@ const multipleCheckboxesInForm = `ptml:
 `;
 
 export { basicCheckbox, checkboxWithValue, checkboxInForm, checkboxWithStyles, multipleCheckboxesInForm };
+
+export const docExample = `
+state:
+- agreed: false
+
+ptml:
+> checkbox:
+  - value: $agreed
+  - label: I agree to the terms
+`;

@@ -81,3 +81,11 @@ export {
   showAsRoot,
   showWithDynamicTemplate,
 };
+
+export const docExample = `
+template: greeting name
+> text: Hello, $name!
+
+ptml:
+> show: greeting World
+`;

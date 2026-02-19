@@ -122,6 +122,16 @@ export {
   mainImportTemplateWithState,
   filesImportTemplateWithState,
   importExampleFiles,
-  sharedTemplatesPtml,
-  sharedStylesPtml,
 };
+
+export { sharedTemplatesPtml } from './imported-templates.ptml.example';
+export { sharedStylesPtml } from './imported-styles.ptml.example';
+
+export const docExample = `
+import: shared-styles.ptml
+
+ptml:
+> box:
+  - styles: card
+  > text: Content styled by imported styles
+`;

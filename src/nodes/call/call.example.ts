@@ -90,3 +90,17 @@ export {
   invalidFunctionCall4,
   invalidRunTimeFunctionCall,
 };
+
+export const docExample = `
+state:
+- count: 0
+
+function: increment
+! set: $count ($count 1 | add)
+
+ptml:
+> button:
+  > text: Count: $count
+  - click:
+    ! call: $increment
+`;

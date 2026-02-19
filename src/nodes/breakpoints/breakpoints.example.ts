@@ -70,3 +70,10 @@ export {
   breakpointsInvalidWidth,
   breakpointsExample,
 };
+
+export const docExample = `
+breakpoints:
+- small: 768
+- medium: 1024
+- large:
+`;

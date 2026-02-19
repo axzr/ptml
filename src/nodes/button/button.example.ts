@@ -137,3 +137,14 @@ export {
   toggleStateButton,
   disabledWithUndefined,
 };
+
+export const docExample = `
+state:
+- count: 0
+
+ptml:
+> button:
+  > text: Clicked $count times
+  - click:
+    ! set: $count ($count 1 | add)
+`;

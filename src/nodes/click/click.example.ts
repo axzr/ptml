@@ -47,3 +47,15 @@ ptml:
 `;
 
 export { setStateButton, incrementButton, invalidSetNode, invalidSetStateButton };
+
+export const docExample = `
+state:
+- name: Dave
+
+ptml:
+> button:
+  > text: Change name
+  - click:
+    ! set: $name Alice
+> text: Hello, $name!
+`;

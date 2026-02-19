@@ -22,3 +22,14 @@ const listLowerAlpha = `ptml:
     > text: Beta item`;
 
 export { listUnordered, listOrdered, listLowerAlpha };
+
+export const docExample = `
+ptml:
+> list:
+  > listItem:
+    > text: First item
+  > listItem:
+    > text: Second item
+  > listItem:
+    > text: Third item
+`;

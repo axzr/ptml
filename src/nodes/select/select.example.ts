@@ -88,3 +88,16 @@ ptml:
 `;
 
 export { basicSelect, selectWithStyles, selectWithValue, selectInForm, selectWithDynamicOptions };
+
+export const docExample = `
+state:
+- colour: blue
+
+ptml:
+> select:
+  - value: $colour
+  - option: red
+  - option: green
+  - option: blue
+> text: You picked: $colour
+`;

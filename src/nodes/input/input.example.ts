@@ -66,3 +66,14 @@ const inputDifferentTypes = `ptml:
 `;
 
 export { basicInput, inputWithStyles, inputWithValue, inputInForm, inputDifferentTypes };
+
+export const docExample = `
+state:
+- name:
+
+ptml:
+> input:
+  - value: $name
+  - type: text
+> text: Hello, $name!
+`;

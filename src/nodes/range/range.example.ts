@@ -57,3 +57,15 @@ function: init
       - alive: false`;
 
 export { rangeListSet, rangeListCreateRecord, invalidRange };
+
+export const docExample = `
+state:
+- items:
+  - 0:
+  - 1:
+  - 2:
+
+ptml:
+> range: $items as $index
+  > text: Item number $index
+`;

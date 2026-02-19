@@ -40,3 +40,18 @@ const tableWithHeaderBodyFooter = `ptml:
       > text: F`;
 
 export { tableSimple, tableWithHeader, tableWithHeaderBodyFooter };
+
+export const docExample = `
+ptml:
+> table:
+  > row: header
+    > cell:
+      > text: City
+    > cell:
+      > text: Population
+  > row:
+    > cell:
+      > text: London
+    > cell:
+      > text: 9 million
+`;

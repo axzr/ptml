@@ -1,8 +1,8 @@
 import { allSchemas, getBlocksList } from '../../src/schemaRegistry/schemaMap';
 import type { NodeSchema } from '../../src/schemas/types';
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -205,8 +205,10 @@ function emitFlags(lines: string[], schema: NodeSchema, b: number): void {
   }
 }
 
-function emitExample(lines: string[], schema: NodeSchema, b: number): void {
-  if (!schema.example) return;
+function emitExample(lines: string[], schema: NodeSchema, docExamples: Map<string, string>, b: number): void {
+  const docEx = docExamples.get(schema.name);
+  const exampleText = docEx || schema.example;
+  if (!exampleText) return;
 
   lines.push(
     `${ind(b)}> text: EXAMPLE`,
@@ -215,12 +217,12 @@ function emitExample(lines: string[], schema: NodeSchema, b: number): void {
     `${ind(b + 1)}- styles: node-doc-code`,
   );
 
-  for (const exLine of schema.example.split('\n')) {
-    lines.push(`${ind(b + 1)}> text: ${exLine || ' '}`);
+  for (const exLine of exampleText.trim().split('\n')) {
+    lines.push(`${ind(b + 1)}> text: ${exLine || ' '}`, `${ind(b + 2)}- newline`);
   }
 }
 
-function emitNodeDoc(lines: string[], schema: NodeSchema, b: number): void {
+function emitNodeDoc(lines: string[], schema: NodeSchema, docExamples: Map<string, string>, b: number): void {
   lines.push(`${ind(b)}> box:`, `${ind(b + 1)}- styles: node-doc-card`);
 
   emitNodeHeader(lines, schema, b + 1);
@@ -238,10 +240,16 @@ function emitNodeDoc(lines: string[], schema: NodeSchema, b: number): void {
   emitChildren(lines, schema, b + 1);
   emitProperties(lines, schema, b + 1);
   emitFlags(lines, schema, b + 1);
-  emitExample(lines, schema, b + 1);
+  emitExample(lines, schema, docExamples, b + 1);
 }
 
-function emitCategorySection(lines: string[], cat: string, schemas: NodeSchema[], b: number): void {
+function emitCategorySection(
+  lines: string[],
+  cat: string,
+  schemas: NodeSchema[],
+  docExamples: Map<string, string>,
+  b: number,
+): void {
   lines.push(
     `${ind(b)}> box:`,
     `${ind(b + 1)}- styles: section`,
@@ -253,12 +261,36 @@ function emitCategorySection(lines: string[], cat: string, schemas: NodeSchema[]
   );
 
   for (const schema of schemas) {
-    emitNodeDoc(lines, schema, b + 1);
+    emitNodeDoc(lines, schema, docExamples, b + 1);
   }
 }
 
-function generateReference(): string {
+async function loadDocExamples(): Promise<Map<string, string>> {
+  const examples = new Map<string, string>();
+  const nodesDir = join(__dirname, '..', '..', 'src', 'nodes');
+
+  for (const schema of allSchemas) {
+    const dirName = schema.name;
+    const filePath = join(nodesDir, dirName, `${dirName}.example.ts`);
+    if (!existsSync(filePath)) continue;
+
+    try {
+      const fileUrl = pathToFileURL(filePath).href;
+      const mod = (await import(fileUrl)) as Record<string, unknown>;
+      if (typeof mod.docExample === 'string') {
+        examples.set(schema.name, mod.docExample);
+      }
+    } catch {
+      // skip if import fails
+    }
+  }
+
+  return examples;
+}
+
+async function generateReference(): Promise<string> {
   const grouped = groupByCategory([...allSchemas]);
+  const docExamples = await loadDocExamples();
   const lines: string[] = [];
 
   lines.push(
@@ -276,13 +308,13 @@ function generateReference(): string {
   for (const cat of CATEGORY_ORDER) {
     const schemas = grouped.get(cat);
     if (!schemas?.length) continue;
-    emitCategorySection(lines, cat, schemas, 1);
+    emitCategorySection(lines, cat, schemas, docExamples, 1);
   }
 
   return lines.join('\n') + '\n';
 }
 
-const output = generateReference();
+const output = await generateReference();
 const outputPath = join(__dirname, '..', 'src', 'content', 'reference.ptml');
 writeFileSync(outputPath, output);
 console.log(`Generated reference.ptml (${allSchemas.length} schemas)`);

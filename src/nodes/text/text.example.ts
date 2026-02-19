@@ -22,3 +22,11 @@ ptml:
 `;
 
 export { textWithPipe, textWithPipes, textWithNewline };
+
+export const docExample = `
+state:
+- name: World
+
+ptml:
+> text: Hello, $name!
+`;

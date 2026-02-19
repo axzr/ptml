@@ -119,3 +119,13 @@ export {
   stateWithLists,
   stateWithUndefinedRef,
 };
+
+export const docExample = `
+state:
+- username: Alice
+- score: 0
+
+ptml:
+> text: Player: $username
+> text: Score: $score
+`;

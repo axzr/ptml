@@ -39,3 +39,13 @@ const textareaInForm = `ptml:
 `;
 
 export { basicTextarea, textareaWithStyles, textareaWithValue, textareaInForm };
+
+export const docExample = `
+state:
+- notes:
+
+ptml:
+> textarea:
+  - value: $notes
+> text: You wrote: $notes
+`;

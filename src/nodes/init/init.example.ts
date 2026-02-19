@@ -14,3 +14,14 @@ ptml:
 `;
 
 export { initExample };
+
+export const docExample = `
+state:
+- page: home
+
+init:
+! set: $page getting-started
+
+ptml:
+> text: Current page: $page
+`;

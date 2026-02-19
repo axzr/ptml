@@ -14,3 +14,18 @@ const cellWithBox = `ptml:
         > text: Content`;
 
 export { cellWithText, cellWithBox };
+
+export const docExample = `
+ptml:
+> table:
+  > row:
+    > cell:
+      > text: Name
+    > cell:
+      > text: Age
+  > row:
+    > cell:
+      > text: Alice
+    > cell:
+      > text: 30
+`;

@@ -30,3 +30,18 @@ const rowWithFooterRole = `ptml:
       > text: F1`;
 
 export { rowWithCells, rowWithHeaderRole, rowWithFooterRole };
+
+export const docExample = `
+ptml:
+> table:
+  > row: header
+    > cell:
+      > text: Name
+    > cell:
+      > text: Score
+  > row:
+    > cell:
+      > text: Alice
+    > cell:
+      > text: 95
+`;
