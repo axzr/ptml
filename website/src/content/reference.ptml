@@ -274,7 +274,7 @@ ptml:
           - newline
         > text: function: increment
           - newline
-        > text: ! set: $count ($count 1 | add)
+        > text: ! set: $count $count 1 | add
           - newline
         > text:  
           - newline
@@ -759,7 +759,7 @@ ptml:
           - newline
         > text:   - click:
           - newline
-        > text:     ! set: $count ($count 1 | add)
+        > text:     ! set: $count $count 1 | add
           - newline
     > box:
       - styles: node-doc-card
@@ -2326,7 +2326,7 @@ ptml:
           - newline
         > text: function: increment
           - newline
-        > text: ! set: $count ($count 1 | add)
+        > text: ! set: $count $count 1 | add
           - newline
         > text:  
           - newline

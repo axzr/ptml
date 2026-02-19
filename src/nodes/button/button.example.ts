@@ -32,7 +32,7 @@ ptml:
 > button:
   > text: increment
   - click:
-    ! set: $count ($count 1 | add)
+    ! set: $count $count 1 | add
 > box:
   > text: count is $count
 `;
@@ -146,5 +146,5 @@ ptml:
 > button:
   > text: Clicked $count times
   - click:
-    ! set: $count ($count 1 | add)
+    ! set: $count $count 1 | add
 `;

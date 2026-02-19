@@ -165,7 +165,7 @@ state:
 - count: 0
 
 function: increment
-! set: $count ($count 1 | add)
+! set: $count $count 1 | add
 
 ptml:
 > text: Count: $count
