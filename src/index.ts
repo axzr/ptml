@@ -8,3 +8,4 @@ export type { NodeSchema } from './schemas/types';
 export type { ValidationResult } from './validation/types';
 export type { RenderContext, NamedStylesMap, BreakpointsMap, BreakpointsConfig } from './renderers/types';
 export { buildBreakpointsMap } from './renderers/helpers';
+export type { ListMap, StateList, StateValue, StateMap } from './state/state';

@@ -1,6 +1,6 @@
 {
   "name": "ptml",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "PTML - Declarative markup language for web prototypes",
   "license": "MIT",
   "author": "axzr",
@@ -36,7 +36,7 @@
     "website"
   ],
   "peerDependencies": {
-    "react": "^18.0.0"
+    "react": "^18.0.0 || ^19.0.0"
   },
   "scripts": {
     "build": "tsup",

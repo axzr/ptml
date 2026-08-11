@@ -211,7 +211,12 @@ const createInteractiveComponent = (
   return React.createElement(InteractiveComponent);
 };
 
-export const render = (ptml: string, files?: PtmlFilesMap, viewportWidth?: number): React.ReactNode | null => {
+export const render = (
+  ptml: string,
+  files?: PtmlFilesMap,
+  viewportWidth?: number,
+  externalLists?: ListMap,
+): React.ReactNode | null => {
   const nodes = parse(ptml);
   if (nodes.length === 0) {
     return null;
@@ -220,13 +225,21 @@ export const render = (ptml: string, files?: PtmlFilesMap, viewportWidth?: numbe
   const { state: initialState, lists: initialLists } =
     files && Object.keys(files).length > 0 ? buildStateAndListsWithImports(nodes, files) : buildStateAndLists(nodes);
 
+  // Lists supplied by the host application (e.g. an app's own database
+  // records) take precedence over same-named lists declared in the PTML
+  // source itself, but leave every other declared list untouched. An author
+  // typically declares an empty `recordList: name` purely to document that a
+  // prototype expects a host-supplied list of that name — `each` doesn't
+  // actually require the name to be declared at all.
+  const lists = externalLists ? { ...initialLists, ...externalLists } : initialLists;
+
   const hasInteractiveElements =
     checkForInteractiveElements(nodes) ||
     (Boolean(files && Object.keys(files).length > 0) && nodes.some((n) => n.type === 'import'));
 
   if (!hasInteractiveElements) {
-    return renderToReact(ptml, initialState, undefined, initialLists, undefined, undefined, files, viewportWidth);
+    return renderToReact(ptml, initialState, undefined, lists, undefined, undefined, files, viewportWidth);
   }
 
-  return createInteractiveComponent(ptml, nodes, initialState, initialLists, files, viewportWidth);
+  return createInteractiveComponent(ptml, nodes, initialState, lists, files, viewportWidth);
 };
