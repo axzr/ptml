@@ -102,5 +102,5 @@ ptml:
 > button:
   > text: Count: $count
   - click:
-    ! call: $increment
+    ! call: increment
 `;

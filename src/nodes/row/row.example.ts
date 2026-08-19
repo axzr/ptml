@@ -34,7 +34,8 @@ export { rowWithCells, rowWithHeaderRole, rowWithFooterRole };
 export const docExample = `
 ptml:
 > table:
-  > row: header
+  > row:
+    - role: header
     > cell:
       > text: Name
     > cell:

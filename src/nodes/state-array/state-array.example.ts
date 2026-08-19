@@ -6,6 +6,5 @@ state:
   - 2: 30
 
 ptml:
-> range: $scores as $index
-  > text: Score $index
+> text: First score: $scores.0
 `;

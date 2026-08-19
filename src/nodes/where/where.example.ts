@@ -3,14 +3,14 @@ recordList: tasks
 - record:
   - id: 1
   - title: Buy milk
-- record:
-  - id: 2
-  - title: Walk dog
+  - done: false
 
 ptml:
 > button:
-  > text: Remove task 1
+  > text: Mark task 1 done
   - click:
-    ! removeRecord: tasks
+    ! updateRecord: tasks
       - where: id is 1
+      - record:
+        - done: true
 `;

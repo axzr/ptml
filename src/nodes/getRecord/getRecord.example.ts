@@ -5,10 +5,12 @@ recordList: users
 - record:
   - name: Bob
 
-state:
-- index: 0
+valueList: indices
+- 0
+- 1
 
 ptml:
-> getRecord: users $index as $user
+> each: indices as $i
+  ! getRecord: users $i as $user
   > text: $user.name
 `;

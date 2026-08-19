@@ -132,6 +132,5 @@ import: shared-styles.ptml
 
 ptml:
 > box:
-  - styles: card
-  > text: Content styled by imported styles
+  > text: Content from a page that imports shared-styles.ptml
 `;

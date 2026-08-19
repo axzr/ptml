@@ -60,12 +60,18 @@ export { rangeListSet, rangeListCreateRecord, invalidRange };
 
 export const docExample = `
 state:
-- items:
-  - 0:
-  - 1:
-  - 2:
+- gridSize: 3
+
+valueList: items
+
+function: populateItems
+> range: gridSize as $i
+  ! addValue: items $i
+
+init:
+! call: populateItems
 
 ptml:
-> range: $items as $index
-  > text: Item number $index
+> each: items as $item
+  > text: Item number $item
 `;

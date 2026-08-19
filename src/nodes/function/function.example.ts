@@ -172,5 +172,5 @@ ptml:
 > button:
   > text: Add one
   - click:
-    ! call: $increment
+    ! call: increment
 `;

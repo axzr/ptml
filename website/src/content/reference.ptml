@@ -288,7 +288,7 @@ ptml:
           - newline
         > text:   - click:
           - newline
-        > text:     ! call: $increment
+        > text:     ! call: increment
           - newline
     > box:
       - styles: node-doc-card
@@ -322,9 +322,7 @@ ptml:
           - newline
         > text: > box:
           - newline
-        > text:   - styles: card
-          - newline
-        > text:   > text: Content styled by imported styles
+        > text:   > text: Content from a page that imports shared-styles.ptml
           - newline
     > box:
       - styles: node-doc-card
@@ -354,9 +352,15 @@ ptml:
           - newline
         > text:  
           - newline
-        > text: init:
+        > text: function: setPage
           - newline
         > text: ! set: $page getting-started
+          - newline
+        > text:  
+          - newline
+        > text: init:
+          - newline
+        > text: ! call: setPage
           - newline
         > text:  
           - newline
@@ -863,8 +867,6 @@ ptml:
           - newline
         > text:   - value: $agreed
           - newline
-        > text:   - label: I agree to the terms
-          - newline
     > box:
       - styles: node-doc-card
       > box:
@@ -1007,13 +1009,11 @@ ptml:
           - newline
         > text: ptml:
           - newline
-        > text: > list:
+        > text: > each: colours as $colour
           - newline
-        > text:   > each: colours as $colour
+        > text:   > box:
           - newline
-        > text:     > listItem:
-          - newline
-        > text:       > text: $colour
+        > text:     > text: $colour
           - newline
     > box:
       - styles: node-doc-card
@@ -1455,11 +1455,17 @@ ptml:
           - newline
         > text:   - value: $country
           - newline
-        > text:   - option: us
+        > text:   > option: United States
           - newline
-        > text:   - option: uk
+        > text:     - value: us
           - newline
-        > text:   - option: de
+        > text:   > option: United Kingdom
+          - newline
+        > text:     - value: uk
+          - newline
+        > text:   > option: Germany
+          - newline
+        > text:     - value: de
           - newline
     > box:
       - styles: node-doc-card
@@ -1507,13 +1513,19 @@ ptml:
           - newline
         > text: > radio:
           - newline
-        > text:   - value: $size
+        > text:   - name: size
           - newline
-        > text:   - option: small
+        > text:   - value: small
           - newline
-        > text:   - option: medium
+        > text:   - selected: $size
           - newline
-        > text:   - option: large
+        > text: > radio:
+          - newline
+        > text:   - name: size
+          - newline
+        > text:   - value: medium
+          - newline
+        > text:   - selected: $size
           - newline
     > box:
       - styles: node-doc-card
@@ -1549,21 +1561,33 @@ ptml:
         - styles: node-doc-code
         > text: state:
           - newline
-        > text: - items:
+        > text: - gridSize: 3
           - newline
-        > text:   - 0:
+        > text:  
           - newline
-        > text:   - 1:
+        > text: valueList: items
           - newline
-        > text:   - 2:
+        > text:  
+          - newline
+        > text: function: populateItems
+          - newline
+        > text: > range: gridSize as $i
+          - newline
+        > text:   ! addValue: items $i
+          - newline
+        > text:  
+          - newline
+        > text: init:
+          - newline
+        > text: ! call: populateItems
           - newline
         > text:  
           - newline
         > text: ptml:
           - newline
-        > text: > range: $items as $index
+        > text: > each: items as $item
           - newline
-        > text:   > text: Item number $index
+        > text:   > text: Item number $item
           - newline
     > box:
       - styles: node-doc-card
@@ -1607,7 +1631,9 @@ ptml:
           - newline
         > text: > table:
           - newline
-        > text:   > row: header
+        > text:   > row:
+          - newline
+        > text:     - role: header
           - newline
         > text:     > cell:
           - newline
@@ -1677,11 +1703,17 @@ ptml:
           - newline
         > text:   - value: $colour
           - newline
-        > text:   - option: red
+        > text:   > option: Red
           - newline
-        > text:   - option: green
+        > text:     - value: red
           - newline
-        > text:   - option: blue
+        > text:   > option: Green
+          - newline
+        > text:     - value: green
+          - newline
+        > text:   > option: Blue
+          - newline
+        > text:     - value: blue
           - newline
         > text: > text: You picked: $colour
           - newline
@@ -1767,7 +1799,9 @@ ptml:
           - newline
         > text: > table:
           - newline
-        > text:   > row: header
+        > text:   > row:
+          - newline
+        > text:     - role: header
           - newline
         > text:     > cell:
           - newline
@@ -2068,11 +2102,7 @@ ptml:
           - newline
         > text:   - title: Buy milk
           - newline
-        > text: - record:
-          - newline
-        > text:   - id: 2
-          - newline
-        > text:   - title: Walk dog
+        > text:   - done: false
           - newline
         > text:  
           - newline
@@ -2080,13 +2110,17 @@ ptml:
           - newline
         > text: > button:
           - newline
-        > text:   > text: Remove task 1
+        > text:   > text: Mark task 1 done
           - newline
         > text:   - click:
           - newline
-        > text:     ! removeRecord: tasks
+        > text:     ! updateRecord: tasks
           - newline
         > text:       - where: id is 1
+          - newline
+        > text:       - record:
+          - newline
+        > text:         - done: true
           - newline
   > box:
     - styles: section
@@ -2338,7 +2372,7 @@ ptml:
           - newline
         > text:   - click:
           - newline
-        > text:     ! call: $increment
+        > text:     ! call: increment
           - newline
     > box:
       - styles: node-doc-card
@@ -2426,15 +2460,19 @@ ptml:
           - newline
         > text:  
           - newline
-        > text: state:
+        > text: valueList: indices
           - newline
-        > text: - index: 0
+        > text: - 0
+          - newline
+        > text: - 1
           - newline
         > text:  
           - newline
         > text: ptml:
           - newline
-        > text: > getRecord: users $index as $user
+        > text: > each: indices as $i
+          - newline
+        > text:   ! getRecord: users $i as $user
           - newline
         > text:   > text: $user.name
           - newline
@@ -2476,17 +2514,23 @@ ptml:
           - newline
         > text:  
           - newline
-        > text: state:
+        > text: valueList: indices
           - newline
-        > text: - index: 1
+        > text: - 0
+          - newline
+        > text: - 1
+          - newline
+        > text: - 2
           - newline
         > text:  
           - newline
         > text: ptml:
           - newline
-        > text: > getValue: colours $index as $colour
+        > text: > each: indices as $i
           - newline
-        > text:   > text: Selected: $colour
+        > text:   ! getValue: colours $i as $colour
+          - newline
+        > text:   > text: $colour
           - newline
     > box:
       - styles: node-doc-card

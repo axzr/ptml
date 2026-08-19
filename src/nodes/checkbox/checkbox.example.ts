@@ -56,5 +56,4 @@ state:
 ptml:
 > checkbox:
   - value: $agreed
-  - label: I agree to the terms
 `;

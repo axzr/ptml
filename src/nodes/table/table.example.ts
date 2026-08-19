@@ -44,7 +44,8 @@ export { tableSimple, tableWithHeader, tableWithHeaderBodyFooter };
 export const docExample = `
 ptml:
 > table:
-  > row: header
+  > row:
+    - role: header
     > cell:
       > text: City
     > cell:

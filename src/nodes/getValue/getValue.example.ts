@@ -4,10 +4,13 @@ valueList: colours
 - Green
 - Blue
 
-state:
-- index: 1
+valueList: indices
+- 0
+- 1
+- 2
 
 ptml:
-> getValue: colours $index as $colour
-  > text: Selected: $colour
+> each: indices as $i
+  ! getValue: colours $i as $colour
+  > text: $colour
 `;

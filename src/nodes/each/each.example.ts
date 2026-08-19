@@ -156,8 +156,7 @@ valueList: colours
 - Blue
 
 ptml:
-> list:
-  > each: colours as $colour
-    > listItem:
-      > text: $colour
+> each: colours as $colour
+  > box:
+    > text: $colour
 `;

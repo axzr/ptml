@@ -96,8 +96,11 @@ state:
 ptml:
 > select:
   - value: $colour
-  - option: red
-  - option: green
-  - option: blue
+  > option: Red
+    - value: red
+  > option: Green
+    - value: green
+  > option: Blue
+    - value: blue
 > text: You picked: $colour
 `;

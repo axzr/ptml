@@ -77,8 +77,11 @@ state:
 
 ptml:
 > radio:
-  - value: $size
-  - option: small
-  - option: medium
-  - option: large
+  - name: size
+  - value: small
+  - selected: $size
+> radio:
+  - name: size
+  - value: medium
+  - selected: $size
 `;

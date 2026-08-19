@@ -5,7 +5,10 @@ state:
 ptml:
 > select:
   - value: $country
-  - option: us
-  - option: uk
-  - option: de
+  > option: United States
+    - value: us
+  > option: United Kingdom
+    - value: uk
+  > option: Germany
+    - value: de
 `;

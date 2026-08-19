@@ -19,8 +19,11 @@ export const docExample = `
 state:
 - page: home
 
-init:
+function: setPage
 ! set: $page getting-started
+
+init:
+! call: setPage
 
 ptml:
 > text: Current page: $page
