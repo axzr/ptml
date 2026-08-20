@@ -349,11 +349,13 @@ export const generateValidCaseForRegularNode = (
 };
 
 // Nodes whose minimal valid children can't be derived from `required` flags.
-// breakpoints needs an ordered ladder; form fields need a binding -- an id or a
-// $-bound value -- which validateFormField enforces conditionally, so neither
-// child can be marked required without making the other one a lie.
+// breakpoints needs an ordered ladder and fonts needs at least one family;
+// form fields need a binding -- an id or a $-bound value -- which
+// validateFormField enforces conditionally, so neither child can be marked
+// required without making the other one a lie.
 const MINIMAL_CHILDREN_OVERRIDES: Record<string, string[]> = {
   breakpoints: ['- small: 768', '- large:'],
+  fonts: ['- font: Inter'],
   input: ['- id: name'],
   textarea: ['- id: notes'],
   checkbox: ['- id: accept'],

@@ -34,6 +34,7 @@ export const ptmlSchema: NodeSchema = {
         context.sourceFilename,
         context.templateSourceMap,
         context.files,
+        context.onFontsUnavailable,
       ),
   },
 };

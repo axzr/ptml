@@ -31,6 +31,8 @@ import { rowSchema } from '../nodes/row/row.schema';
 import { tableSchema } from '../nodes/table/table.schema';
 import { cellSchema } from '../nodes/cell/cell.schema';
 import { keyValueSchema } from '../nodes/key-value/key-value.schema';
+import { fontsSchema } from '../nodes/fonts/fonts.schema';
+import { fontSchema } from '../nodes/font/font.schema';
 import { svgSchema } from '../nodes/svg/svg.schema';
 import { pathSchema } from '../nodes/path/path.schema';
 import { circleSchema } from '../nodes/circle/circle.schema';
@@ -104,6 +106,8 @@ const nodeSchemas: NodeSchema[] = [
   tableSchema,
   cellSchema,
   keyValueSchema,
+  fontsSchema,
+  fontSchema,
   svgSchema,
   pathSchema,
   circleSchema,

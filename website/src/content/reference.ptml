@@ -15,6 +15,8 @@ ptml:
         - styles: node-doc-tag
       > text: define
         - styles: node-doc-tag
+      > text: fonts
+        - styles: node-doc-tag
       > text: function
         - styles: node-doc-tag
       > text: import
@@ -108,6 +110,8 @@ ptml:
     > box:
       - styles: toc-list
       > text: click
+        - styles: node-doc-tag
+      > text: font
         - styles: node-doc-tag
       > text: record
         - styles: node-doc-tag
@@ -247,6 +251,56 @@ ptml:
         > text: > text: Important note
           - newline
         > text:   - styles: highlight
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: fonts
+          - styles: node-doc-name
+        > text: Declaration
+          - styles: category-badge-declaration
+      > text: Root node that loads web fonts from Google Fonts, so a prototype can use the real typeface rather than a lookalike whose metrics shift the line breaks. Each child is a font entry naming a family, optionally with the weights to load. Loaded fonts are then used through font-family in styles. Fonts are requested with font-display: block, so text waits briefly rather than painting once with fallback metrics and reflowing. If a font does not load for any reason -- a misspelled family, no network, a blocked request -- it is reported at runtime rather than silently falling back.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: none (top-level)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: font
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: fonts:
+          - newline
+        > text: - font: Inter
+          - newline
+        > text:   - weights: 400 700
+          - newline
+        > text: - font: Playfair Display
+          - newline
+        > text:   - weights: 400 italic
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: A headline in the real typeface
+          - newline
+        > text:   - styles:
+          - newline
+        > text:     - font-family: Playfair Display, serif
+          - newline
+        > text:     - font-weight: 400
           - newline
     > box:
       - styles: node-doc-card
@@ -2687,6 +2741,52 @@ ptml:
         > text:     ! set: $name Alice
           - newline
         > text: > text: Hello, $name!
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: font
+          - styles: node-doc-name
+        > text: Property
+          - styles: category-badge-property
+      > text: A single font family to load, named in the data (e.g. "- font: Playfair Display"). An optional weights child lists the weights to load and whether italics are needed. Only valid inside a fonts declaration.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: - (dash)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: family (required) -- The font family name exactly as Google Fonts spells it, e.g. Inter or Playfair Display.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: weights
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: fonts:
+          - newline
+        > text: - font: Inter
+          - newline
+        > text:   - weights: 400 700
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > text: Hello
+          - newline
+        > text:   - styles:
+          - newline
+        > text:     - font-family: Inter, sans-serif
           - newline
     > box:
       - styles: node-doc-card

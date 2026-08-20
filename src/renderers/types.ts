@@ -40,4 +40,6 @@ export type RenderContext = {
   templateSourceMap?: TemplateSourceMap;
   dataSourceInfo?: DataSourceInfo;
   files?: PtmlFilesMap;
+  // Called when a fonts declaration's families fail to load, for any reason.
+  onFontsUnavailable?: (families: string[]) => void;
 };

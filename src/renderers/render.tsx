@@ -10,7 +10,7 @@ import { executeInitNodes } from './initExecutor';
 import type { FunctionMap, Node, PtmlFilesMap } from '../types';
 import type { StateMap, ListMap } from '../state/state';
 import type { TemplateMap } from '../templates/templateOperations';
-import type { NamedStylesMap, TemplateSourceMap } from './types';
+import type { NamedStylesMap, RenderContext, TemplateSourceMap } from './types';
 
 export type RenderContextFromNodes = {
   renderableNodes: Node[];
@@ -170,6 +170,7 @@ const renderToReact = (
   setError?: (error: string | null) => void,
   files?: PtmlFilesMap,
   viewportWidth?: number,
+  onFontsUnavailable?: RenderContext['onFontsUnavailable'],
 ): React.ReactNode | null => {
   const nodes = parse(ptml);
   if (nodes.length === 0) {
@@ -194,6 +195,7 @@ const renderToReact = (
     undefined,
     context.templateSourceMap,
     files,
+    onFontsUnavailable,
   );
 };
 
@@ -204,6 +206,7 @@ const createInteractiveComponent = (
   initialLists: ListMap,
   files?: PtmlFilesMap,
   viewportWidth?: number,
+  onFontsUnavailable?: RenderContext['onFontsUnavailable'],
 ): React.ReactNode => {
   const functionMap = buildFunctionMap(nodes);
   const initNodes = nodes.filter((node) => node.type === 'init');
@@ -229,7 +232,7 @@ const createInteractiveComponent = (
             <pre className="whitespace-pre-wrap font-mono text-sm">{error}</pre>
           </div>
         ) : null}
-        {renderToReact(ptml, state, setState, lists, setLists, setError, files, viewportWidth)}
+        {renderToReact(ptml, state, setState, lists, setLists, setError, files, viewportWidth, onFontsUnavailable)}
       </>
     );
   };
@@ -242,6 +245,7 @@ export const render = (
   files?: PtmlFilesMap,
   viewportWidth?: number,
   externalLists?: ListMap,
+  onFontsUnavailable?: RenderContext['onFontsUnavailable'],
 ): React.ReactNode | null => {
   const nodes = parse(ptml);
   if (nodes.length === 0) {
@@ -264,8 +268,18 @@ export const render = (
     (Boolean(files && Object.keys(files).length > 0) && nodes.some((n) => n.type === 'import'));
 
   if (!hasInteractiveElements) {
-    return renderToReact(ptml, initialState, undefined, lists, undefined, undefined, files, viewportWidth);
+    return renderToReact(
+      ptml,
+      initialState,
+      undefined,
+      lists,
+      undefined,
+      undefined,
+      files,
+      viewportWidth,
+      onFontsUnavailable,
+    );
   }
 
-  return createInteractiveComponent(ptml, nodes, initialState, lists, files, viewportWidth);
+  return createInteractiveComponent(ptml, nodes, initialState, lists, files, viewportWidth, onFontsUnavailable);
 };

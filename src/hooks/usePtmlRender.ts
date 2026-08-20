@@ -23,6 +23,11 @@ type UsePtmlRenderOptions = {
   // Host-supplied lists (e.g. app database records) merged in over any
   // same-named list declared in the PTML source. See render()'s comment.
   externalLists?: ListMap;
+  // Called once, after the browser has settled font loading, with the families
+  // from a fonts declaration that did not load -- whatever the cause. A missing
+  // font is invisible otherwise: text silently falls back and the metrics shift.
+  // A console warning is always emitted; this is for surfacing it in the host UI.
+  onFontsUnavailable?: (families: string[]) => void;
 };
 
 const subscribeToViewportWidth = (onStoreChange: () => void): (() => void) => {
@@ -42,6 +47,7 @@ const getServerViewportWidth = (): number | undefined => undefined;
 export function usePtmlRender(ptml: string, options?: UsePtmlRenderOptions): RenderResult {
   const files = options?.files;
   const externalLists = options?.externalLists;
+  const onFontsUnavailable = options?.onFontsUnavailable;
   const measuredViewportWidth = useSyncExternalStore(
     subscribeToViewportWidth,
     getViewportWidth,
@@ -58,7 +64,7 @@ export function usePtmlRender(ptml: string, options?: UsePtmlRenderOptions): Ren
     }
 
     try {
-      const node = render(ptml, files, viewportWidth, externalLists);
+      const node = render(ptml, files, viewportWidth, externalLists, onFontsUnavailable);
       if (node === null) return { node: null, error: null };
       return { node, error: null };
     } catch (error) {
@@ -67,5 +73,5 @@ export function usePtmlRender(ptml: string, options?: UsePtmlRenderOptions): Ren
         error: error instanceof Error ? error.message : String(error),
       };
     }
-  }, [ptml, files, viewportWidth, externalLists]);
+  }, [ptml, files, viewportWidth, externalLists, onFontsUnavailable]);
 }

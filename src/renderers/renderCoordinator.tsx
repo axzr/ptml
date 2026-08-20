@@ -27,6 +27,17 @@ const renderOutput = (renderedNodes: React.ReactNode[]): React.ReactNode | null 
 
 type SharedContext = Omit<RenderContext, 'node' | 'keyPrefix' | 'nextSibling'>;
 
+const renderRootNodes = (renderableNodes: Node[], shared: SharedContext): React.ReactNode[] => {
+  const renderedNodes: React.ReactNode[] = [];
+  for (let i = 0; i < renderableNodes.length; i++) {
+    const node = renderableNodes[i];
+    const nextSibling = i < renderableNodes.length - 1 ? renderableNodes[i + 1] : undefined;
+    const rendered = renderNode({ ...shared, node, keyPrefix: String(i), nextSibling });
+    if (rendered) renderedNodes.push(rendered);
+  }
+  return renderedNodes;
+};
+
 const buildSharedContext = (
   namedStyles: RenderContext['namedStyles'],
   state: StateMap,
@@ -41,6 +52,7 @@ const buildSharedContext = (
   sourceFilename: string | undefined,
   templateSourceMap: TemplateSourceMap | undefined,
   files: PtmlFilesMap | undefined,
+  onFontsUnavailable: RenderContext['onFontsUnavailable'],
 ): SharedContext => ({
   namedStyles,
   state,
@@ -55,6 +67,7 @@ const buildSharedContext = (
   sourceFilename: sourceFilename ?? 'main',
   templateSourceMap,
   files,
+  onFontsUnavailable,
 });
 
 export const renderNodesToReact = (
@@ -72,6 +85,7 @@ export const renderNodesToReact = (
   sourceFilename?: string,
   templateSourceMap?: TemplateSourceMap,
   files?: PtmlFilesMap,
+  onFontsUnavailable?: RenderContext['onFontsUnavailable'],
 ): React.ReactNode | null => {
   const shared = buildSharedContext(
     namedStyles,
@@ -87,15 +101,7 @@ export const renderNodesToReact = (
     sourceFilename,
     templateSourceMap,
     files,
+    onFontsUnavailable,
   );
-  const renderedNodes: React.ReactNode[] = [];
-
-  for (let i = 0; i < renderableNodes.length; i++) {
-    const node = renderableNodes[i];
-    const nextSibling = i < renderableNodes.length - 1 ? renderableNodes[i + 1] : undefined;
-    const rendered = renderNode({ ...shared, node, keyPrefix: String(i), nextSibling });
-    if (rendered) renderedNodes.push(rendered);
-  }
-
-  return renderOutput(renderedNodes);
+  return renderOutput(renderRootNodes(renderableNodes, shared));
 };

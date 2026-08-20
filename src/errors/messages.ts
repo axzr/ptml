@@ -222,6 +222,17 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const FontsErrors = {
+  familyRequired: (lineNumber: number) =>
+    `font node on line ${lineNumber} must name a font family (e.g. "- font: Playfair Display").`,
+  familyInvalid: (lineNumber: number, family: string) =>
+    `font node on line ${lineNumber} has an invalid family name: "${family}". A family name cannot contain : & ? or ,.`,
+  duplicateFamily: (lineNumber: number, family: string, firstLine: number) =>
+    `fonts declaration on line ${lineNumber} lists "${family}" again; it was already listed on line ${firstLine}. Combine the weights into one font entry.`,
+  invalidVariants: (lineNumber: number, ...invalid: string[]) =>
+    `weights node on line ${lineNumber} must list weights of 100 to 900 in hundreds, and optionally "italic". Found: ${invalid.join(', ')}`,
+};
+
 export const SvgErrors = {
   missingGeometry: (nodeType: string, lineNumber: number, ...missing: string[]) =>
     `${nodeType} node on line ${lineNumber} must have ${missing.join(' and ')}. Without ${missing.length > 1 ? 'them' : 'it'} the shape renders nothing.`,
