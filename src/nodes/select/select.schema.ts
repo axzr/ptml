@@ -1,5 +1,6 @@
 import type { NodeSchema } from '../../schemas/types';
-import { validateBlockDefault } from '../../categories/block/block.validation';
+import { validateFormField } from '../../validation/validators/validateFormField';
+import { indentChildLines } from '../../schemaRegistry/ptmlBuilder';
 
 export const selectSchema: NodeSchema = {
   name: 'select',
@@ -7,9 +8,9 @@ export const selectSchema: NodeSchema = {
   isRenderable: true,
   allowedAsContainerChild: true,
   description:
-    'A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). Selects require an id (as a key-value child) and one or more option children, and can have optional value (for default/state binding) and styles.',
+    'A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional.',
   properties: {
-    list: [{ name: 'id', required: true }, { name: 'value' }, { name: 'styles' }],
+    list: [{ name: 'id' }, { name: 'value' }, { name: 'styles' }],
   },
   blocks: {
     list: [{ name: 'option' }],
@@ -17,9 +18,10 @@ export const selectSchema: NodeSchema = {
   data: {
     allowed: false,
   },
-  example: '- select:',
+  example: '- select:\n  - id: country',
   functions: {
-    validate: validateBlockDefault,
+    validate: validateFormField,
     getContext: () => ({ parentNode: 'form' }),
+    wrapAsParent: (nodePTML: string) => `ptml:\n> select:\n  - id: country\n${indentChildLines(nodePTML, 2)}`,
   },
 };

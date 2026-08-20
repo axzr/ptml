@@ -87,7 +87,32 @@ ptml:
       ! set: $selectedCountry form.country
 `;
 
-export { basicSelect, selectWithStyles, selectWithValue, selectInForm, selectWithDynamicOptions };
+const selectWithNoBinding = `ptml:
+> form:
+  > select:
+    > option: UK
+      - value: uk
+`;
+
+const selectBoundByValueOnly = `state:
+- country: uk
+
+ptml:
+> select:
+  - value: $country
+  > option: UK
+    - value: uk
+`;
+
+export {
+  basicSelect,
+  selectWithStyles,
+  selectWithValue,
+  selectInForm,
+  selectWithDynamicOptions,
+  selectWithNoBinding,
+  selectBoundByValueOnly,
+};
 
 export const docExample = `
 state:

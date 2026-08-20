@@ -82,7 +82,31 @@ ptml:
   - placeholder: $nameHint
 `;
 
+// No id and no $-bound value: renders a field that silently refuses input.
+const inputWithNoBinding = `ptml:
+> form:
+  > input:
+    - type: text
+`;
+
+const inputBoundByValueOnly = `state:
+- name:
+
+ptml:
+> input:
+  - value: $name
+  - type: text
+`;
+
+const inputWithoutType = `ptml:
+> input:
+  - id: name
+`;
+
 export {
+  inputWithNoBinding,
+  inputBoundByValueOnly,
+  inputWithoutType,
   basicInput,
   inputWithStyles,
   inputWithValue,

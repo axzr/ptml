@@ -348,9 +348,22 @@ export const generateValidCaseForRegularNode = (
   return generateCasesWithOptionalData(schema, context);
 };
 
+// Nodes whose minimal valid children can't be derived from `required` flags.
+// breakpoints needs an ordered ladder; form fields need a binding -- an id or a
+// $-bound value -- which validateFormField enforces conditionally, so neither
+// child can be marked required without making the other one a lie.
+const MINIMAL_CHILDREN_OVERRIDES: Record<string, string[]> = {
+  breakpoints: ['- small: 768', '- large:'],
+  input: ['- id: name'],
+  textarea: ['- id: notes'],
+  checkbox: ['- id: accept'],
+  select: ['- id: country'],
+};
+
 const generateRequiredChildren = (schema: NodeSchema): string[] => {
-  if (schema.name === 'breakpoints') {
-    return ['- small: 768', '- large:'];
+  const minimalChildren = MINIMAL_CHILDREN_OVERRIDES[schema.name];
+  if (minimalChildren) {
+    return minimalChildren;
   }
   const children: string[] = [];
   const requiredBlocks = getBlocksList(schema).filter((b) => b.required);

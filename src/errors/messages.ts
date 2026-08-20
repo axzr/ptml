@@ -222,6 +222,11 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const FormFieldErrors = {
+  missingBinding: (nodeType: string, lineNumber: number) =>
+    `${nodeType} node on line ${lineNumber} must have an id (binding it to form.<id>) or a value bound to a state variable (e.g. "- value: $name"). With neither, the field renders but nothing can change it.`,
+};
+
 export const StylesErrors = {
   stylesMustUsePropertyPrefix: (lineNumber: number) =>
     `styles node on line ${lineNumber} must use the - prefix ("- styles:"), not the > prefix.`,

@@ -95,7 +95,9 @@ export const textareaNodeToReact = (context: RenderContext): React.ReactNode => 
     'textarea',
     {
       key: keyPrefix,
-      id,
+      // Omitted rather than empty: id="" is invalid HTML and would make a
+      // label's "- for:" match nothing.
+      id: id || undefined,
       style: style as React.CSSProperties | undefined,
       value: currentValue,
       onChange,

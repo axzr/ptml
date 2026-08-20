@@ -7,8 +7,12 @@ import {
   checkboxInForm,
   checkboxWithStyles,
   multipleCheckboxesInForm,
+  checkboxWithNoBinding,
+  checkboxBoundByValueOnly,
 } from './checkbox.example';
 import { render as renderPtml, validate, parse } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { FormFieldErrors } from '../../errors/messages';
 
 describe('Checkbox (basicCheckbox)', () => {
   it('validates basicCheckbox', () => {
@@ -218,5 +222,22 @@ describe('Checkbox (multipleCheckboxesInForm)', () => {
 
     expect(newsletterCheckbox).toBeChecked();
     expect(termsCheckbox).not.toBeChecked();
+  });
+});
+
+describe('Checkbox binding', () => {
+  it('accepts a checkbox bound by a $value alone, with no id', () => {
+    expect(validate(checkboxBoundByValueOnly).isValid).toBe(true);
+  });
+
+  it('rejects a checkbox with neither an id nor a $-bound value', () => {
+    const validation = validate(checkboxWithNoBinding);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, FormFieldErrors.missingBinding, 'checkbox', 0);
+  });
+
+  it('omits the id attribute entirely when no id is given', () => {
+    render(<div>{renderPtml(checkboxBoundByValueOnly)}</div>);
+    expect(screen.getByRole('checkbox')).not.toHaveAttribute('id');
   });
 });

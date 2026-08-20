@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
+  textareaWithNoBinding,
+  textareaBoundByValueOnly,
   basicTextarea,
   textareaWithStyles,
   textareaWithValue,
@@ -10,6 +12,8 @@ import {
   textareaWithPlaceholderFromState,
 } from './textarea.example';
 import { render as renderPtml, validate, parse } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { FormFieldErrors } from '../../errors/messages';
 
 describe('Textarea (basicTextarea)', () => {
   it('validates basicTextarea', () => {
@@ -189,5 +193,22 @@ describe('Textarea placeholder', () => {
   it('omits the attribute entirely when no placeholder is given', () => {
     render(<div>{renderPtml(basicTextarea)}</div>);
     expect(screen.getByRole('textbox')).not.toHaveAttribute('placeholder');
+  });
+});
+
+describe('Textarea binding', () => {
+  it('accepts a textarea bound by a $value alone, with no id', () => {
+    expect(validate(textareaBoundByValueOnly).isValid).toBe(true);
+  });
+
+  it('rejects a textarea with neither an id nor a $-bound value', () => {
+    const validation = validate(textareaWithNoBinding);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, FormFieldErrors.missingBinding, 'textarea', 0);
+  });
+
+  it('omits the id attribute entirely when no id is given', () => {
+    render(<div>{renderPtml(textareaBoundByValueOnly)}</div>);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('id');
   });
 });

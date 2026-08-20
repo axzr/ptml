@@ -53,7 +53,24 @@ ptml:
   - placeholder: $descriptionHint
 `;
 
+const textareaWithNoBinding = `ptml:
+> form:
+  > textarea:
+    - styles:
+      - width: 100%
+`;
+
+const textareaBoundByValueOnly = `state:
+- notes:
+
+ptml:
+> textarea:
+  - value: $notes
+`;
+
 export {
+  textareaWithNoBinding,
+  textareaBoundByValueOnly,
   basicTextarea,
   textareaWithStyles,
   textareaWithValue,

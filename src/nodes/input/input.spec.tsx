@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
+  inputWithNoBinding,
+  inputBoundByValueOnly,
+  inputWithoutType,
   basicInput,
   inputWithStyles,
   inputWithValue,
@@ -11,6 +14,8 @@ import {
   inputWithPlaceholderFromState,
 } from './input.example';
 import { render as renderPtml, validate, parse } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { FormFieldErrors } from '../../errors/messages';
 
 describe('Input (basicInput)', () => {
   it('validates basicInput', () => {
@@ -279,5 +284,42 @@ describe('Input placeholder', () => {
 
     expect(input.value).toBe('Ada');
     expect(input).toHaveAttribute('placeholder', 'Your full name');
+  });
+});
+
+describe('Input binding', () => {
+  it('accepts an input bound by id', () => {
+    expect(validate(basicInput).isValid).toBe(true);
+  });
+
+  it('accepts an input bound by a $value alone, with no id', () => {
+    expect(validate(inputBoundByValueOnly).isValid).toBe(true);
+  });
+
+  it('accepts an input with no type, which defaults to text', () => {
+    expect(validate(inputWithoutType).isValid).toBe(true);
+    render(<div>{renderPtml(inputWithoutType)}</div>);
+    expect(screen.getByRole('textbox')).toHaveAttribute('type', 'text');
+  });
+
+  it('rejects an input with neither an id nor a $-bound value', () => {
+    const validation = validate(inputWithNoBinding);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, FormFieldErrors.missingBinding, 'input', 0);
+  });
+
+  it('omits the id attribute entirely when no id is given', () => {
+    render(<div>{renderPtml(inputBoundByValueOnly)}</div>);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('id');
+  });
+
+  it('a $value-bound input with no id is still typeable', async () => {
+    const user = userEvent.setup();
+    render(<div>{renderPtml(inputBoundByValueOnly)}</div>);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    await user.type(input, 'Ada');
+
+    expect(input.value).toBe('Ada');
   });
 });

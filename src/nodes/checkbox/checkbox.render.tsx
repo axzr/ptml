@@ -92,7 +92,9 @@ export const checkboxNodeToReact = (context: RenderContext): React.ReactNode => 
     'input',
     {
       key: keyPrefix,
-      id,
+      // Omitted rather than empty: id="" is invalid HTML and would make a
+      // label's "- for:" match nothing.
+      id: id || undefined,
       type: 'checkbox',
       checked,
       onChange,

@@ -47,7 +47,30 @@ const multipleCheckboxesInForm = `ptml:
       ! set: $terms form.terms
 `;
 
-export { basicCheckbox, checkboxWithValue, checkboxInForm, checkboxWithStyles, multipleCheckboxesInForm };
+const checkboxWithNoBinding = `ptml:
+> form:
+  > checkbox:
+    - styles:
+      - margin: 4px
+`;
+
+const checkboxBoundByValueOnly = `state:
+- agree: false
+
+ptml:
+> checkbox:
+  - value: $agree
+`;
+
+export {
+  basicCheckbox,
+  checkboxWithValue,
+  checkboxInForm,
+  checkboxWithStyles,
+  multipleCheckboxesInForm,
+  checkboxWithNoBinding,
+  checkboxBoundByValueOnly,
+};
 
 export const docExample = `
 state:

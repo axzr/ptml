@@ -98,7 +98,9 @@ export const inputNodeToReact = (context: RenderContext): React.ReactNode => {
     'input',
     {
       key: keyPrefix,
-      id,
+      // Omitted rather than empty: id="" is invalid HTML and would make a
+      // label's "- for:" match nothing.
+      id: id || undefined,
       type,
       style: style as React.CSSProperties | undefined,
       value: currentValue,

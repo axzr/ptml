@@ -829,7 +829,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). Checkboxes require an id (as a key-value child) and can have optional value (for state binding) and styles.
+      > text: A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). A checkbox needs a binding so that its checked state goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $agree). Styles are optional.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -843,7 +843,7 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: toc-list
-        > text: id (required)
+        > text: id
           - styles: node-doc-tag
         > text: value
           - styles: node-doc-tag
@@ -1169,7 +1169,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). Inputs require an id and type (as key-value children), and can have optional placeholder text and styles. Placeholder can be a literal string or a state reference (e.g. $hint).
+      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). An input needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $name). Type is optional and defaults to text. Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint).
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1183,9 +1183,9 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: toc-list
-        > text: id (required)
+        > text: id
           - styles: node-doc-tag
-        > text: type (required)
+        > text: type
           - styles: node-doc-tag
         > text: value
           - styles: node-doc-tag
@@ -1663,7 +1663,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). Selects require an id (as a key-value child) and one or more option children, and can have optional value (for default/state binding) and styles.
+      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1683,7 +1683,7 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: toc-list
-        > text: id (required)
+        > text: id
           - styles: node-doc-tag
         > text: value
           - styles: node-doc-tag
@@ -1867,7 +1867,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). Textareas require an id (as a key-value child), and can have optional placeholder text and styles. Placeholder can be a literal string or a state reference (e.g. $hint).
+      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). A textarea needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $notes). Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint).
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1881,7 +1881,7 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: toc-list
-        > text: id (required)
+        > text: id
           - styles: node-doc-tag
         > text: value
           - styles: node-doc-tag

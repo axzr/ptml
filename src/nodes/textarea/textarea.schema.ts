@@ -1,5 +1,5 @@
 import type { NodeSchema } from '../../schemas/types';
-import { validateBlockDefault } from '../../categories/block/block.validation';
+import { validateFormField } from '../../validation/validators/validateFormField';
 import { textareaNodeToReact } from './textarea.render';
 
 export const textareaSchema: NodeSchema = {
@@ -8,9 +8,9 @@ export const textareaSchema: NodeSchema = {
   isRenderable: true,
   allowedAsContainerChild: true,
   description:
-    'A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). Textareas require an id (as a key-value child), and can have optional placeholder text and styles. Placeholder can be a literal string or a state reference (e.g. $hint).',
+    'A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). A textarea needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $notes). Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint).',
   properties: {
-    list: [{ name: 'id', required: true }, { name: 'value' }, { name: 'placeholder' }, { name: 'styles' }],
+    list: [{ name: 'id' }, { name: 'value' }, { name: 'placeholder' }, { name: 'styles' }],
   },
   blocks: {
     list: [],
@@ -18,9 +18,9 @@ export const textareaSchema: NodeSchema = {
   data: {
     allowed: false,
   },
-  example: '- textarea:',
+  example: '- textarea:\n  - id: notes',
   functions: {
-    validate: validateBlockDefault,
+    validate: validateFormField,
     getContext: () => ({ parentNode: 'form' }),
     render: textareaNodeToReact,
   },
