@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
+  blockPrefixedStyles,
   textWithStyles,
   textWithStylesWithColon,
   boxWithStyles,
@@ -22,7 +23,13 @@ import {
 } from './styles.example';
 import { render as renderPtml, validate, parse } from '../../index';
 import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
-import { BreakpointsErrors, DataFormatErrors, ValidatorErrors, VariableErrors } from '../../errors/messages';
+import {
+  BreakpointsErrors,
+  DataFormatErrors,
+  StylesErrors,
+  ValidatorErrors,
+  VariableErrors,
+} from '../../errors/messages';
 import type { Node } from '../../types';
 
 describe('Styles', () => {
@@ -684,6 +691,12 @@ describe('Styles (conditionInList)', () => {
     const validation = validate(inlineStylesWithBreakpoint);
     expect(validation.isValid).toBe(false);
     expectErrorToMatchIgnoringLineNumber(validation, BreakpointsErrors.stylesCannotContainBreakpoint, 0);
+  });
+
+  it('rejects styles written with the block prefix instead of the property prefix', () => {
+    const validation = validate(blockPrefixedStyles);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, StylesErrors.stylesMustUsePropertyPrefix, 0);
   });
 
   it('validates stylesWithStateInterpolation', () => {

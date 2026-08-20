@@ -130,9 +130,7 @@ ptml:
   > text: $book.title
 `;
 
-    const { result } = renderHook(() =>
-      usePtmlRender(ptml, { externalLists: { books: [{ title: 'Dune' }] } }),
-    );
+    const { result } = renderHook(() => usePtmlRender(ptml, { externalLists: { books: [{ title: 'Dune' }] } }));
 
     expect(result.current.error).toBeNull();
     renderRtl(<div>{result.current.node}</div>);

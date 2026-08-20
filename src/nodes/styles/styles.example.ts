@@ -227,7 +227,18 @@ ptml:
     - font-size: $fontSize
 `;
 
+// styles is a property node. With the block prefix it parses as a block, which
+// used to skip validation entirely while the renderer ignored it.
+const blockPrefixedStyles = `
+ptml:
+> box:
+  > styles:
+    - colour-that-does-not-exist: 1
+  > text: hi
+`;
+
 export {
+  blockPrefixedStyles,
   textWithStyles,
   textWithStylesWithColon,
   boxWithStyles,

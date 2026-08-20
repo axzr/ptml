@@ -229,6 +229,38 @@ const addTemplateForShow = (parts: string[], nodePTML: string): void => {
   }
 };
 
+// breakpoint blocks reference a label that must exist in a breakpoints
+// declaration, so a generated case containing one needs that declaration
+// alongside it -- the same reason addTemplateForShow exists for show:.
+const BREAKPOINT_LABEL_PATTERN = /^[->]?\s*breakpoint:\s*([a-zA-Z][a-zA-Z0-9_-]*)/;
+
+const extractBreakpointLabels = (text: string): string[] => {
+  const labels: string[] = [];
+  text.split('\n').forEach((line) => {
+    const match = line.trim().match(BREAKPOINT_LABEL_PATTERN);
+    if (match && !labels.includes(match[1])) {
+      labels.push(match[1]);
+    }
+  });
+  return labels;
+};
+
+const addBreakpointsForBreakpointReference = (parts: string[]): void => {
+  const text = parts.join('\n');
+  if (text.includes('breakpoints:')) {
+    return;
+  }
+  const labels = extractBreakpointLabels(text);
+  if (labels.length === 0) {
+    return;
+  }
+  // Widths ascend and the last label carries none, per the breakpoints schema.
+  const children = labels.map((label, index) =>
+    index === labels.length - 1 ? `- ${label}:` : `- ${label}: ${(index + 1) * 768}`,
+  );
+  parts.unshift(['breakpoints:', ...children].join('\n'));
+};
+
 const handleRootDeclarationNode = (
   nodePTML: string,
   nodeType: string,
@@ -302,6 +334,8 @@ const wrapInContext = (nodeType: string, nodePTML: string, context: SchemaExampl
       handleRootNonDeclarationNode(nodePTML, context, parts);
     }
   }
+
+  addBreakpointsForBreakpointReference(parts);
 
   return parts.join('\n');
 };

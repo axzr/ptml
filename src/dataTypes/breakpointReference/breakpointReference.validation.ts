@@ -5,7 +5,7 @@ import { ValidatorErrors } from '../../errors/messages';
 const LABEL_REGEX = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
 const BREAKPOINT_DATA_REGEX = /^([a-zA-Z][a-zA-Z0-9_-]*)\s*(or\s+more|or\s+less)?\s*$/;
 
-export const validateBreakpointReference = (value: string, node: Node, _context?: ValidationContext): void => {
+export const validateBreakpointReference = (value: string, node: Node, context?: ValidationContext): void => {
   const trimmed = (value ?? '').trim();
   if (!trimmed) {
     throw new Error(ValidatorErrors.breakpointReferenceInvalid(node.type, node.lineNumber, '(empty)'));
@@ -17,5 +17,12 @@ export const validateBreakpointReference = (value: string, node: Node, _context?
   const label = match[1].trim();
   if (!LABEL_REGEX.test(label)) {
     throw new Error(ValidatorErrors.breakpointReferenceInvalid(node.type, node.lineNumber, trimmed));
+  }
+  // A label that matches no breakpoints declaration can never match at render
+  // time, so the block silently renders nothing -- catch it here instead.
+  // availableBreakpoints is absent only when this validator is called outside
+  // the normal validate() path, where there is no declaration to check against.
+  if (context?.availableBreakpoints && !context.availableBreakpoints.has(label)) {
+    throw new Error(ValidatorErrors.breakpointNotFound(node.type, node.lineNumber, label));
   }
 };

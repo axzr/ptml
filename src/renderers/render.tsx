@@ -112,6 +112,29 @@ const mergeImportsIntoMaps = (
   });
 };
 
+// A breakpoints declaration is one ordered ladder, so unlike templates, styles
+// and functions it can't be merged across files. The local declaration wins;
+// a file that declares none inherits one wholesale from the first import that
+// has one. collectImportedBreakpointLabels in validateSemantics.ts applies the
+// same rule, so what validates is what renders.
+const buildImportedBreakpoints = (
+  nodes: Node[],
+  files: PtmlFilesMap,
+): ReturnType<typeof buildBreakpointsMap> | undefined => {
+  for (const node of nodes) {
+    if (node.type !== 'import' || !node.data) continue;
+    const content = files[node.data.trim()];
+    if (!content || typeof content !== 'string') continue;
+    try {
+      const imported = buildBreakpointsMap(parse(content));
+      if (imported) return imported;
+    } catch {
+      // ignore parse errors in imported file
+    }
+  }
+  return undefined;
+};
+
 export const buildRenderContextFromNodes = (
   nodes: Node[],
   lists?: ListMap,
@@ -122,7 +145,7 @@ export const buildRenderContextFromNodes = (
     return null;
   }
   const namedStyles = buildNamedStylesMap(nodes);
-  const breakpoints = buildBreakpointsMap(nodes);
+  let breakpoints = buildBreakpointsMap(nodes);
   const { lists: builtLists } = buildStateAndLists(nodes);
   const currentLists = lists || builtLists;
   const functionMap = buildFunctionMap(nodes);
@@ -131,6 +154,9 @@ export const buildRenderContextFromNodes = (
   if (files && Object.keys(files).length > 0) {
     const visited = new Set<string>();
     mergeImportsIntoMaps(nodes, files, templateMap, namedStyles, functionMap, visited, templateSourceMap);
+    if (breakpoints === undefined) {
+      breakpoints = buildImportedBreakpoints(nodes, files);
+    }
   }
   return { renderableNodes, namedStyles, breakpoints, currentLists, functionMap, templateMap, templateSourceMap };
 };

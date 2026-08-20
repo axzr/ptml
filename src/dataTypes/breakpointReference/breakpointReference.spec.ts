@@ -37,4 +37,28 @@ describe('validateBreakpointReference', () => {
     expect(() => validateBreakpointReference('123', node)).toThrow();
     expect(() => validateBreakpointReference('or more', node)).toThrow();
   });
+
+  describe('against the declared breakpoint labels', () => {
+    const context = { stack: [], availableBreakpoints: new Set(['small', 'medium']) };
+
+    it('accepts a declared label, with or without a modifier', () => {
+      expect(() => validateBreakpointReference('small', node, context)).not.toThrow();
+      expect(() => validateBreakpointReference('medium or more', node, context)).not.toThrow();
+      expect(() => validateBreakpointReference('small or less', node, context)).not.toThrow();
+    });
+
+    it('rejects a label no breakpoints declaration defines', () => {
+      expect(() => validateBreakpointReference('large', node, context)).toThrow(/not defined in a breakpoints/);
+      expect(() => validateBreakpointReference('large or more', node, context)).toThrow(/not defined in a breakpoints/);
+    });
+
+    it('rejects every label when nothing is declared', () => {
+      const empty = { stack: [], availableBreakpoints: new Set<string>() };
+      expect(() => validateBreakpointReference('small', node, empty)).toThrow(/not defined in a breakpoints/);
+    });
+
+    it('skips the check when there is no validation context to check against', () => {
+      expect(() => validateBreakpointReference('large', node)).not.toThrow();
+    });
+  });
 });

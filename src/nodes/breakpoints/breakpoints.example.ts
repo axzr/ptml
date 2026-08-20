@@ -58,9 +58,9 @@ define: card
 ptml:
 > box:
   > breakpoint: small
-     > text: Narrow view
+    > text: Narrow view
   > breakpoint: large
-     > text: Wide view
+    > text: Wide view
 `;
 
 export {

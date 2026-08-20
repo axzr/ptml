@@ -154,7 +154,7 @@ ptml:
           - styles: node-doc-name
         > text: Declaration
           - styles: category-badge-declaration
-      > text: Root node that defines named breakpoint labels and their pixel widths. Children are label: width pairs in ascending order; the last child has no width (and above tier). Used by breakpoint blocks and define for responsive layout and conditional styles.
+      > text: Root node that defines named breakpoint labels and their pixel widths. Children are label: width pairs in ascending order; the last child has no width (and above tier). Each label names the range running up to its own width, so with small: 768, medium: 1024, large: the label small covers widths below 768 and large covers 1024 and up. Used by breakpoint blocks and define for responsive layout and conditional styles. A file uses its own declaration if it has one, otherwise it inherits the declaration of the first file it imports that has one.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -657,7 +657,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: Conditionally renders its children when the viewport matches the breakpoint condition. Data is a breakpoint label (e.g. small) or "label or more" or "label or less". Requires a breakpoints declaration and viewportWidth in render context.
+      > text: Conditionally renders its children when the viewport matches the breakpoint condition. Data is a breakpoint label (e.g. small), "label or more", or "label or less"; the label must be one declared in a breakpoints declaration. A breakpoint block is an override layered on top of what surrounds it, never a replacement for it: breakpoints are resolved against the render context viewportWidth rather than by CSS media queries, so where no viewport is known -- server rendering, or a host that supplies none -- no breakpoint block renders and no breakpoint style applies. Whatever sits outside breakpoint blocks is therefore the fallback layout, and must stand on its own. Which end of the range that fallback describes is your choice: put mobile styles in the base and widen with "or more" for mobile-first, or the reverse for desktop-first.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -667,7 +667,7 @@ ptml:
         - styles: node-doc-detail-label
       > text: Required
         - styles: node-doc-detail-value
-      > text: breakpoint-reference (required) -- Breakpoint label or "label or more" or "label or less". Must match a label defined in a breakpoints declaration.
+      > text: breakpoint-reference (required) -- Breakpoint label, "label or more", or "label or less". Must match a label defined in a breakpoints declaration.
         - styles: node-doc-detail-value
       > text: CHILDREN
         - styles: node-doc-detail-label
@@ -691,11 +691,9 @@ ptml:
           - newline
         > text: define: card
           - newline
-        > text: > breakpoint: small
+        > text: - width: 100%
           - newline
-        > text:   - width: 100%
-          - newline
-        > text: > breakpoint: large
+        > text: > breakpoint: large or more
           - newline
         > text:   - width: 50%
           - newline

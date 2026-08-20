@@ -88,6 +88,37 @@ const collectDefineNames = (nodes: Node[]): Set<string> => {
   return names;
 };
 
+const collectBreakpointLabels = (nodes: Node[]): Set<string> => {
+  const labels = new Set<string>();
+  const breakpointsNode = nodes.find((n) => n.type === 'breakpoints');
+  if (!breakpointsNode) return labels;
+  breakpointsNode.children.forEach((child) => {
+    const label = (child.type ?? '').trim();
+    if (label) labels.add(label);
+  });
+  return labels;
+};
+
+// A breakpoints declaration is a single ordered ladder, so it can't be merged
+// across files the way templates and defines can. The local declaration wins;
+// only when a file declares none does it inherit one wholesale from the first
+// import that has one. buildImportedBreakpoints in renderers/render.tsx applies
+// the same rule, so what validates is what renders.
+const collectImportedBreakpointLabels = (rootNodes: Node[], files: PtmlFilesMap): Set<string> => {
+  for (const node of rootNodes) {
+    if (node.type !== 'import' || !node.data) continue;
+    const content = files[node.data.trim()];
+    if (!content || typeof content !== 'string') continue;
+    try {
+      const labels = collectBreakpointLabels(parse(content));
+      if (labels.size > 0) return labels;
+    } catch {
+      // ignore parse errors in imported file
+    }
+  }
+  return new Set<string>();
+};
+
 const buildAvailableFromImports = (
   rootNodes: Node[],
   files: PtmlFilesMap,
@@ -113,6 +144,30 @@ const buildAvailableFromImports = (
   return { templates, defines };
 };
 
+type AvailableNames = {
+  availableTemplates: Set<string>;
+  availableDefines: Set<string>;
+  availableBreakpoints: Set<string>;
+};
+
+const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNames => {
+  const availableTemplates = collectTemplateNames(nodes);
+  const availableDefines = collectDefineNames(nodes);
+  let availableBreakpoints = collectBreakpointLabels(nodes);
+
+  if (files && Object.keys(files).length > 0) {
+    const visited = new Set<string>();
+    const fromImports = buildAvailableFromImports(nodes, files, visited);
+    fromImports.templates.forEach((t) => availableTemplates.add(t));
+    fromImports.defines.forEach((d) => availableDefines.add(d));
+    if (availableBreakpoints.size === 0) {
+      availableBreakpoints = collectImportedBreakpointLabels(nodes, files);
+    }
+  }
+
+  return { availableTemplates, availableDefines, availableBreakpoints };
+};
+
 const buildValidationContext = (ptml: string, files?: PtmlFilesMap): ValidationContext => {
   const stateAndLists = buildStateAndListsForValidation(ptml);
   const stateMap = stateAndLists?.state;
@@ -122,17 +177,6 @@ const buildValidationContext = (ptml: string, files?: PtmlFilesMap): ValidationC
   const lines = ptml.trim().split('\n');
   const stack: SemanticStackEntry[] = [];
 
-  const nodes = parse(ptml);
-  const availableTemplates = collectTemplateNames(nodes);
-  const availableDefines = collectDefineNames(nodes);
-
-  if (files && Object.keys(files).length > 0) {
-    const visited = new Set<string>();
-    const fromImports = buildAvailableFromImports(nodes, files, visited);
-    fromImports.templates.forEach((t) => availableTemplates.add(t));
-    fromImports.defines.forEach((d) => availableDefines.add(d));
-  }
-
   return {
     stateMap,
     listMap,
@@ -140,8 +184,7 @@ const buildValidationContext = (ptml: string, files?: PtmlFilesMap): ValidationC
     loopVariables,
     lines,
     stack,
-    availableTemplates,
-    availableDefines,
+    ...collectAvailableNames(parse(ptml), files),
   };
 };
 

@@ -5,11 +5,15 @@ import { validateNodeData } from '../../validation/validators/validateNodeData';
 import { validateNodeChildrenInternal } from '../../validation/validators/validateChildren';
 import { validateMinimumChildren } from '../../validation/validators/validateChildren';
 import { stylesChildValidator } from './stylesChildValidator';
-import { ValidationErrors } from '../../errors/messages';
+import { StylesErrors, ValidationErrors } from '../../errors/messages';
 
 export const validateStyles = (node: Node, context: ValidationContext): void => {
+  // styles is a property node. Written as "> styles:" it parses as a block and
+  // returning here used to skip every check below it -- unknown CSS properties
+  // and breakpoint children alike -- while the renderer ignored the node
+  // entirely, so the styles simply never applied and nothing said so.
   if (node.category !== 'property') {
-    return;
+    throw new Error(StylesErrors.stylesMustUsePropertyPrefix(node.lineNumber));
   }
   const schemaMap = getSchemaMap();
   const schema = schemaMap.get(node.type);

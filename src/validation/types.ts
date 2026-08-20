@@ -23,6 +23,7 @@ export type ValidationContext = {
   isRoot?: boolean;
   availableTemplates?: Set<string>;
   availableDefines?: Set<string>;
+  availableBreakpoints?: Set<string>;
 };
 
 export type ChildValidator = (child: Node, context: ValidationContext) => void;
