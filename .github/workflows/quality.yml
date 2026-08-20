@@ -1,0 +1,42 @@
+name: Quality
+
+# Nothing checked lint, types or tests before this: deploy.yml only builds the
+# website, so a lint error could reach master unchallenged (and did, in eb6f8bb).
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      # The published language reference is generated from the schemas, so a
+      # schema change without a regenerate silently ships stale docs.
+      - name: Check the generated language reference is up to date
+        run: |
+          npm run generate-docs
+          git diff --exit-code -- website/src/content/reference.ptml \
+            || (echo "::error::reference.ptml is out of date -- run 'npm run generate-docs' and commit the result" && exit 1)
