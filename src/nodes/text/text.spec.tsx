@@ -1,6 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { textWithPipe, textWithPipes, textWithNewline } from './text.example';
+import {
+  textWithPipe,
+  textWithPipes,
+  textWithNewline,
+  textWithInlineRuns,
+  textRunsWithEmptyParent,
+  textRunsNested,
+  textWhitespace,
+} from './text.example';
 import { render as renderPtml, validate, parse } from '../../index';
 
 describe('Text with pipe expression (textWithPipe)', () => {
@@ -108,5 +116,61 @@ ptml:
 
     const brElements = container.querySelectorAll('br');
     expect(brElements).toHaveLength(0);
+  });
+});
+
+const html = (ptml: string): string =>
+  render(<div>{renderPtml(ptml)}</div>).container.innerHTML.replace(/ data-ptml-[^ >]*="[^"]*"/g, '');
+
+describe('Text inline runs', () => {
+  it('validates a text containing text runs', () => {
+    expect(validate(textWithInlineRuns).isValid).toBe(true);
+  });
+
+  it('renders runs as real inline elements, not blocks', () => {
+    expect(html(textWithInlineRuns)).toBe(
+      '<div><span>Open from<span style="color: magenta;"> 9am</span>' +
+        ' to<span style="color: magenta;"> 5pm</span></span></div>',
+    );
+  });
+
+  it('reads as one continuous sentence, so the browser wraps it as one', () => {
+    render(<div>{renderPtml(textWithInlineRuns)}</div>);
+    expect(screen.getByText(/Open from/).textContent).toBe('Open from 9am to 5pm');
+  });
+
+  it('allows the parent to carry no text of its own', () => {
+    expect(html(textRunsWithEmptyParent)).toBe('<div><span>One Two</span></div>');
+  });
+
+  it('nests runs to any depth, each inheriting the styles around it', () => {
+    expect(html(textRunsNested)).toBe(
+      '<div><span>A<span style="font-weight: bold;"> B<span style="color: red;"> C</span></span></span></div>',
+    );
+  });
+
+  it('leaves a text with no runs rendering exactly as before', () => {
+    expect(html('ptml:\n> text: Hello\n')).toBe('<div>Hello</div>');
+    expect(html('ptml:\n> text: Hello\n  - styles:\n    - color: red\n')).toBe(
+      '<div><span style="color: red;">Hello</span></div>',
+    );
+  });
+
+  it('still appends a break when the newline property is set', () => {
+    expect(html('ptml:\n> text: A\n  - newline:\n  > text:  B\n')).toBe('<div><span>A B</span><br></div>');
+  });
+});
+
+describe('Text whitespace handling', () => {
+  it('keeps leading spaces beyond the single delimiting space, and strips trailing ones', () => {
+    // This asymmetry is what spaces one inline run from the next, and what the
+    // generated language reference relies on to indent its code samples.
+    expect(html(textWhitespace)).toBe('<div> leading kepttrailing stripped   three kept</div>');
+  });
+
+  it('treats exactly one space after the colon as the delimiter', () => {
+    expect(html('ptml:\n> text: one\n')).toBe('<div>one</div>');
+    expect(html('ptml:\n> text:  one\n')).toBe('<div> one</div>');
+    expect(html('ptml:\n> text:   one\n')).toBe('<div>  one</div>');
   });
 });

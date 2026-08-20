@@ -323,3 +323,41 @@ ptml:
         - styles: code-line
     > text: Templates can accept arguments and be imported from other files, enabling modular PTML projects.
       - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Styling part of a sentence
+        - styles: section-title
+    > text: A text node can contain further text nodes. They render as inline runs of the same paragraph, so one word can be styled differently without breaking the line up:
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: > text: Open from
+        - styles: code-line
+      > text:   > text:  9am
+        - styles: code-line
+      > text:     - styles:
+        - styles: code-line
+      > text:       - color: magenta
+        - styles: code-line
+      > text:   > text:  to 5pm
+        - styles: code-line
+    > text: Because the runs are genuinely inline, the browser handles wrapping, line height and the width of a space. Do not reach for a flex row of boxes instead: a gap applies to both axes, so wrapped lines gain unwanted vertical space, and the horizontal gap is only ever a guess at how wide a space should be.
+      - styles: body-text
+  > box:
+    - styles: section
+    > header: h2
+      > text: Whitespace in text
+        - styles: section-title
+    > text: Exactly one space after the colon separates a node from its text. Any further leading spaces are part of the text, which is how each inline run above is spaced away from the one before it, and how the code samples on this page keep their indentation.
+      - styles: body-text
+    > box:
+      - styles: code-block
+      > text: > text: no leading space
+        - styles: code-line
+      > text: > text:  one leading space kept
+        - styles: code-line
+      > text: > text:   two leading spaces kept
+        - styles: code-line
+    > text: Trailing spaces are always stripped. They are invisible in the source and most editors remove them on save, so no document should depend on them. Where a space is needed between two runs, put it at the start of the following run.
+      - styles: body-text
