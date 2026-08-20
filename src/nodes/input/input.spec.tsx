@@ -1,7 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { basicInput, inputWithStyles, inputWithValue, inputInForm, inputDifferentTypes } from './input.example';
+import {
+  basicInput,
+  inputWithStyles,
+  inputWithValue,
+  inputInForm,
+  inputDifferentTypes,
+  inputWithPlaceholder,
+  inputWithPlaceholderFromState,
+} from './input.example';
 import { render as renderPtml, validate, parse } from '../../index';
 
 describe('Input (basicInput)', () => {
@@ -236,5 +244,40 @@ describe('Input (inputDifferentTypes)', () => {
     expect(ageInput).toBeInTheDocument();
     expect(ageInput).toHaveAttribute('type', 'number');
     expect(ageInput).toHaveAttribute('id', 'age');
+  });
+});
+
+describe('Input placeholder', () => {
+  it('validates an input with a placeholder', () => {
+    expect(validate(inputWithPlaceholder).isValid).toBe(true);
+  });
+
+  it('renders the placeholder onto the input element', () => {
+    render(<div>{renderPtml(inputWithPlaceholder)}</div>);
+    expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Your full name');
+  });
+
+  it('resolves a placeholder given as a state reference', () => {
+    render(<div>{renderPtml(inputWithPlaceholderFromState)}</div>);
+    expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'e.g. Ada Lovelace');
+  });
+
+  it('omits the attribute entirely when no placeholder is given', () => {
+    render(<div>{renderPtml(basicInput)}</div>);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('placeholder');
+  });
+
+  it('keeps the placeholder visible until the field has a value, then shows the value', async () => {
+    const user = userEvent.setup();
+    render(<div>{renderPtml(inputWithPlaceholder)}</div>);
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    expect(input.value).toBe('');
+    expect(input).toHaveAttribute('placeholder', 'Your full name');
+
+    await user.type(input, 'Ada');
+
+    expect(input.value).toBe('Ada');
+    expect(input).toHaveAttribute('placeholder', 'Your full name');
   });
 });

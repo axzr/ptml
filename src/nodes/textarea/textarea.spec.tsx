@@ -1,7 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { basicTextarea, textareaWithStyles, textareaWithValue, textareaInForm } from './textarea.example';
+import {
+  basicTextarea,
+  textareaWithStyles,
+  textareaWithValue,
+  textareaInForm,
+  textareaWithPlaceholder,
+  textareaWithPlaceholderFromState,
+} from './textarea.example';
 import { render as renderPtml, validate, parse } from '../../index';
 
 describe('Textarea (basicTextarea)', () => {
@@ -161,5 +168,26 @@ describe('Textarea (textareaInForm)', () => {
     await user.type(textarea, 'Test description');
 
     expect(textarea.value).toBe('Test description');
+  });
+});
+
+describe('Textarea placeholder', () => {
+  it('validates a textarea with a placeholder', () => {
+    expect(validate(textareaWithPlaceholder).isValid).toBe(true);
+  });
+
+  it('renders the placeholder onto the textarea element', () => {
+    render(<div>{renderPtml(textareaWithPlaceholder)}</div>);
+    expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Describe the problem');
+  });
+
+  it('resolves a placeholder given as a state reference', () => {
+    render(<div>{renderPtml(textareaWithPlaceholderFromState)}</div>);
+    expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'What happened, and when?');
+  });
+
+  it('omits the attribute entirely when no placeholder is given', () => {
+    render(<div>{renderPtml(basicTextarea)}</div>);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('placeholder');
   });
 });

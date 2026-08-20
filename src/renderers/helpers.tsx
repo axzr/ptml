@@ -33,6 +33,26 @@ export const buildBreakpointsMap = (nodes: Node[]): BreakpointsConfig | undefine
   return { map, labels };
 };
 
+// Attribute children (src, alt, placeholder) hold either a literal value or a
+// whole-value $reference. Unlike text nodes they don't interpolate mid-string,
+// so a literal starting with $ is read as a reference.
+export const resolveAttributeValue = (
+  data: string | undefined,
+  state?: StateMap,
+  loopVariables?: LoopVariablesMap,
+): string => {
+  const raw = (data ?? '').trim();
+  if (!raw) {
+    return '';
+  }
+  if (raw.startsWith('$')) {
+    const path = raw.slice(1).trim();
+    const resolved = resolveVariable(path, state ?? {}, loopVariables);
+    return resolved !== undefined ? String(resolved) : '';
+  }
+  return raw;
+};
+
 export const buildNamedStylesMap = (nodes: Node[]): NamedStylesMap => {
   const map: NamedStylesMap = {};
 

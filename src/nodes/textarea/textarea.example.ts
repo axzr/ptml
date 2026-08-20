@@ -38,7 +38,29 @@ const textareaInForm = `ptml:
       ! clear: form.description
 `;
 
-export { basicTextarea, textareaWithStyles, textareaWithValue, textareaInForm };
+const textareaWithPlaceholder = `ptml:
+> textarea:
+  - id: description
+  - placeholder: Describe the problem
+`;
+
+const textareaWithPlaceholderFromState = `state:
+- descriptionHint: What happened, and when?
+
+ptml:
+> textarea:
+  - id: description
+  - placeholder: $descriptionHint
+`;
+
+export {
+  basicTextarea,
+  textareaWithStyles,
+  textareaWithValue,
+  textareaInForm,
+  textareaWithPlaceholder,
+  textareaWithPlaceholderFromState,
+};
 
 export const docExample = `
 state:
@@ -47,5 +69,6 @@ state:
 ptml:
 > textarea:
   - value: $notes
+  - placeholder: Your notes
 > text: You wrote: $notes
 `;

@@ -1169,7 +1169,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). Inputs require an id and type (as key-value children), and can have optional styles.
+      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). Inputs require an id and type (as key-value children), and can have optional placeholder text and styles. Placeholder can be a literal string or a state reference (e.g. $hint).
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1188,6 +1188,8 @@ ptml:
         > text: type (required)
           - styles: node-doc-tag
         > text: value
+          - styles: node-doc-tag
+        > text: placeholder
           - styles: node-doc-tag
         > text: styles
           - styles: node-doc-tag
@@ -1208,6 +1210,8 @@ ptml:
         > text:   - value: $name
           - newline
         > text:   - type: text
+          - newline
+        > text:   - placeholder: Your name
           - newline
         > text: > text: Hello, $name!
           - newline
@@ -1863,7 +1867,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). Textareas require an id (as a key-value child), and can have optional styles.
+      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). Textareas require an id (as a key-value child), and can have optional placeholder text and styles. Placeholder can be a literal string or a state reference (e.g. $hint).
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1880,6 +1884,8 @@ ptml:
         > text: id (required)
           - styles: node-doc-tag
         > text: value
+          - styles: node-doc-tag
+        > text: placeholder
           - styles: node-doc-tag
         > text: styles
           - styles: node-doc-tag
@@ -1898,6 +1904,8 @@ ptml:
         > text: > textarea:
           - newline
         > text:   - value: $notes
+          - newline
+        > text:   - placeholder: Your notes
           - newline
         > text: > text: You wrote: $notes
           - newline

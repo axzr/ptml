@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getNodeStyles } from '../../renderers/helpers';
+import { getNodeStyles, resolveAttributeValue } from '../../renderers/helpers';
 import { resolveVariable } from '../../state/state';
 import type { RenderContext } from '../../renderers/types';
 
@@ -88,6 +88,9 @@ export const inputNodeToReact = (context: RenderContext): React.ReactNode => {
   const valueNode = node.children.find((child) => child.type === 'value');
   const defaultValue = valueNode?.data?.trim() || '';
 
+  const placeholderNode = node.children.find((child) => child.type === 'placeholder');
+  const placeholder = resolveAttributeValue(placeholderNode?.data, state, loopVariables);
+
   const currentValue = getCurrentValue(defaultValue, id, state, loopVariables);
   const onChange = createOnChangeHandler(defaultValue, id, setState);
 
@@ -100,6 +103,8 @@ export const inputNodeToReact = (context: RenderContext): React.ReactNode => {
       style: style as React.CSSProperties | undefined,
       value: currentValue,
       onChange,
+      // Omitted rather than empty so the attribute is absent from the DOM.
+      placeholder: placeholder || undefined,
     },
     null,
   );

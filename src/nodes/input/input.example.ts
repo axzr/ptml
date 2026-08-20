@@ -65,7 +65,32 @@ const inputDifferentTypes = `ptml:
       ! clear: form.age
 `;
 
-export { basicInput, inputWithStyles, inputWithValue, inputInForm, inputDifferentTypes };
+const inputWithPlaceholder = `ptml:
+> input:
+  - id: name
+  - type: text
+  - placeholder: Your full name
+`;
+
+const inputWithPlaceholderFromState = `state:
+- nameHint: e.g. Ada Lovelace
+
+ptml:
+> input:
+  - id: name
+  - type: text
+  - placeholder: $nameHint
+`;
+
+export {
+  basicInput,
+  inputWithStyles,
+  inputWithValue,
+  inputInForm,
+  inputDifferentTypes,
+  inputWithPlaceholder,
+  inputWithPlaceholderFromState,
+};
 
 export const docExample = `
 state:
@@ -75,5 +100,6 @@ ptml:
 > input:
   - value: $name
   - type: text
+  - placeholder: Your name
 > text: Hello, $name!
 `;
