@@ -45,13 +45,19 @@ ptml:
         - styles: node-doc-tag
       > text: checkbox
         - styles: node-doc-tag
+      > text: circle
+        - styles: node-doc-tag
       > text: compile
         - styles: node-doc-tag
       > text: debug
         - styles: node-doc-tag
       > text: each
         - styles: node-doc-tag
+      > text: ellipse
+        - styles: node-doc-tag
       > text: form
+        - styles: node-doc-tag
+      > text: group
         - styles: node-doc-tag
       > text: header
         - styles: node-doc-tag
@@ -61,6 +67,8 @@ ptml:
         - styles: node-doc-tag
       > text: label
         - styles: node-doc-tag
+      > text: line
+        - styles: node-doc-tag
       > text: link
         - styles: node-doc-tag
       > text: list
@@ -69,15 +77,25 @@ ptml:
         - styles: node-doc-tag
       > text: option
         - styles: node-doc-tag
+      > text: path
+        - styles: node-doc-tag
+      > text: polygon
+        - styles: node-doc-tag
+      > text: polyline
+        - styles: node-doc-tag
       > text: radio
         - styles: node-doc-tag
       > text: range
+        - styles: node-doc-tag
+      > text: rect
         - styles: node-doc-tag
       > text: row
         - styles: node-doc-tag
       > text: select
         - styles: node-doc-tag
       > text: show
+        - styles: node-doc-tag
+      > text: svg
         - styles: node-doc-tag
       > text: table
         - styles: node-doc-tag
@@ -869,6 +887,80 @@ ptml:
       - styles: node-doc-card
       > box:
         - styles: node-doc-header
+        > text: circle
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A circle shape inside an svg, positioned by cx and cy with radius r.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: cx
+          - styles: node-doc-tag
+        > text: cy
+          - styles: node-doc-tag
+        > text: r (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > circle:
+          - newline
+        > text:     - cx: 12
+          - newline
+        > text:     - cy: 12
+          - newline
+        > text:     - r: 10
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
         > text: compile
           - styles: node-doc-name
         > text: Block
@@ -1017,6 +1109,84 @@ ptml:
       - styles: node-doc-card
       > box:
         - styles: node-doc-header
+        > text: ellipse
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: An ellipse shape inside an svg, positioned by cx and cy with radii rx and ry.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: cx
+          - styles: node-doc-tag
+        > text: cy
+          - styles: node-doc-tag
+        > text: rx (required)
+          - styles: node-doc-tag
+        > text: ry (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > ellipse:
+          - newline
+        > text:     - cx: 12
+          - newline
+        > text:     - cy: 12
+          - newline
+        > text:     - rx: 10
+          - newline
+        > text:     - ry: 6
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
         > text: form
           - styles: node-doc-name
         > text: Block
@@ -1074,6 +1244,100 @@ ptml:
         > text:   > button:
           - newline
         > text:     > text: Submit
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: group
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Groups shapes inside an svg so a transform, fill or stroke can be applied to all of them at once. Renders an SVG g element.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: path
+          - styles: node-doc-tag
+        > text: circle
+          - styles: node-doc-tag
+        > text: ellipse
+          - styles: node-doc-tag
+        > text: rect
+          - styles: node-doc-tag
+        > text: line
+          - styles: node-doc-tag
+        > text: polyline
+          - styles: node-doc-tag
+        > text: polygon
+          - styles: node-doc-tag
+        > text: group
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > group:
+          - newline
+        > text:     - transform: translate(4 4)
+          - newline
+        > text:     - fill: currentColor
+          - newline
+        > text:     > path:
+          - newline
+        > text:       - d: M0 0h16
+          - newline
+        > text:     > path:
+          - newline
+        > text:       - d: M0 8h16
           - newline
     > box:
       - styles: node-doc-card
@@ -1270,6 +1534,86 @@ ptml:
         > text:   - id: email
           - newline
         > text:   - value: $email
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: line
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A straight line inside an svg, from (x1, y1) to (x2, y2). A line has no fill, so it needs a stroke to be visible.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: x1 (required)
+          - styles: node-doc-tag
+        > text: y1 (required)
+          - styles: node-doc-tag
+        > text: x2 (required)
+          - styles: node-doc-tag
+        > text: y2 (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   - stroke: currentColor
+          - newline
+        > text:   > line:
+          - newline
+        > text:     - x1: 3
+          - newline
+        > text:     - y1: 12
+          - newline
+        > text:     - x2: 21
+          - newline
+        > text:     - y2: 12
           - newline
     > box:
       - styles: node-doc-card
@@ -1473,6 +1817,208 @@ ptml:
       - styles: node-doc-card
       > box:
         - styles: node-doc-header
+        > text: path
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A path shape inside an svg. The d attribute holds the path data copied straight from an icon set. Inherits fill and stroke from its svg unless it sets its own.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: d (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > path:
+          - newline
+        > text:     - d: M3 12h18
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: polygon
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A closed shape inside an svg, given as a points list. Unlike polyline the final point joins back to the first.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: points (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > polygon:
+          - newline
+        > text:     - points: 12 2 22 22 2 22
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: polyline
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A connected series of straight lines inside an svg, given as a points list (e.g. "20 6 9 17 4 12").
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: points (required)
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   - fill: none
+          - newline
+        > text:   - stroke: currentColor
+          - newline
+        > text:   > polyline:
+          - newline
+        > text:     - points: 20 6 9 17 4 12
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
         > text: radio
           - styles: node-doc-name
         > text: Block
@@ -1590,6 +2136,90 @@ ptml:
         > text: > each: items as $item
           - newline
         > text:   > text: Item number $item
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: rect
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: A rectangle shape inside an svg. Width and height are required; x, y, rx and ry are optional.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: x
+          - styles: node-doc-tag
+        > text: y
+          - styles: node-doc-tag
+        > text: width (required)
+          - styles: node-doc-tag
+        > text: height (required)
+          - styles: node-doc-tag
+        > text: rx
+          - styles: node-doc-tag
+        > text: ry
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   > rect:
+          - newline
+        > text:     - x: 3
+          - newline
+        > text:     - y: 3
+          - newline
+        > text:     - width: 18
+          - newline
+        > text:     - height: 18
+          - newline
+        > text:     - rx: 2
           - newline
     > box:
       - styles: node-doc-card
@@ -1760,6 +2390,106 @@ ptml:
         > text: ptml:
           - newline
         > text: > show: greeting World
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: svg
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: An inline SVG, for icons and simple vector graphics. Requires a viewBox and contains shape children (path, circle, ellipse, rect, line, polyline, polygon, group). Because it renders inline rather than as an image, a fill or stroke of currentColor takes the surrounding text colour, and styles applies to it like any other block. An optional title gives it an accessible name; without one it is marked decorative.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Not accepted -- this node takes no inline data.
+        - styles: node-doc-detail-value
+      > text: CHILDREN
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: path
+          - styles: node-doc-tag
+        > text: circle
+          - styles: node-doc-tag
+        > text: ellipse
+          - styles: node-doc-tag
+        > text: rect
+          - styles: node-doc-tag
+        > text: line
+          - styles: node-doc-tag
+        > text: polyline
+          - styles: node-doc-tag
+        > text: polygon
+          - styles: node-doc-tag
+        > text: group
+          - styles: node-doc-tag
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > box:
+        - styles: toc-list
+        > text: viewBox (required)
+          - styles: node-doc-tag
+        > text: width
+          - styles: node-doc-tag
+        > text: height
+          - styles: node-doc-tag
+        > text: title
+          - styles: node-doc-tag
+        > text: fill
+          - styles: node-doc-tag
+        > text: fill-opacity
+          - styles: node-doc-tag
+        > text: fill-rule
+          - styles: node-doc-tag
+        > text: clip-rule
+          - styles: node-doc-tag
+        > text: stroke
+          - styles: node-doc-tag
+        > text: stroke-width
+          - styles: node-doc-tag
+        > text: stroke-linecap
+          - styles: node-doc-tag
+        > text: stroke-linejoin
+          - styles: node-doc-tag
+        > text: stroke-dasharray
+          - styles: node-doc-tag
+        > text: stroke-dashoffset
+          - styles: node-doc-tag
+        > text: stroke-opacity
+          - styles: node-doc-tag
+        > text: opacity
+          - styles: node-doc-tag
+        > text: transform
+          - styles: node-doc-tag
+        > text: styles
+          - styles: node-doc-tag
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: ptml:
+          - newline
+        > text: > svg:
+          - newline
+        > text:   - viewBox: 0 0 24 24
+          - newline
+        > text:   - fill: none
+          - newline
+        > text:   - stroke: currentColor
+          - newline
+        > text:   - stroke-width: 2
+          - newline
+        > text:   - title: Done
+          - newline
+        > text:   > polyline:
+          - newline
+        > text:     - points: 20 6 9 17 4 12
           - newline
     > box:
       - styles: node-doc-card

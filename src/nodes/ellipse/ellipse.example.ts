@@ -1,0 +1,10 @@
+export const docExample = `
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > ellipse:
+    - cx: 12
+    - cy: 12
+    - rx: 10
+    - ry: 6
+`;

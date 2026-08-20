@@ -31,6 +31,15 @@ import { rowSchema } from '../nodes/row/row.schema';
 import { tableSchema } from '../nodes/table/table.schema';
 import { cellSchema } from '../nodes/cell/cell.schema';
 import { keyValueSchema } from '../nodes/key-value/key-value.schema';
+import { svgSchema } from '../nodes/svg/svg.schema';
+import { pathSchema } from '../nodes/path/path.schema';
+import { circleSchema } from '../nodes/circle/circle.schema';
+import { ellipseSchema } from '../nodes/ellipse/ellipse.schema';
+import { rectSchema } from '../nodes/rect/rect.schema';
+import { lineSchema } from '../nodes/line/line.schema';
+import { polylineSchema } from '../nodes/polyline/polyline.schema';
+import { polygonSchema } from '../nodes/polygon/polygon.schema';
+import { groupSchema } from '../nodes/group/group.schema';
 import { valueListSchema } from '../nodes/valueList/valueList.schema';
 import { recordListSchema } from '../nodes/recordList/recordList.schema';
 import { addValueSchema } from '../nodes/addValue/addValue.schema';
@@ -95,6 +104,15 @@ const nodeSchemas: NodeSchema[] = [
   tableSchema,
   cellSchema,
   keyValueSchema,
+  svgSchema,
+  pathSchema,
+  circleSchema,
+  ellipseSchema,
+  rectSchema,
+  lineSchema,
+  polylineSchema,
+  polygonSchema,
+  groupSchema,
   valueListSchema,
   recordListSchema,
   addValueSchema,

@@ -222,6 +222,13 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const SvgErrors = {
+  missingGeometry: (nodeType: string, lineNumber: number, ...missing: string[]) =>
+    `${nodeType} node on line ${lineNumber} must have ${missing.join(' and ')}. Without ${missing.length > 1 ? 'them' : 'it'} the shape renders nothing.`,
+  missingViewBox: (lineNumber: number) =>
+    `svg node on line ${lineNumber} must have a viewBox (e.g. "- viewBox: 0 0 24 24"). Without one the shapes are drawn at their raw coordinates inside a default 300x150 canvas, so the icon appears tiny or clipped rather than scaling to fit.`,
+};
+
 export const FormFieldErrors = {
   missingBinding: (nodeType: string, lineNumber: number) =>
     `${nodeType} node on line ${lineNumber} must have an id (binding it to form.<id>) or a value bound to a state variable (e.g. "- value: $name"). With neither, the field renders but nothing can change it.`,
