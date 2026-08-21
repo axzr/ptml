@@ -2415,7 +2415,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments are bound to template parameters.
+      > text: Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments can be given positionally after the template name, which is convenient for single words and variable references, or as named children -- one per parameter, e.g. "- label: Back in stock soon". Named arguments are the only way to pass a value containing spaces, because positional arguments are separated by spaces; they can also be given in any order and omitted individually. The two styles cannot be mixed in one call. A parameter with no argument is empty, so templates can treat parameters as optional.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -2431,10 +2431,8 @@ ptml:
         - styles: node-doc-detail-value
       > text: PROPERTIES
         - styles: node-doc-detail-label
-      > box:
-        - styles: toc-list
-        > text: styles
-          - styles: node-doc-tag
+      > text: Any property (styles, plus one child per template parameter (e.g. "- label: Back in stock soon").)
+        - styles: node-doc-detail-value
       > text: EXAMPLE
         - styles: node-doc-detail-label
       > box:

@@ -63,6 +63,45 @@ const resolveArgumentValue = (
   return '';
 };
 
+// Named arguments are property children on the show node, for example
+// "- label: Back in stock soon". Multi-word values work for the same reason "- text:" does --
+// the rest of the line is the value -- so no quoting is needed anywhere in the
+// language. styles configures the show node itself, not the template.
+export const SHOW_OWN_PROPERTIES = new Set(['styles']);
+
+export const parseNamedTemplateArguments = (node: Node): Record<string, string> => {
+  const named: Record<string, string> = {};
+  node.children.forEach((child) => {
+    if (child.category !== 'property' || SHOW_OWN_PROPERTIES.has(child.type)) {
+      return;
+    }
+    named[child.type] = (child.data ?? '').trim();
+  });
+  return named;
+};
+
+export const hasNamedTemplateArguments = (node: Node): boolean =>
+  Object.keys(parseNamedTemplateArguments(node)).length > 0;
+
+export const bindNamedTemplateArguments = (
+  parameters: string[],
+  namedArgs: Record<string, string>,
+  state: StateMap,
+  loopVariables?: LoopVariablesMap,
+  lists?: ListMap,
+): LoopVariablesMap => {
+  const boundParams: LoopVariablesMap = {};
+
+  // Parameters with no matching argument stay empty, so a template can treat a
+  // parameter as optional.
+  parameters.forEach((paramName) => {
+    const argText = namedArgs[paramName] ?? '';
+    boundParams[paramName] = resolveArgumentValue(argText, state, loopVariables, lists);
+  });
+
+  return boundParams;
+};
+
 export const bindTemplateArguments = (
   parameters: string[],
   callArgs: string[],

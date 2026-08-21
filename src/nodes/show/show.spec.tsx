@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { validate, parse, render as renderPtml } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { TemplateArgumentErrors } from '../../errors/messages';
 import {
   showWithLiteralTemplate,
   showWithArguments,
@@ -9,6 +11,13 @@ import {
   showWithStyleOverride,
   showAsRoot,
   showWithDynamicTemplate,
+  showWithNamedArguments,
+  showWithNamedArgumentsReordered,
+  showWithOmittedArgument,
+  showWithNamedArgumentFromState,
+  showWithUnknownArgument,
+  showWithMixedArgumentStyles,
+  showWithTooManyPositionalArguments,
 } from './show.example';
 
 describe('Show Node', () => {
@@ -127,5 +136,60 @@ describe('Show Node', () => {
       expect(style.color).toBe('rgb(0, 0, 255)');
       expect(style.fontSize).toBe('2em');
     });
+  });
+});
+
+const textOf = (ptml: string): string => render(<div>{renderPtml(ptml)}</div>).container.textContent ?? '';
+
+describe('show with named arguments', () => {
+  it('passes a value containing spaces, which positional arguments cannot', () => {
+    expect(validate(showWithNamedArguments).isValid).toBe(true);
+    expect(textOf(showWithNamedArguments)).toBe('[Back in stock soon] [primary]');
+  });
+
+  it('does not care what order the arguments are written in', () => {
+    expect(textOf(showWithNamedArgumentsReordered)).toBe('[Back in stock soon] [primary]');
+  });
+
+  it('leaves an omitted parameter empty rather than complaining', () => {
+    expect(validate(showWithOmittedArgument).isValid).toBe(true);
+    expect(textOf(showWithOmittedArgument)).toBe('[Back in stock soon] []');
+  });
+
+  it('resolves a named argument given as a state reference', () => {
+    expect(textOf(showWithNamedArgumentFromState)).toBe('[Back in stock soon]');
+  });
+
+  it('rejects an argument the template has no parameter for', () => {
+    const validation = validate(showWithUnknownArgument);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(
+      validation,
+      TemplateArgumentErrors.unknownArgument,
+      0,
+      'labl',
+      'badge',
+      'Its parameters are: label',
+    );
+  });
+
+  it('rejects mixing positional and named arguments in one call', () => {
+    const validation = validate(showWithMixedArgumentStyles);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, TemplateArgumentErrors.mixedArgumentStyles, 0);
+  });
+});
+
+describe('show with positional arguments', () => {
+  it('rejects more arguments than the template has parameters, which were silently dropped', () => {
+    const validation = validate(showWithTooManyPositionalArguments);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, TemplateArgumentErrors.tooManyArguments, 0, 'badge', 1, 4);
+  });
+
+  it('still accepts fewer arguments than parameters, so parameters stay optional', () => {
+    const ptml = `template: badge label kind\n> text: [$label] [$kind]\n\nptml:\n> show: badge New\n`;
+    expect(validate(ptml).isValid).toBe(true);
+    expect(textOf(ptml)).toBe('[New] []');
   });
 });

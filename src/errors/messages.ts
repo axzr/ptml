@@ -109,6 +109,15 @@ export const VariableErrors = {
     `${nodeType} node on line ${lineNumber} uses state variable $${varName} but should use a loop variable (available: ${availableLoopVars}). Use the loop variable instead of a state variable when inside an each loop.`,
 };
 
+export const TemplateArgumentErrors = {
+  mixedArgumentStyles: (lineNumber: number) =>
+    `show node on line ${lineNumber} passes arguments both after the template name and as named children. Use one or the other.`,
+  unknownArgument: (lineNumber: number, argument: string, templateName: string, parameters: string) =>
+    `show node on line ${lineNumber} passes "${argument}", which is not a parameter of template "${templateName}". ${parameters}`,
+  tooManyArguments: (lineNumber: number, templateName: string, expected: number, found: number) =>
+    `show node on line ${lineNumber} passes ${found} arguments to template "${templateName}", which takes ${expected}. Arguments after the template name are separated by spaces, so a value containing spaces is read as several arguments and the extras are dropped. Pass it as a named child instead, e.g. "- label: Back in stock soon".`,
+};
+
 export const FormStateErrors = {
   unknownFormField: (nodeType: string, lineNumber: number, field: string, known: string) =>
     `${nodeType} node on line ${lineNumber} reads $form.${field}, but no field in this document declares the id "${field}". ${known}`,

@@ -6,6 +6,9 @@ import {
   parseTemplateParameters,
   parseTemplateArguments,
   bindTemplateArguments,
+  bindNamedTemplateArguments,
+  hasNamedTemplateArguments,
+  parseNamedTemplateArguments,
 } from '../../templates/templateOperations';
 import { getVariableValue } from '../../evaluation/conditionals';
 import type { Node } from '../../types';
@@ -99,8 +102,9 @@ const resolveTemplateAndBindParams = (
   }
 
   const parameters = parseTemplateParameters(templateNode);
-  const arguments_ = parseTemplateArguments(node);
-  const boundParams = bindTemplateArguments(parameters, arguments_, state, loopVariables, lists);
+  const boundParams = hasNamedTemplateArguments(node)
+    ? bindNamedTemplateArguments(parameters, parseNamedTemplateArguments(node), state, loopVariables, lists)
+    : bindTemplateArguments(parameters, parseTemplateArguments(node), state, loopVariables, lists);
 
   return { templateNode, boundParams, templateName };
 };

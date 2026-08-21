@@ -29,6 +29,8 @@ export type ValidationContext = {
   // time, or an import could declare more.
   availableFieldIds?: Set<string>;
   fieldIdsAreKnown?: boolean;
+  // Declared parameters per template name, for checking named show arguments.
+  templateParameters?: Record<string, string[]>;
 };
 
 export type ChildValidator = (child: Node, context: ValidationContext) => void;

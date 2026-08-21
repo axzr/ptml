@@ -8,12 +8,16 @@ export const showSchema: NodeSchema = {
   isRenderable: true,
   allowedAsContainerChild: true,
   description:
-    'Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments are bound to template parameters.',
+    'Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments can be given positionally after the template name, which is convenient for single words and variable references, or as named children -- one per parameter, e.g. "- label: Back in stock soon". Named arguments are the only way to pass a value containing spaces, because positional arguments are separated by spaces; they can also be given in any order and omitted individually. The two styles cannot be mixed in one call. A parameter with no argument is empty, so templates can treat parameters as optional.',
   blocks: {
     list: [],
   },
   properties: {
-    list: [{ name: 'styles' }],
+    // Named template arguments are property children whose names come from the
+    // template being shown, so they cannot be listed here; validateShow checks
+    // them against that template's declared parameters.
+    allowAny: true,
+    description: 'styles, plus one child per template parameter (e.g. "- label: Back in stock soon").',
   },
   data: {
     required: true,

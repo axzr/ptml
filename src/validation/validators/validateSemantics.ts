@@ -78,6 +78,19 @@ const collectTemplateNames = (nodes: Node[]): Set<string> => {
   return names;
 };
 
+const collectTemplateParameters = (nodes: Node[]): Record<string, string[]> => {
+  const parameters: Record<string, string[]> = {};
+  nodes.forEach((n) => {
+    if (n.type === 'template' && n.data) {
+      const parts = splitOnWhitespace(n.data.trim());
+      if (parts.length > 0) {
+        parameters[parts[0]] = parts.slice(1);
+      }
+    }
+  });
+  return parameters;
+};
+
 const collectDefineNames = (nodes: Node[]): Set<string> => {
   const names = new Set<string>();
   nodes.forEach((n) => {
@@ -124,9 +137,10 @@ const buildAvailableFromImports = (
   rootNodes: Node[],
   files: PtmlFilesMap,
   visited: Set<string>,
-): { templates: Set<string>; defines: Set<string> } => {
+): { templates: Set<string>; defines: Set<string>; importedParameters: Record<string, string[]> } => {
   const templates = new Set<string>();
   const defines = new Set<string>();
+  const importedParameters: Record<string, string[]> = {};
   rootNodes.forEach((node) => {
     if (node.type !== 'import' || !node.data) return;
     const filename = node.data.trim();
@@ -137,12 +151,13 @@ const buildAvailableFromImports = (
     try {
       const importedNodes = parse(content);
       collectTemplateNames(importedNodes).forEach((t) => templates.add(t));
+      Object.assign(importedParameters, collectTemplateParameters(importedNodes));
       collectDefineNames(importedNodes).forEach((d) => defines.add(d));
     } catch {
       // ignore parse errors in imported file
     }
   });
-  return { templates, defines };
+  return { templates, defines, importedParameters };
 };
 
 type AvailableNames = {
@@ -151,12 +166,14 @@ type AvailableNames = {
   availableBreakpoints: Set<string>;
   availableFieldIds: Set<string>;
   fieldIdsAreKnown: boolean;
+  templateParameters: Record<string, string[]>;
 };
 
 const hasImports = (nodes: Node[]): boolean => nodes.some((node) => node.type === 'import');
 
 const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNames => {
   const availableTemplates = collectTemplateNames(nodes);
+  const templateParameters = collectTemplateParameters(nodes);
   const availableDefines = collectDefineNames(nodes);
   let availableBreakpoints = collectBreakpointLabels(nodes);
 
@@ -164,6 +181,7 @@ const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNa
     const visited = new Set<string>();
     const fromImports = buildAvailableFromImports(nodes, files, visited);
     fromImports.templates.forEach((t) => availableTemplates.add(t));
+    Object.assign(templateParameters, fromImports.importedParameters);
     fromImports.defines.forEach((d) => availableDefines.add(d));
     if (availableBreakpoints.size === 0) {
       availableBreakpoints = collectImportedBreakpointLabels(nodes, files);
@@ -177,6 +195,7 @@ const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNa
     availableBreakpoints,
     availableFieldIds: fieldIds.ids,
     fieldIdsAreKnown: fieldIds.allKnown,
+    templateParameters,
   };
 };
 
