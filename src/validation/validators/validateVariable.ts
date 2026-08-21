@@ -10,8 +10,12 @@ import {
   getTemplateParameters,
   checkLoopVariableInStack,
   isInsideNamedStyleDefinition,
+  isFormFieldReference,
+  isKnownFormField,
+  getFormFieldName,
+  describeDeclaredFieldIds,
 } from './helpers';
-import { VariableErrors } from '../../errors/messages';
+import { FormStateErrors, VariableErrors } from '../../errors/messages';
 import { getSchemaMap } from '../../schemaRegistry/schemaMap';
 import { inferLoopVariableExtractor } from './validateLoopVariables';
 
@@ -171,6 +175,20 @@ const checkVariableValidity = (varRef: string, context: ValidationContext, isInL
   return false;
 };
 
+const validateFormFieldReference = (varRef: string, node: Node, context: ValidationContext): void => {
+  if (isKnownFormField(varRef, context)) {
+    return;
+  }
+  throw new Error(
+    FormStateErrors.unknownFormField(
+      node.type,
+      node.lineNumber,
+      getFormFieldName(varRef),
+      describeDeclaredFieldIds(context),
+    ),
+  );
+};
+
 const validateLoopVariableNotInContext = (
   varRef: string,
   node: Node,
@@ -198,6 +216,11 @@ export const validateIfVariableExists = (varRef: string, node: Node, context: Va
   }
 
   validateLoopVariableNotInContext(varRef, node, context, isInLoop);
+
+  if (isFormFieldReference(varRef)) {
+    validateFormFieldReference(varRef, node, context);
+    return;
+  }
 
   const isValid = checkVariableValidity(varRef, context, isInLoop);
 

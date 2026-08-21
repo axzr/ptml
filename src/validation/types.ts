@@ -24,6 +24,11 @@ export type ValidationContext = {
   availableTemplates?: Set<string>;
   availableDefines?: Set<string>;
   availableBreakpoints?: Set<string>;
+  // Ids declared by form fields; also the keys of the implicit form state
+  // object. fieldIdsAreKnown is false when some id is only known at render
+  // time, or an import could declare more.
+  availableFieldIds?: Set<string>;
+  fieldIdsAreKnown?: boolean;
 };
 
 export type ChildValidator = (child: Node, context: ValidationContext) => void;

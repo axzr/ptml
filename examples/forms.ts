@@ -12,7 +12,7 @@ form:
 - button:
   - text: Submit
   - click:
-    - set: name form.name
+    - set: name $form.name
     - clear: form.name
 `;
 

@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
+  inputSubmittedToState,
+  inputSubmittedWithoutDollar,
+  inputSubmittedFromUnknownField,
   inputWithNoBinding,
   inputBoundByValueOnly,
   inputWithoutType,
@@ -15,7 +18,7 @@ import {
 } from './input.example';
 import { render as renderPtml, validate, parse } from '../../index';
 import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
-import { FormFieldErrors } from '../../errors/messages';
+import { FormFieldErrors, FormStateErrors } from '../../errors/messages';
 
 describe('Input (basicInput)', () => {
   it('validates basicInput', () => {
@@ -321,5 +324,41 @@ describe('Input binding', () => {
     await user.type(input, 'Ada');
 
     expect(input.value).toBe('Ada');
+  });
+});
+
+describe('reading a field back out of form state', () => {
+  it('accepts $form.<field> naming a field the document declares', () => {
+    const result = validate(inputSubmittedToState);
+    expect(result.isValid ? true : result.errorMessage).toBe(true);
+  });
+
+  it('carries the typed value into state', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<div>{renderPtml(inputSubmittedToState)}</div>);
+
+    await user.type(screen.getByRole('textbox'), 'Ada');
+    await user.click(screen.getByText('Submit'));
+
+    expect(container.textContent).toContain('Submitted: Ada');
+  });
+
+  it('rejects the same reference without its $, which would set the literal text', () => {
+    const validation = validate(inputSubmittedWithoutDollar);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, FormStateErrors.missingDollar, 'set', 0, 'form.name');
+  });
+
+  it('rejects $form.<field> naming a field nothing declares', () => {
+    const validation = validate(inputSubmittedFromUnknownField);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(
+      validation,
+      FormStateErrors.unknownFormField,
+      'set',
+      0,
+      'nmae',
+      'Declared ids: name',
+    );
   });
 });

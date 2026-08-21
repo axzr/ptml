@@ -20,7 +20,7 @@ const checkboxInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $agree form.agree
+      ! set: $agree $form.agree
 `;
 
 const checkboxWithStyles = `ptml:
@@ -43,8 +43,8 @@ const multipleCheckboxesInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $newsletter form.newsletter
-      ! set: $terms form.terms
+      ! set: $newsletter $form.newsletter
+      ! set: $terms $form.terms
 `;
 
 const checkboxWithNoBinding = `ptml:

@@ -58,7 +58,7 @@ const selectInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $country form.country
+      ! set: $country $form.country
       ! clear: form.country
 `;
 
@@ -84,7 +84,7 @@ ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $selectedCountry form.country
+      ! set: $selectedCountry $form.country
 `;
 
 const selectWithNoBinding = `ptml:

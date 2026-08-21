@@ -33,7 +33,7 @@ const radioInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $size form.size
+      ! set: $size $form.size
 `;
 
 const radioWithStyles = `ptml:
@@ -65,8 +65,8 @@ const multipleGroupsInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $size form.size
-      ! set: $color form.color
+      ! set: $size $form.size
+      ! set: $color $form.color
 `;
 
 export { basicRadio, radioWithSelected, radioInForm, radioWithStyles, multipleGroupsInForm };

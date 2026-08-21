@@ -109,6 +109,13 @@ export const VariableErrors = {
     `${nodeType} node on line ${lineNumber} uses state variable $${varName} but should use a loop variable (available: ${availableLoopVars}). Use the loop variable instead of a state variable when inside an each loop.`,
 };
 
+export const FormStateErrors = {
+  unknownFormField: (nodeType: string, lineNumber: number, field: string, known: string) =>
+    `${nodeType} node on line ${lineNumber} reads $form.${field}, but no field in this document declares the id "${field}". ${known}`,
+  missingDollar: (nodeType: string, lineNumber: number, reference: string) =>
+    `${nodeType} node on line ${lineNumber} has the value "${reference}", which is read as the literal text "${reference}" rather than the field's contents. Write "$${reference}" to read the field.`,
+};
+
 export const ListErrors = {
   undefinedList: (nodeType: string, lineNumber: number, listName: string) =>
     `${nodeType} node on line ${lineNumber} references undefined list "${listName}". Ensure the list is defined before using it.`,

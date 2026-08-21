@@ -4,7 +4,7 @@ import { parse } from '../../parsers/parser';
 import { buildStateAndLists, type StateMap, type ListMap } from '../../state/state';
 import { buildFunctionMap } from '../../evaluation/functionOperations';
 import { validateRootNodes } from './validateRootNodes';
-import { validateIds } from './validateIds';
+import { collectFieldIds, validateIds } from './validateIds';
 import { getSchemaMap } from '../../schemaRegistry/schemaMap';
 import { splitOnWhitespace } from '../../utils/regexPatterns';
 import { StateErrors } from '../../errors/messages';
@@ -149,7 +149,11 @@ type AvailableNames = {
   availableTemplates: Set<string>;
   availableDefines: Set<string>;
   availableBreakpoints: Set<string>;
+  availableFieldIds: Set<string>;
+  fieldIdsAreKnown: boolean;
 };
+
+const hasImports = (nodes: Node[]): boolean => nodes.some((node) => node.type === 'import');
 
 const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNames => {
   const availableTemplates = collectTemplateNames(nodes);
@@ -166,7 +170,14 @@ const collectAvailableNames = (nodes: Node[], files?: PtmlFilesMap): AvailableNa
     }
   }
 
-  return { availableTemplates, availableDefines, availableBreakpoints };
+  const fieldIds = collectFieldIds(nodes, hasImports(nodes));
+  return {
+    availableTemplates,
+    availableDefines,
+    availableBreakpoints,
+    availableFieldIds: fieldIds.ids,
+    fieldIdsAreKnown: fieldIds.allKnown,
+  };
 };
 
 const buildValidationContext = (ptml: string, files?: PtmlFilesMap): ValidationContext => {
@@ -216,8 +227,5 @@ export const validateSemantics = (ptml: string, files?: PtmlFilesMap): void => {
   }
 
   validateRootNodes(nodes, context);
-  validateIds(
-    nodes,
-    nodes.some((node) => node.type === 'import'),
-  );
+  validateIds(nodes, hasImports(nodes));
 };

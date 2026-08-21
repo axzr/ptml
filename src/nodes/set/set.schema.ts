@@ -6,7 +6,7 @@ export const setSchema: NodeSchema = {
   name: 'set',
   category: 'action',
   description:
-    'Sets a state variable to a value. The variable name must start with $. The value can be a literal or an expression using pipes.',
+    'Sets a state variable to a value. The variable name must start with $. The value can be a literal or an expression using pipes. A form field is read back with $form.<field>, where the field is an input, textarea, select or checkbox id, or a radio group name -- for example "! set: $email $form.email". Written without the $ it is the literal text "form.email", not the contents of the field.',
   blocks: {
     list: [],
   },

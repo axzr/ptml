@@ -200,3 +200,28 @@ export const validateValueExpressionVariables = (
     }
   }
 };
+
+// Form fields write into an implicit "form" state object keyed by field id, so
+// $form.email reads the email field. It is never declared in a state block --
+// it comes into being as fields render -- which is why it needs recognising
+// here rather than being found in stateMap.
+export const FORM_STATE_PREFIX = 'form.';
+
+export const isFormFieldReference = (varRef: string): boolean =>
+  varRef.startsWith(FORM_STATE_PREFIX) && varRef.length > FORM_STATE_PREFIX.length;
+
+export const getFormFieldName = (varRef: string): string => varRef.slice(FORM_STATE_PREFIX.length);
+
+// True when the reference names a field this document actually declares, or
+// when the ids cannot all be known statically and we should not guess.
+export const isKnownFormField = (varRef: string, context: ValidationContext): boolean => {
+  if (!context.fieldIdsAreKnown) {
+    return true;
+  }
+  return context.availableFieldIds?.has(getFormFieldName(varRef)) ?? true;
+};
+
+export const describeDeclaredFieldIds = (context: ValidationContext): string => {
+  const ids = Array.from(context.availableFieldIds ?? []).sort();
+  return ids.length === 0 ? 'No field in this document declares an id.' : `Declared ids: ${ids.join(', ')}`;
+};

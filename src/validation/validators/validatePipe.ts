@@ -7,9 +7,42 @@ import {
   isInsideTemplate,
   getTemplateParameters,
   checkLoopVariableInStack,
+  isFormFieldReference,
+  isKnownFormField,
+  getFormFieldName,
+  describeDeclaredFieldIds,
 } from './helpers';
 import { extractAllVariableReferences } from '../../utils/regexPatterns';
-import { VariableErrors } from '../../errors/messages';
+import { FormStateErrors, VariableErrors } from '../../errors/messages';
+
+const isKnownVariable = (
+  varRef: string,
+  context: ValidationContext,
+  isInLoop: boolean,
+  functionParameters: string[],
+  templateParameters: string[],
+  isInFunction: boolean,
+  isInTemplate: boolean,
+): boolean =>
+  Boolean(context.stateMap && varRef in context.stateMap) ||
+  Boolean(isInLoop && checkLoopVariableInStack(varRef, context.stack)) ||
+  Boolean(context.listMap && varRef in context.listMap) ||
+  (isInFunction && functionParameters.includes(varRef)) ||
+  (isInTemplate && templateParameters.includes(varRef));
+
+const validateFormFieldReference = (varRef: string, node: Node, context: ValidationContext): void => {
+  if (isKnownFormField(varRef, context)) {
+    return;
+  }
+  throw new Error(
+    FormStateErrors.unknownFormField(
+      node.type,
+      node.lineNumber,
+      getFormFieldName(varRef),
+      describeDeclaredFieldIds(context),
+    ),
+  );
+};
 
 const validatePipeExpressionVariable = (
   varRef: string,
@@ -21,13 +54,12 @@ const validatePipeExpressionVariable = (
   isInFunction: boolean,
   isInTemplate: boolean,
 ): void => {
-  const isStateVariable = context.stateMap && varRef in context.stateMap;
-  const isLoopVariable = isInLoop && checkLoopVariableInStack(varRef, context.stack);
-  const isListVariable = context.listMap && varRef in context.listMap;
-  const isFunctionParameter = isInFunction && functionParameters.includes(varRef);
-  const isTemplateParameter = isInTemplate && templateParameters.includes(varRef);
+  if (isKnownVariable(varRef, context, isInLoop, functionParameters, templateParameters, isInFunction, isInTemplate)) {
+    return;
+  }
 
-  if (isStateVariable || isLoopVariable || isListVariable || isFunctionParameter || isTemplateParameter) {
+  if (isFormFieldReference(varRef)) {
+    validateFormFieldReference(varRef, node, context);
     return;
   }
 

@@ -37,7 +37,7 @@ const inputInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $name form.name
+      ! set: $name $form.name
       ! clear: form.name
 `;
 
@@ -58,8 +58,8 @@ const inputDifferentTypes = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $email form.email
-      ! set: $age form.age
+      ! set: $email $form.email
+      ! set: $age $form.age
       ! clear: form.email
       ! clear: form.password
       ! clear: form.age
@@ -103,7 +103,55 @@ const inputWithoutType = `ptml:
   - id: name
 `;
 
+// Reading a field back out into state: the $ is what makes it a reference
+// rather than the literal text "form.name".
+const inputSubmittedToState = `state:
+- submitted:
+
+ptml:
+> form:
+  > input:
+    - id: name
+    - type: text
+  > button:
+    > text: Submit
+    - click:
+      ! set: $submitted $form.name
+  > text: Submitted: $submitted
+`;
+
+const inputSubmittedWithoutDollar = `state:
+- submitted:
+
+ptml:
+> form:
+  > input:
+    - id: name
+    - type: text
+  > button:
+    > text: Submit
+    - click:
+      ! set: $submitted form.name
+`;
+
+const inputSubmittedFromUnknownField = `state:
+- submitted:
+
+ptml:
+> form:
+  > input:
+    - id: name
+    - type: text
+  > button:
+    > text: Submit
+    - click:
+      ! set: $submitted $form.nmae
+`;
+
 export {
+  inputSubmittedToState,
+  inputSubmittedWithoutDollar,
+  inputSubmittedFromUnknownField,
   inputWithNoBinding,
   inputBoundByValueOnly,
   inputWithoutType,

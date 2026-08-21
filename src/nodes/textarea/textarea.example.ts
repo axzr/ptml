@@ -34,7 +34,7 @@ const textareaInForm = `ptml:
   > button:
     > text: Submit
     - click:
-      ! set: $description form.description
+      ! set: $description $form.description
       ! clear: form.description
 `;
 
