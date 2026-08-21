@@ -30,7 +30,13 @@ const hasClickNode = (node: Node): boolean => {
 };
 
 const hasFormInputs = (node: Node): boolean => {
-  if (node.type === 'textarea' || node.type === 'input' || node.type === 'checkbox' || node.type === 'radio') {
+  if (
+    node.type === 'textarea' ||
+    node.type === 'input' ||
+    node.type === 'checkbox' ||
+    node.type === 'radio' ||
+    node.type === 'select'
+  ) {
     return true;
   }
   return node.children.some((child) => hasFormInputs(child));

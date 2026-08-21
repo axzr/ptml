@@ -359,7 +359,7 @@ const MINIMAL_CHILDREN_OVERRIDES: Record<string, string[]> = {
   input: ['- id: name'],
   textarea: ['- id: notes'],
   checkbox: ['- id: accept'],
-  select: ['- id: country'],
+  select: ['- id: country', '> option: United Kingdom\n  - value: uk'],
 };
 
 const generateRequiredChildren = (schema: NodeSchema): string[] => {

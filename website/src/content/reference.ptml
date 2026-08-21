@@ -1819,7 +1819,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: An option element for select dropdowns. Option elements define the choices available in a select dropdown. The data field contains the display text (visible to the user), and a value key-value child specifies the option value.
+      > text: An option element for select dropdowns. Option elements define the choices available in a select dropdown. The data field contains the display text (visible to the user), and a value key-value child specifies the option value. The display text is interpolated like any other text, so "$country.name" works for options generated inside an each, and the value child accepts a state reference in the same way.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -2341,7 +2341,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
+      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item. Options may be written out directly, or generated with an each over a list, and may be guarded by if/else or come from a template via show. A select must contain at least one of these; a select with no way to produce options renders a dropdown with nothing to choose. A list that happens to be empty at runtime is fine. Other block nodes are not allowed inside a select, because a select element may only hold options.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -2357,6 +2357,14 @@ ptml:
         - styles: toc-list
         > text: option
           - styles: node-doc-tag
+        > text: each
+          - styles: node-doc-tag
+        > text: if
+          - styles: node-doc-tag
+        > text: else
+          - styles: node-doc-tag
+        > text: show
+          - styles: node-doc-tag
       > text: PROPERTIES
         - styles: node-doc-detail-label
       > box:
@@ -2367,6 +2375,8 @@ ptml:
           - styles: node-doc-tag
         > text: styles
           - styles: node-doc-tag
+      > text: Supports ? if: and ? else: conditionals.
+        - styles: node-doc-detail-value
       > text: EXAMPLE
         - styles: node-doc-detail-label
       > box:

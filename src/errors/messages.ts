@@ -222,6 +222,11 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const SelectErrors = {
+  noOptions: (lineNumber: number) =>
+    `select node on line ${lineNumber} has no options, so it renders a dropdown with nothing to choose. Add an option child, or an each that generates them.`,
+};
+
 export const IdErrors = {
   forTargetNotFound: (lineNumber: number, target: string, known: string) =>
     `label node on line ${lineNumber} has "- for: ${target}", but no field in this document declares that id, so the label is linked to nothing. ${known}`,

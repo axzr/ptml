@@ -78,7 +78,7 @@ ptml:
   > text: Select Country:
   > select:
     - id: country
-    > each: countries as country
+    > each: countries as $country
       > option: $country.name
         - value: $country.code
   > button:
@@ -104,7 +104,67 @@ ptml:
     - value: uk
 `;
 
+const selectSortedOptions = `recordList: countries
+- record:
+  - code: us
+  - name: United States
+- record:
+  - code: ca
+  - name: Canada
+
+ptml:
+> select:
+  - id: country
+  > each: countries as $country
+    - sort: name
+    > option: $country.name
+      - value: $country.code
+`;
+
+const selectWithConditionalOption = `state:
+- advanced: true
+
+ptml:
+> select:
+  - id: mode
+  > option: Basic
+    - value: basic
+  ? if: $advanced is true
+    > option: Advanced
+      - value: advanced
+`;
+
+const selectWithNoOptions = `ptml:
+> select:
+  - id: country
+`;
+
+// Legitimate: the list may be empty at runtime, but the select can produce
+// options, so it is not an empty dropdown by construction.
+const selectOverPossiblyEmptyList = `recordList: countries
+
+ptml:
+> select:
+  - id: country
+  > each: countries as $country
+    > option: $country.name
+      - value: $country.code
+`;
+
+const selectWithBoxChild = `ptml:
+> select:
+  - id: country
+  > box:
+    > option: UK
+      - value: uk
+`;
+
 export {
+  selectSortedOptions,
+  selectWithConditionalOption,
+  selectWithNoOptions,
+  selectOverPossiblyEmptyList,
+  selectWithBoxChild,
   basicSelect,
   selectWithStyles,
   selectWithValue,
