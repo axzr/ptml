@@ -38,7 +38,7 @@ const getLinkContent = (context: RenderContext, keyPrefix: string, textContent: 
 
 export const linkNodeToReact = (context: RenderContext): React.ReactNode => {
   const { node, keyPrefix = '', namedStyles, state, loopVariables } = context;
-  const style = getNodeStyles(node, namedStyles, state, loopVariables);
+  const style = getNodeStyles(node, namedStyles, state, loopVariables, context.viewportWidth, context.breakpoints);
 
   const hrefNode = node.children.find((child) => child.type === 'href');
   const hrefData = hrefNode?.data?.trim() || '';

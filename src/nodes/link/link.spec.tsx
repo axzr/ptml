@@ -9,6 +9,7 @@ import {
   linkWithStyles,
   linkWithChild,
   linkWithClick,
+  linkWithBreakpointStyles,
 } from './link.example';
 import { render as renderPtml, validate, parse } from '../../index';
 
@@ -243,5 +244,20 @@ describe('Link (linkWithClick)', () => {
     await user.click(screen.getByRole('link', { name: 'Go to home' }));
     expect(screen.getByText('Home page')).toBeInTheDocument();
     expect(screen.queryByText('Shop page')).not.toBeInTheDocument();
+  });
+});
+
+describe('Link responsive styles', () => {
+  const fontSizeAt = (viewportWidth: number): string | undefined => {
+    const { container } = render(<div>{renderPtml(linkWithBreakpointStyles, undefined, viewportWidth)}</div>);
+    return container.querySelector('a')?.getAttribute('style') ?? undefined;
+  };
+
+  it('applies base styles below the breakpoint', () => {
+    expect(fontSizeAt(375)).toContain('font-size: 14px');
+  });
+
+  it('applies the breakpoint override above it, as every other node does', () => {
+    expect(fontSizeAt(1440)).toContain('font-size: 24px');
   });
 });

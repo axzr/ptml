@@ -15,7 +15,8 @@ ptml:
     - styles: nav-bar
     > text: PTML
       - styles: nav-brand
-    > button:
+    > link:
+      - href: /
       - styles: nav-button
       - styles
         ? if: $currentPage is home
@@ -25,7 +26,8 @@ ptml:
       - click:
         ! set: $currentPage home
         ! window: scrollTop
-    > button:
+    > link:
+      - href: /getting-started/
       - styles: nav-button
       - styles
         ? if: $currentPage is getting-started
@@ -35,7 +37,8 @@ ptml:
       - click:
         ! set: $currentPage getting-started
         ! window: scrollTop
-    > button:
+    > link:
+      - href: /reference/
       - styles: nav-button
       - styles
         ? if: $currentPage is reference

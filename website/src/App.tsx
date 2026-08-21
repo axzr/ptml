@@ -1,5 +1,8 @@
+import { useMemo } from 'react';
 import { usePtmlRender } from 'ptml';
 import type { PtmlFilesMap } from 'ptml';
+
+import { pageFromPath } from './routes';
 
 import sitePtml from './content/site.ptml?raw';
 import stylesPtml from './content/styles.ptml?raw';
@@ -15,7 +18,11 @@ const ptmlFiles: PtmlFilesMap = {
 };
 
 export function App() {
-  const { node, error } = usePtmlRender(sitePtml, { files: ptmlFiles });
+  const externalState = useMemo(
+    () => ({ currentPage: pageFromPath(typeof window === 'undefined' ? '/' : window.location.pathname) }),
+    [],
+  );
+  const { node, error } = usePtmlRender(sitePtml, { files: ptmlFiles, externalState });
 
   if (error) {
     return <pre style={{ color: '#dc2626', padding: '2rem', fontFamily: 'monospace' }}>{error}</pre>;

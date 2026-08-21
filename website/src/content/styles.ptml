@@ -27,6 +27,8 @@ define: nav-button
 - padding: 0.5rem 0.75rem
 - border-radius: 0.375rem
 - font-family: Inter, system-ui, sans-serif
+- text-decoration: none
+- display: inline-block
 
 define: main-content
 - flex: 1

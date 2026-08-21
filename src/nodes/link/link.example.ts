@@ -63,6 +63,24 @@ ptml:
 > show: $page
 `;
 
+// link was the only renderable node that dropped viewportWidth and breakpoints
+// when resolving its styles, so responsive styles on a link did nothing at all.
+const linkWithBreakpointStyles = `breakpoints:
+- mobile: 768
+- desktop:
+
+define: nav-link
+- font-size: 14px
+> breakpoint: desktop or more
+  - font-size: 24px
+
+ptml:
+> link:
+  - href: /about
+  - text: About
+  - styles: nav-link
+`;
+
 export {
   basicLink,
   linkWithText,
@@ -71,6 +89,7 @@ export {
   linkWithStyles,
   linkWithChild,
   linkWithClick,
+  linkWithBreakpointStyles,
 };
 
 export const docExample = `

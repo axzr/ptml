@@ -252,6 +252,7 @@ export const render = (
   viewportWidth?: number,
   externalLists?: ListMap,
   onFontsUnavailable?: RenderContext['onFontsUnavailable'],
+  externalState?: StateMap,
 ): React.ReactNode | null => {
   const nodes = parse(ptml);
   if (nodes.length === 0) {
@@ -269,23 +270,19 @@ export const render = (
   // actually require the name to be declared at all.
   const lists = externalLists ? { ...initialLists, ...externalLists } : initialLists;
 
+  // Host-supplied state, merged over what the document declares, in the same
+  // spirit as externalLists. It exists so a host can seed state it alone knows:
+  // the documentation site derives which page to show from the URL, and needs
+  // the prerendered HTML and the hydrating client to agree on it.
+  const state = externalState ? { ...initialState, ...externalState } : initialState;
+
   const hasInteractiveElements =
     checkForInteractiveElements(nodes) ||
     (Boolean(files && Object.keys(files).length > 0) && nodes.some((n) => n.type === 'import'));
 
   if (!hasInteractiveElements) {
-    return renderToReact(
-      ptml,
-      initialState,
-      undefined,
-      lists,
-      undefined,
-      undefined,
-      files,
-      viewportWidth,
-      onFontsUnavailable,
-    );
+    return renderToReact(ptml, state, undefined, lists, undefined, undefined, files, viewportWidth, onFontsUnavailable);
   }
 
-  return createInteractiveComponent(ptml, nodes, initialState, lists, files, viewportWidth, onFontsUnavailable);
+  return createInteractiveComponent(ptml, nodes, state, lists, files, viewportWidth, onFontsUnavailable);
 };
