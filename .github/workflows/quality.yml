@@ -33,10 +33,11 @@ jobs:
       - name: Test
         run: npm test
 
-      # The published language reference is generated from the schemas, so a
-      # schema change without a regenerate silently ships stale docs.
-      - name: Check the generated language reference is up to date
+      # The published language reference and the plain-text docs LLMs read are
+      # both generated from the schemas, so a schema change without a regenerate
+      # silently ships stale docs.
+      - name: Check the generated documentation is up to date
         run: |
           npm run generate-docs
-          git diff --exit-code -- website/src/content/reference.ptml \
-            || (echo "::error::reference.ptml is out of date -- run 'npm run generate-docs' and commit the result" && exit 1)
+          git diff --exit-code -- website/src/content/reference.ptml llms.txt llms-full.txt website/public \
+            || (echo "::error::generated docs are out of date -- run 'npm run generate-docs' and commit the result" && exit 1)

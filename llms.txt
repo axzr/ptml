@@ -1,0 +1,25 @@
+# PTML
+
+> A declarative, line-based markup language for building web prototypes. PTML compiles to
+> React components, so a prototype is a text file rather than a codebase. Install with
+> `npm install ptml` and render with the `usePtmlRender` hook.
+
+PTML documents are made of nodes, one per line, where a prefix gives the node its kind:
+`>` for renderable blocks, `-` for properties, `?` for conditionals, `!` for state actions,
+and no prefix for top-level declarations such as `state:` and `ptml:`. Nesting is by two-space
+indentation.
+
+The website at https://ptml.js.org is itself written in PTML and rendered in the browser, so
+fetching its HTML returns an empty page. Read the files below instead.
+
+## Docs
+
+- [Full language reference](https://ptml.js.org/llms-full.txt): every node, generated from the source
+  schema definitions — categories, prefixes, data formats, allowed children and a worked
+  example for each.
+- [README](https://github.com/axzr/ptml#readme): installation and a short introduction.
+
+## Optional
+
+- [Repository](https://github.com/axzr/ptml): source, issue tracker and the schema definitions these docs
+  are generated from.

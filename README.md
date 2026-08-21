@@ -27,11 +27,11 @@ state:
 
 ptml:
 > box:
-  - text: Count is $count
+  > text: Count is $count
   > button:
-    - text: Increment
+    > text: Increment
     - click:
-      ! set: $count 1
+      ! set: $count $count + 1
 `;
 
 const isValid = validate(ptml);
@@ -57,3 +57,12 @@ function App() {
 Types **`RenderContext`** and **`NamedStylesMap`** are exported for advanced use (e.g. custom node renderers or tooling).
 
 **Note:** Invalid expressions in a `set` action inside a click handler are skipped and do not surface an error.
+
+## For language models
+
+The documentation website at [ptml.js.org](https://ptml.js.org) is itself written in PTML and rendered in the browser, so fetching its HTML returns an empty page. The documentation is also published as plain text, generated from the same schema definitions the language is built from:
+
+- [ptml.js.org/llms.txt](https://ptml.js.org/llms.txt) -- overview and index, following the [llms.txt](https://llmstxt.org) convention.
+- [ptml.js.org/llms-full.txt](https://ptml.js.org/llms-full.txt) -- the complete language reference: every node, its prefix, data format, allowed children and a worked example.
+
+Both files ship inside the npm package too, so an agent working in a project that depends on `ptml` can read `node_modules/ptml/llms-full.txt` without network access.

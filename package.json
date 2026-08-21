@@ -30,7 +30,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "llms.txt",
+    "llms-full.txt"
   ],
   "workspaces": [
     "website"
@@ -45,7 +47,7 @@
     "test": "vitest run",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
-    "generate-docs": "tsx website/scripts/generate-reference.ts"
+    "generate-docs": "tsx website/scripts/generate-reference.ts && tsx website/scripts/generate-llms.ts"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.8.0",

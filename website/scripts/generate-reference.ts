@@ -1,4 +1,5 @@
 import { allSchemas, getBlocksList } from '../../src/schemaRegistry/schemaMap';
+import { loadDocExamples } from './schemaDocs';
 import type { NodeSchema } from '../../src/schemas/types';
 import { writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -263,29 +264,6 @@ function emitCategorySection(
   for (const schema of schemas) {
     emitNodeDoc(lines, schema, docExamples, b + 1);
   }
-}
-
-async function loadDocExamples(): Promise<Map<string, string>> {
-  const examples = new Map<string, string>();
-  const nodesDir = join(__dirname, '..', '..', 'src', 'nodes');
-
-  for (const schema of allSchemas) {
-    const dirName = schema.name;
-    const filePath = join(nodesDir, dirName, `${dirName}.example.ts`);
-    if (!existsSync(filePath)) continue;
-
-    try {
-      const fileUrl = pathToFileURL(filePath).href;
-      const mod = (await import(fileUrl)) as Record<string, unknown>;
-      if (typeof mod.docExample === 'string') {
-        examples.set(schema.name, mod.docExample);
-      }
-    } catch {
-      // skip if import fails
-    }
-  }
-
-  return examples;
 }
 
 async function generateReference(): Promise<string> {

@@ -1,0 +1,6 @@
+# This site is written in PTML and rendered in the browser, so fetching a page
+# returns an empty document. The documentation is also published as plain text:
+#   https://ptml.js.org/llms.txt        overview and index
+#   https://ptml.js.org/llms-full.txt   complete language reference
+User-agent: *
+Allow: /

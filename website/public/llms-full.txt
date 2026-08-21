@@ -1,0 +1,1674 @@
+# PTML Language Reference
+
+> PTML is a declarative, line-based markup language for building web prototypes. It compiles
+> to React components and is rendered by the `ptml` npm package.
+
+This file is generated from the PTML source schema definitions. It is the authoritative
+reference for the language: if it disagrees with anything else, believe this file.
+
+Package: `ptml` on npm · Repository: https://github.com/axzr/ptml · Website: https://ptml.js.org
+
+## How PTML is written
+
+A PTML document is a plain text file. Every line is one node, and a prefix says what
+kind of node it is:
+
+| Prefix | Category | Meaning |
+| --- | --- | --- |
+| `>` | block | a renderable element, such as a box or some text |
+| `-` | property | configures the node it sits under |
+| `?` | conditional | renders its children only when a condition holds |
+| `!` | action | changes state; only valid inside a click handler, init block or function |
+| none | declaration | a top-level section such as `state:`, `ptml:` or `template:` |
+
+Nesting is by indentation, two spaces per level. Odd indentation is an error. Declarations
+start at column zero and take no prefix. Data follows the node name and a colon:
+`> text: Hello`. Exactly one space after the colon separates the node from its data, so
+any further leading spaces are part of the value; trailing spaces are always stripped.
+
+`$name` reads a state variable, a loop variable, a function parameter or a template
+parameter. `$form.<field>` reads what has been typed into a form field, keyed by the
+field's id (or, for radios, the group name).
+
+A document renders only what is inside its `ptml:` declaration. Everything else --
+`state:`, `define:`, `template:`, `breakpoints:`, `fonts:`, `valueList:`,
+`recordList:`, `function:` -- declares things that `ptml:` draws on.
+
+## A complete example
+
+```ptml
+state:
+- count: 0
+
+define: panel
+- padding: 16px
+- border: 1px solid #ccc
+
+ptml:
+> box:
+  - styles: panel
+  > text: Count is $count
+  > button:
+    > text: Add one
+    - click:
+      ! set: $count $count + 1
+```
+
+## Every node, by category
+
+Declaration: `breakpoints`, `define`, `fonts`, `function`, `import`, `init`, `ptml`, `recordList`, `state`, `template`, `valueList`
+
+Block: `box`, `breakpoint`, `button`, `cell`, `checkbox`, `circle`, `compile`, `debug`, `each`, `ellipse`, `form`, `group`, `header`, `image`, `input`, `label`, `line`, `link`, `list`, `listItem`, `option`, `path`, `polygon`, `polyline`, `radio`, `range`, `rect`, `row`, `select`, `show`, `svg`, `table`, `text`, `textarea`
+
+Property: `click`, `font`, `record`, `role`, `styles`, `where`
+
+Conditional: `else`, `if`
+
+Action: `addRecord`, `addValue`, `call`, `clear`, `getRecord`, `getValue`, `removeRecord`, `removeValue`, `set`, `setRecord`, `setValue`, `updateRecord`, `updateValue`, `window`
+
+## Declaration nodes
+
+### `breakpoints`
+
+Declaration — prefix `none (top-level)`.
+
+Root node that defines named breakpoint labels and their pixel widths. Children are label: width pairs in ascending order; the last child has no width (and above tier). Each label names the range running up to its own width, so with small: 768, medium: 1024, large: the label small covers widths below 768 and large covers 1024 and up. Used by breakpoint blocks and define for responsive layout and conditional styles. A file uses its own declaration if it has one, otherwise it inherits the declaration of the first file it imports that has one.
+
+**Data:** not accepted.
+
+**Properties:** any — Breakpoint label and optional width (pixels, no unit). Last child has no width.
+
+```ptml
+breakpoints:
+- small: 768
+- medium: 1024
+- large:
+```
+
+### `define`
+
+Declaration — prefix `none (top-level)`.
+
+Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier.
+
+**Data:** required.
+- `style-name` (required) — Style name (required). Must be a valid identifier that can be referenced from styles properties.
+
+**Children:** `breakpoint`
+
+**Properties:** any — Any CSS property name
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+define: highlight
+- background-color: #fef08a
+- padding: 4px 8px
+
+ptml:
+> text: Important note
+  - styles: highlight
+```
+
+### `fonts`
+
+Declaration — prefix `none (top-level)`.
+
+Root node that loads web fonts from Google Fonts, so a prototype can use the real typeface rather than a lookalike whose metrics shift the line breaks. Each child is a font entry naming a family, optionally with the weights to load. Loaded fonts are then used through font-family in styles. Fonts are requested with font-display: block, so text waits briefly rather than painting once with fallback metrics and reflowing. If a font does not load for any reason -- a misspelled family, no network, a blocked request -- it is reported at runtime rather than silently falling back.
+
+**Data:** not accepted.
+
+**Properties:** `font`
+
+```ptml
+fonts:
+- font: Inter
+  - weights: 400 700
+- font: Playfair Display
+  - weights: 400 italic
+
+ptml:
+> text: A headline in the real typeface
+  - styles:
+    - font-family: Playfair Display, serif
+    - font-weight: 400
+```
+
+### `function`
+
+Declaration — prefix `none (top-level)`.
+
+Defines a reusable function with optional parameters. Functions can contain actions like set, list operations, and calls to other functions.
+
+**Data:** required.
+- `function name` (required) — The name of the function. Cannot start with $. Function names must be unique within the document.
+- `parameter` (optional) — Optional parameter names. Parameters cannot start with $ and must be unique within the function. Parameters are available as variables within the function body.
+
+**Children:** `range`, `each`
+
+**Notes:** accepts action children.
+
+```ptml
+state:
+- count: 0
+
+function: increment
+! set: $count $count 1 | add
+
+ptml:
+> text: Count: $count
+> button:
+  > text: Add one
+  - click:
+    ! call: increment
+```
+
+### `import`
+
+Declaration — prefix `none (top-level)`.
+
+Root node for importing templates and named styles from another PTML file. The data is a simple filename (e.g. templates.ptml) with no path. Imported templates and defines become available as if declared in the current file.
+
+**Data:** required.
+- `filename` (required) — Simple filename with no path (e.g. templates.ptml)
+
+```ptml
+import: shared-styles.ptml
+
+ptml:
+> box:
+  > text: Content from a page that imports shared-styles.ptml
+```
+
+### `init`
+
+Declaration — prefix `none (top-level)`.
+
+May only contain call nodes; runs those function calls when PTML first renders.
+
+**Data:** not accepted.
+
+```ptml
+state:
+- page: home
+
+function: setPage
+! set: $page getting-started
+
+init:
+! call: setPage
+
+ptml:
+> text: Current page: $page
+```
+
+### `ptml`
+
+Declaration — prefix `none (top-level)`.
+
+The only renderable root node. Contains blocks that define the user interface. Optional: 0 or 1 per file.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+```ptml
+ptml:
+> text: Hello, world!
+```
+
+### `recordList`
+
+Declaration — prefix `none (top-level)`.
+
+Defines a list of record items. Records contain key-value pairs as their children. Record items are written as "- record:" with key-value children.
+
+**Data:** required.
+- `list-name` (required) — Required list name. Must be a single word. Inline items are not supported - use child syntax with "- record:" instead.
+
+**Properties:** `record`
+
+```ptml
+recordList: expenses
+- record:
+  - name: Rent
+  - amount: 1200
+- record:
+  - name: Food
+  - amount: 300
+
+ptml:
+> each: expenses as $expense
+  > text: $expense.name -- $expense.amount
+```
+
+### `state`
+
+Declaration — prefix `none (top-level)`.
+
+A state node that declares state variables. State nodes have no data themselves, but contain children where each child type is a variable name (key). Children can be scalar key-value pairs (with data, no children), nested objects (with children, no data), or arrays (with children using -: prefix, no data). Variable names must be unique within a state node.
+
+**Data:** not accepted.
+
+**Properties:** any
+Also: `key-value`, `state-object`, `state-array`
+
+```ptml
+state:
+- username: Alice
+- score: 0
+
+ptml:
+> text: Player: $username
+> text: Score: $score
+```
+
+### `template`
+
+Declaration — prefix `none (top-level)`.
+
+Defines a reusable template with optional parameters. Templates can contain any renderable nodes (box, text, button, etc.) and are rendered via show nodes.
+
+**Data:** required.
+- `template name` (required) — The name of the template. Cannot start with $. Template names must be unique within the document.
+- `parameter` (optional) — Optional parameter names. Parameters cannot start with $ and must be unique within the template. Parameters are available as variables within the template body.
+
+**Children:** any block node (container parent).
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+template: badge label
+> text: $label
+  - styles:
+    - background-color: #dbeafe
+    - padding: 4px 8px
+
+ptml:
+> show: badge New
+> show: badge Sale
+```
+
+### `valueList`
+
+Declaration — prefix `none (top-level)`.
+
+Defines a list of simple string values. Value items are written as "- value" without a type prefix.
+
+**Data:** required.
+- `list-name` (required) — Required list name. Must be a single word. Inline items are not supported - use child syntax with "- value" (no type prefix) instead.
+
+**Properties:** `value`
+
+```ptml
+valueList: fruits
+- Apple
+- Banana
+- Cherry
+
+ptml:
+> each: fruits as $fruit
+  > text: $fruit
+```
+
+## Block nodes
+
+### `box`
+
+Block — prefix `> (angle bracket)`.
+
+A container element that can hold other nodes. Optional role (main, header, footer, article, section, nav, aside) renders as that HTML element instead of div. Boxes can be nested and can contain text, buttons, other boxes, and control structures.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`, `role`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> box:
+  - role: main
+  > text: Welcome to the app
+  > box:
+    > text: Nested content goes here
+```
+
+### `breakpoint`
+
+Block — prefix `> (angle bracket)`.
+
+Conditionally renders its children when the viewport matches the breakpoint condition. Data is a breakpoint label (e.g. small), "label or more", or "label or less"; the label must be one declared in a breakpoints declaration. A breakpoint block is an override layered on top of what surrounds it, never a replacement for it: breakpoints are resolved against the render context viewportWidth rather than by CSS media queries, so where no viewport is known -- server rendering, or a host that supplies none -- no breakpoint block renders and no breakpoint style applies. Whatever sits outside breakpoint blocks is therefore the fallback layout, and must stand on its own. Which end of the range that fallback describes is your choice: put mobile styles in the base and widen with "or more" for mobile-first, or the reverse for desktop-first.
+
+**Data:** required.
+- `breakpoint-reference` (required) — Breakpoint label, "label or more", or "label or less". Must match a label defined in a breakpoints declaration.
+
+**Children:** any block node (container parent).
+
+**Properties:** any — When under define: CSS properties. When in block context: N/A (block children only).
+
+```ptml
+breakpoints:
+- small: 768
+- large:
+
+define: card
+- width: 100%
+> breakpoint: large or more
+  - width: 50%
+
+ptml:
+> box:
+  - styles: card
+  > text: Responsive card
+```
+
+### `button`
+
+Block — prefix `> (angle bracket)`.
+
+A clickable button element that can contain text, styles, click handlers, and conditional disabling.
+
+**Data:** not accepted.
+
+**Children:** `text`
+
+**Properties:** `styles`, `click`, `disabled`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+state:
+- count: 0
+
+ptml:
+> button:
+  > text: Clicked $count times
+  - click:
+    ! set: $count $count 1 | add
+```
+
+### `cell`
+
+Block — prefix `> (angle bracket)`.
+
+A table cell that renders as th or td based on the row section. Content comes from children (e.g. text, box). Only valid as a direct block child of a row node.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> table:
+  > row:
+    > cell:
+      > text: Name
+    > cell:
+      > text: Age
+  > row:
+    > cell:
+      > text: Alice
+    > cell:
+      > text: 30
+```
+
+### `checkbox`
+
+Block — prefix `> (angle bracket)`.
+
+A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). A checkbox needs a binding so that its checked state goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $agree). Styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
+
+**Data:** not accepted.
+
+**Properties:** `id`, `value`, `styles`
+
+```ptml
+state:
+- agreed: false
+
+ptml:
+> checkbox:
+  - value: $agreed
+```
+
+### `circle`
+
+Block — prefix `> (angle bracket)`.
+
+A circle shape inside an svg, positioned by cx and cy with radius r.
+
+**Data:** not accepted.
+
+**Properties:** `cx`, `cy`, `r` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > circle:
+    - cx: 12
+    - cy: 12
+    - r: 10
+```
+
+### `compile`
+
+Block — prefix `> (angle bracket)`.
+
+Renders a PTML string from state inline. The data field must be a state variable reference (e.g., $source). The resolved string is parsed as PTML and rendered within the parent context, sharing state.
+
+**Data:** required.
+- `state variable` (required) — A state variable reference containing PTML source (e.g., $source).
+
+**Properties:** `styles`
+
+```ptml
+state:
+- source: > text: Hello from compiled PTML!
+
+ptml:
+> compile: $source
+```
+
+### `debug`
+
+Block — prefix `> (angle bracket)`.
+
+Displays debugging information showing the current state, lists, and loop context in a readable format. Useful for development and troubleshooting.
+
+**Data:** not accepted.
+
+```ptml
+state:
+- username: Alice
+- score: 42
+
+ptml:
+> debug:
+```
+
+### `each`
+
+Block — prefix `> (angle bracket)`.
+
+Iterates over a list, rendering its children for each item. Can optionally bind the item and/or index to variables, and accepts the same children a box does. An optional sort child orders the items at render time without changing the list itself: "- sort: title" orders by that property ascending, "- sort: title desc" reverses it, and "- sort: asc" or "- sort: desc" orders a list of plain values by the values themselves. Numbers compare as numbers, so 10 sorts after 3, and text compares case-insensitively with embedded numbers read naturally, so "item 10" follows "item 9". Items missing the sorted property sort last ascending. Equal items keep their original order. To sort by a property actually named asc or desc, give the direction explicitly: "- sort: desc asc".
+
+**Data:** required, comma-separated.
+- `list specification` (required) — List name followed by optional "as $variable" to bind the item. Format: <listName> [as $variable]
+- `index specification` (optional) — Optional index binding. Format: index as $variable
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`, `sort`
+
+**Notes:** supports `? if:` and `? else:`; accepts action children.
+
+```ptml
+recordList: tasks
+- record:
+  - title: Wash up
+  - priority: 3
+- record:
+  - title: Buy milk
+  - priority: 1
+
+ptml:
+> each: tasks as $task
+  - sort: priority
+  > text: $task.title
+    - newline:
+```
+
+### `ellipse`
+
+Block — prefix `> (angle bracket)`.
+
+An ellipse shape inside an svg, positioned by cx and cy with radii rx and ry.
+
+**Data:** not accepted.
+
+**Properties:** `cx`, `cy`, `rx` (required), `ry` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > ellipse:
+    - cx: 12
+    - cy: 12
+    - rx: 10
+    - ry: 6
+```
+
+### `form`
+
+Block — prefix `> (angle bracket)`.
+
+A form container element that groups form inputs and buttons together. Form fields can be accessed via form.fieldName syntax (e.g., form.name, form.email). Forms can contain inputs, buttons, text, styles, and other container elements.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+state:
+- username:
+- email:
+
+ptml:
+> form:
+  > input:
+    - value: $username
+    - type: text
+  > input:
+    - value: $email
+    - type: email
+  > button:
+    > text: Submit
+```
+
+### `group`
+
+Block — prefix `> (angle bracket)`.
+
+Groups shapes inside an svg so a transform, fill or stroke can be applied to all of them at once. Renders an SVG g element.
+
+**Data:** not accepted.
+
+**Children:** `path`, `circle`, `ellipse`, `rect`, `line`, `polyline`, `polygon`, `group`
+
+**Properties:** `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > group:
+    - transform: translate(4 4)
+    - fill: currentColor
+    > path:
+      - d: M0 0h16
+    > path:
+      - d: M0 8h16
+```
+
+### `header`
+
+Block — prefix `> (angle bracket)`.
+
+A heading element that renders as HTML h1–h6. Optional data specifies the level (h1–h6); default is h1. Content comes from children (e.g. text).
+
+**Data:** optional.
+- `heading level` (optional) — Optional h1, h2, h3, h4, h5, or h6. Default is h1.
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> header: h1
+  > text: Page Title
+> header: h2
+  > text: Section Heading
+```
+
+### `image`
+
+Block — prefix `> (angle bracket)`.
+
+An image element that displays a picture from a URL. Requires src (as a key-value child); can have optional alt text for accessibility and styles. Src can be a literal URL or a state reference (e.g. $imageUrl).
+
+**Data:** not accepted.
+
+**Properties:** `src` (required), `alt`, `styles`
+
+```ptml
+ptml:
+> image:
+  - src: https://example.com/photo.jpg
+  - alt: A scenic mountain view
+```
+
+### `input`
+
+Block — prefix `> (angle bracket)`.
+
+A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). An input needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $name). Type is optional and defaults to text. Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint). An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
+
+**Data:** not accepted.
+
+**Properties:** `id`, `type`, `value`, `placeholder`, `styles`
+
+```ptml
+state:
+- name:
+
+ptml:
+> input:
+  - value: $name
+  - type: text
+  - placeholder: Your name
+> text: Hello, $name!
+```
+
+### `label`
+
+Block — prefix `> (angle bracket)`.
+
+A form label that associates text with a form control for accessibility. Use optional "for" (id of the control) to associate with a control elsewhere, or wrap the control and text as children. The for value must name an id declared by a field in the same document, or the label links to nothing; a label may instead wrap its field and need no for at all. A for taken from state (e.g. $target) is resolved at render time.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `for`, `text`, `styles`
+
+```ptml
+state:
+- email:
+
+ptml:
+> label:
+  - for: email
+  > text: Email Address
+> input:
+  - id: email
+  - value: $email
+```
+
+### `line`
+
+Block — prefix `> (angle bracket)`.
+
+A straight line inside an svg, from (x1, y1) to (x2, y2). A line has no fill, so it needs a stroke to be visible.
+
+**Data:** not accepted.
+
+**Properties:** `x1` (required), `y1` (required), `x2` (required), `y2` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  - stroke: currentColor
+  > line:
+    - x1: 3
+    - y1: 12
+    - x2: 21
+    - y2: 12
+```
+
+### `link`
+
+Block — prefix `> (angle bracket)`.
+
+A hyperlink element for external URLs or in-app navigation. Requires href (as a key-value child). Can have optional text, target (e.g. _blank), styles, and a click handler for in-app navigation (e.g. set: page shop with show: $page).
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `href` (required), `text`, `target`, `styles`, `click`
+
+```ptml
+ptml:
+> link:
+  - href: https://example.com
+  > text: Visit Example
+```
+
+### `list`
+
+Block — prefix `> (angle bracket)`.
+
+A list container that renders as an HTML ul (unordered) or ol (ordered) based on the optional type property. Use - type: ordered or - type: decimal for ordered lists; - type: lower-alpha, upper-alpha, lower-roman, upper-roman for ordered lists with that list style. Omit type for unordered (bullet) list. Only listItem nodes may be direct block children.
+
+**Data:** not accepted.
+
+**Children:** `listItem`
+
+**Properties:** `type`, `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> list:
+  > listItem:
+    > text: First item
+  > listItem:
+    > text: Second item
+  > listItem:
+    > text: Third item
+```
+
+### `listItem`
+
+Block — prefix `> (angle bracket)`.
+
+A list item that renders as an HTML li element. Content comes from children (e.g. text, box). Typically used inside a list node.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Properties:** `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> list:
+  > listItem:
+    > text: Buy groceries
+  > listItem:
+    > text: Walk the dog
+```
+
+### `option`
+
+Block — prefix `> (angle bracket)`.
+
+An option element for select dropdowns. Option elements define the choices available in a select dropdown. The data field contains the display text (visible to the user), and a value key-value child specifies the option value. The display text is interpolated like any other text, so "$country.name" works for options generated inside an each, and the value child accepts a state reference in the same way.
+
+**Properties:** `value` (required), `styles`
+
+```ptml
+state:
+- country: uk
+
+ptml:
+> select:
+  - value: $country
+  > option: United States
+    - value: us
+  > option: United Kingdom
+    - value: uk
+  > option: Germany
+    - value: de
+```
+
+### `path`
+
+Block — prefix `> (angle bracket)`.
+
+A path shape inside an svg. The d attribute holds the path data copied straight from an icon set. Inherits fill and stroke from its svg unless it sets its own.
+
+**Data:** not accepted.
+
+**Properties:** `d` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > path:
+    - d: M3 12h18
+```
+
+### `polygon`
+
+Block — prefix `> (angle bracket)`.
+
+A closed shape inside an svg, given as a points list. Unlike polyline the final point joins back to the first.
+
+**Data:** not accepted.
+
+**Properties:** `points` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > polygon:
+    - points: 12 2 22 22 2 22
+```
+
+### `polyline`
+
+Block — prefix `> (angle bracket)`.
+
+A connected series of straight lines inside an svg, given as a points list (e.g. "20 6 9 17 4 12").
+
+**Data:** not accepted.
+
+**Properties:** `points` (required), `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  - fill: none
+  - stroke: currentColor
+  > polyline:
+    - points: 20 6 9 17 4 12
+```
+
+### `radio`
+
+Block — prefix `> (angle bracket)`.
+
+A radio button input for forms. Multiple radios with the same name form a group; form state holds the selected option value at form.name. Radios require name and value (as key-value children) and can have optional id, selected (state ref for two-way binding), and styles.
+
+**Data:** not accepted.
+
+**Properties:** `name` (required), `value` (required), `id`, `selected`, `styles`
+
+```ptml
+state:
+- size: medium
+
+ptml:
+> radio:
+  - name: size
+  - value: small
+  - selected: $size
+> radio:
+  - name: size
+  - value: medium
+  - selected: $size
+```
+
+### `range`
+
+Block — prefix `> (angle bracket)`.
+
+A range node that iterates over a state variable. Range nodes must have at least one child.
+
+**Data:** required, comma-separated.
+- `range specification` (required) — State variable and index binding. Format: $stateVariable as $index
+
+**Children:** `range`
+
+**Notes:** accepts action children; must sit inside a click handler, init block or function.
+
+```ptml
+state:
+- gridSize: 3
+
+valueList: items
+
+function: populateItems
+> range: gridSize as $i
+  ! addValue: items $i
+
+init:
+! call: populateItems
+
+ptml:
+> each: items as $item
+  > text: Item number $item
+```
+
+### `rect`
+
+Block — prefix `> (angle bracket)`.
+
+A rectangle shape inside an svg. Width and height are required; x, y, rx and ry are optional.
+
+**Data:** not accepted.
+
+**Properties:** `x`, `y`, `width` (required), `height` (required), `rx`, `ry`, `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  > rect:
+    - x: 3
+    - y: 3
+    - width: 18
+    - height: 18
+    - rx: 2
+```
+
+### `row`
+
+Block — prefix `> (angle bracket)`.
+
+A table row that renders as HTML tr. Optional property - role: header | body | footer (default body). Only cell nodes may be direct block children. Only valid as a direct block child of a table node.
+
+**Data:** not accepted.
+
+**Children:** `cell`
+
+**Properties:** `role`, `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> table:
+  > row:
+    - role: header
+    > cell:
+      > text: Name
+    > cell:
+      > text: Score
+  > row:
+    > cell:
+      > text: Alice
+    > cell:
+      > text: 95
+```
+
+### `select`
+
+Block — prefix `> (angle bracket)`.
+
+A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item. Options may be written out directly, or generated with an each over a list, and may be guarded by if/else or come from a template via show. A select must contain at least one of these; a select with no way to produce options renders a dropdown with nothing to choose. A list that happens to be empty at runtime is fine. Other block nodes are not allowed inside a select, because a select element may only hold options.
+
+**Data:** not accepted.
+
+**Children:** `option`, `each`, `if`, `else`, `show`
+
+**Properties:** `id`, `value`, `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+state:
+- colour: blue
+
+ptml:
+> select:
+  - value: $colour
+  > option: Red
+    - value: red
+  > option: Green
+    - value: green
+  > option: Blue
+    - value: blue
+> text: You picked: $colour
+```
+
+### `show`
+
+Block — prefix `> (angle bracket)`.
+
+Renders a template by name with optional arguments. The template name can be a literal name or a state variable reference (e.g., $page). Arguments can be given positionally after the template name, which is convenient for single words and variable references, or as named children -- one per parameter, e.g. "- label: Back in stock soon". Named arguments are the only way to pass a value containing spaces, because positional arguments are separated by spaces; they can also be given in any order and omitted individually. The two styles cannot be mixed in one call. A parameter with no argument is empty, so templates can treat parameters as optional.
+
+**Data:** required.
+- `template name` (required) — The name of the template to render, or a state variable reference (e.g., $page) for dynamic template selection.
+- `argument` (optional) — Optional argument values to pass to the template. Can be literal values or variable references (e.g., $contact).
+
+**Properties:** any — styles, plus one child per template parameter (e.g. "- label: Back in stock soon").
+
+```ptml
+template: greeting name
+> text: Hello, $name!
+
+ptml:
+> show: greeting World
+```
+
+### `svg`
+
+Block — prefix `> (angle bracket)`.
+
+An inline SVG, for icons and simple vector graphics. Requires a viewBox and contains shape children (path, circle, ellipse, rect, line, polyline, polygon, group). Because it renders inline rather than as an image, a fill or stroke of currentColor takes the surrounding text colour, and styles applies to it like any other block. An optional title gives it an accessible name; without one it is marked decorative.
+
+**Data:** not accepted.
+
+**Children:** `path`, `circle`, `ellipse`, `rect`, `line`, `polyline`, `polygon`, `group`
+
+**Properties:** `viewBox` (required), `width`, `height`, `title`, `fill`, `fill-opacity`, `fill-rule`, `clip-rule`, `stroke`, `stroke-width`, `stroke-linecap`, `stroke-linejoin`, `stroke-dasharray`, `stroke-dashoffset`, `stroke-opacity`, `opacity`, `transform`, `styles`
+
+```ptml
+ptml:
+> svg:
+  - viewBox: 0 0 24 24
+  - fill: none
+  - stroke: currentColor
+  - stroke-width: 2
+  - title: Done
+  > polyline:
+    - points: 20 6 9 17 4 12
+```
+
+### `table`
+
+Block — prefix `> (angle bracket)`.
+
+A table container that renders as HTML table. Groups row children by role (header/body/footer) into thead, tbody, tfoot. Only row nodes may be direct block children.
+
+**Data:** not accepted.
+
+**Children:** `row`
+
+**Properties:** `styles`
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> table:
+  > row:
+    - role: header
+    > cell:
+      > text: City
+    > cell:
+      > text: Population
+  > row:
+    > cell:
+      > text: London
+    > cell:
+      > text: 9 million
+```
+
+### `text`
+
+Block — prefix `> (angle bracket)`.
+
+Displays text content, with interpolated expressions using $variable syntax and pipe expressions, and optional inline styles. A text node may contain further text nodes, which render as inline runs of the same paragraph -- the way to style part of a sentence, such as one magenta word in a headline. Runs flow inline, so wrapping, line height and the width of a space are the browser's rather than something to approximate with a flex row and a gap. Whitespace: exactly one space after the colon separates the node from its text, and any further leading spaces are part of the text -- which is how a run is spaced away from the one before it. Trailing spaces are always stripped, because they are invisible in the source and editors routinely remove them on save, so no document should depend on them.
+
+**Children:** `text`
+
+**Properties:** `styles`, `newline`
+
+```ptml
+ptml:
+> text: Open from
+  > text:  9am
+    - styles:
+      - color: magenta
+  > text:  to 5pm
+```
+
+### `textarea`
+
+Block — prefix `> (angle bracket)`.
+
+A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). A textarea needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $notes). Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint). An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
+
+**Data:** not accepted.
+
+**Properties:** `id`, `value`, `placeholder`, `styles`
+
+```ptml
+state:
+- notes:
+
+ptml:
+> textarea:
+  - value: $notes
+  - placeholder: Your notes
+> text: You wrote: $notes
+```
+
+## Property nodes
+
+### `click`
+
+Property — prefix `- (dash)`.
+
+Defines click handler actions for buttons and other clickable elements. Contains one or more actions to execute when clicked.
+
+**Data:** not accepted.
+
+**Notes:** accepts action children.
+
+```ptml
+state:
+- name: Dave
+
+ptml:
+> button:
+  > text: Change name
+  - click:
+    ! set: $name Alice
+> text: Hello, $name!
+```
+
+### `font`
+
+Property — prefix `- (dash)`.
+
+A single font family to load, named in the data (e.g. "- font: Playfair Display"). An optional weights child lists the weights to load and whether italics are needed. Only valid inside a fonts declaration.
+
+**Data:** required.
+- `family` (required) — The font family name exactly as Google Fonts spells it, e.g. Inter or Playfair Display.
+
+**Properties:** `weights`
+
+```ptml
+fonts:
+- font: Inter
+  - weights: 400 700
+
+ptml:
+> text: Hello
+  - styles:
+    - font-family: Inter, sans-serif
+```
+
+### `record`
+
+Property — prefix `- (dash)`.
+
+A record node that stores key-value pairs. Records have no data themselves, but contain children where each child type is a key and child data is the value. Keys must be unique within a record.
+
+**Data:** not accepted.
+
+**Properties:** any
+Also: `key-value` (required)
+
+```ptml
+recordList: contacts
+- record:
+  - name: Alice
+  - email: alice@example.com
+- record:
+  - name: Bob
+  - email: bob@example.com
+```
+
+### `role`
+
+Property — prefix `- (dash)`.
+
+Property that specifies a row section: header, body, or footer. Used as child of row. Default is body.
+
+**Data:** optional.
+- `role` (optional) — Optional header, body, or footer. Default is body.
+
+```ptml
+ptml:
+> box:
+  - role: nav
+  > text: Navigation content
+```
+
+### `styles`
+
+Property — prefix `- (dash)`.
+
+Property node that applies CSS styles to elements. Can optionally reference a named style defined with define: or define inline styles. Styles can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes.
+
+**Data:** optional.
+- `style-name` (optional) — Optional reference to a named style defined with define:. When present, must be a valid identifier that matches a defined style name.
+
+**Properties:** any
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+ptml:
+> text: Styled text
+  - styles:
+    - color: white
+    - background-color: #1e40af
+    - padding: 8px 16px
+```
+
+### `where`
+
+Property — prefix `- (dash)`.
+
+Specifies a condition to match items in a list. Used as a child of updateRecord to find items by property value.
+
+**Data:** required.
+- `condition` (required) — Required condition expression in format "PROPERTYNAME is MATCHVALUE". The property name can be a simple property (e.g., "id") or nested property (e.g., "contact.id"). The match value can be a literal or variable reference (e.g., "$contactId").
+
+```ptml
+recordList: tasks
+- record:
+  - id: 1
+  - title: Buy milk
+  - done: false
+
+ptml:
+> button:
+  > text: Mark task 1 done
+  - click:
+    ! updateRecord: tasks
+      - where: id is 1
+      - record:
+        - done: true
+```
+
+## Conditional nodes
+
+### `else`
+
+Conditional — prefix `? (question mark)`.
+
+Provides alternative content when the preceding sibling if node condition is false. Must be paired with a sibling if node.
+
+**Data:** not accepted.
+
+**Children:** any block node (container parent).
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+state:
+- loggedIn: false
+
+ptml:
+? if: $loggedIn
+  > text: Welcome back!
+? else:
+  > text: Please log in.
+```
+
+### `if`
+
+Conditional — prefix `? (question mark)`.
+
+Conditionally renders its children based on a condition. The condition can be a simple variable check or a comparison expression.
+
+**Data:** required.
+- `condition` (required) — Required condition expression. Can be a simple variable (e.g., $isActive) or a comparison expression (e.g., $variable is value). Variables must start with $.
+
+**Children:** any block node (container parent).
+
+**Notes:** supports `? if:` and `? else:`.
+
+```ptml
+state:
+- showDetails: true
+
+ptml:
+> text: Product Name
+? if: $showDetails
+  > text: This product is available in three sizes.
+```
+
+## Action nodes
+
+### `addRecord`
+
+Action — prefix `! (exclamation)`.
+
+Adds a record to a list. The record is defined as a child node.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to add the record to
+
+**Properties:** `record` (required)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+recordList: tasks
+- record:
+  - title: Buy milk
+
+ptml:
+> each: tasks as $task
+  > text: $task.title
+> button:
+  > text: Add task
+  - click:
+    ! addRecord: tasks
+      - record:
+        - title: New task
+```
+
+### `addValue`
+
+Action — prefix `! (exclamation)`.
+
+Adds a simple value to a list. The value can be an expression with variables, pipes, etc.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to add the item to
+- `item-value` (required) — Required item value to add to the list (expression with variables, pipes, etc.)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+valueList: tags
+- urgent
+
+ptml:
+> each: tags as $tag
+  > text: $tag
+> button:
+  > text: Add tag
+  - click:
+    ! addValue: tags new-tag
+```
+
+### `call`
+
+Action — prefix `! (exclamation)`.
+
+Calls a function with optional arguments. The function name can be a literal function name or a variable (starting with $) that resolves to a function name.
+
+**Data:** required.
+- `function-name` (required) — The name of the function to call. Can be a literal function name or a variable (starting with $) that resolves to a function name. Variables can reference state variables, loop variables, list names, or function parameters.
+- `argument` (optional) — Optional arguments to pass to the function. Each argument is an expression that can include variables, pipes, and other operations.
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+state:
+- count: 0
+
+function: increment
+! set: $count $count 1 | add
+
+ptml:
+> button:
+  > text: Count: $count
+  - click:
+    ! call: increment
+```
+
+### `clear`
+
+Action — prefix `! (exclamation)`.
+
+Clears a state variable or form field by setting it to an empty string
+
+**Data:** required.
+- `variable-name` (required) — The name of the state variable or form field to clear (with or without $ prefix)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+state:
+- search:
+
+ptml:
+> input:
+  - value: $search
+> button:
+  > text: Clear
+  - click:
+    ! clear: $search
+> text: Search: $search
+```
+
+### `getRecord`
+
+Action — prefix `! (exclamation)`.
+
+Gets a record from a list at a specific index and makes it available as a loop variable. The index can be a number or a variable reference. The retrieved record is assigned to the specified variable name for use in subsequent nodes.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to get the record from
+- `index` (required) — The index (number or variable reference starting with $) of the record to retrieve
+- `variable-binding` (required) — Variable binding in format "as $variableName" to assign the retrieved record
+
+```ptml
+recordList: users
+- record:
+  - name: Alice
+- record:
+  - name: Bob
+
+valueList: indices
+- 0
+- 1
+
+ptml:
+> each: indices as $i
+  ! getRecord: users $i as $user
+  > text: $user.name
+```
+
+### `getValue`
+
+Action — prefix `! (exclamation)`.
+
+Gets a value from a list at a specific index and makes it available as a loop variable. The index can be a number or a variable reference. The retrieved value is assigned to the specified variable name for use in subsequent nodes.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to get the value from
+- `index` (required) — The index (number or variable reference starting with $) of the value to retrieve
+- `variable-binding` (required) — Variable binding in format "as $variableName" to assign the retrieved value
+
+```ptml
+valueList: colours
+- Red
+- Green
+- Blue
+
+valueList: indices
+- 0
+- 1
+- 2
+
+ptml:
+> each: indices as $i
+  ! getValue: colours $i as $colour
+  > text: $colour
+```
+
+### `removeRecord`
+
+Action — prefix `! (exclamation)`.
+
+Removes a record from a list by variable reference. Typically used within each loops where the record is available as a loop variable.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to remove the record from
+- `item-variable` (required) — Required item variable value (must start with $) to the record to remove. Must specify both list name and item variable. Use format: removeRecord: <listName> $item
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+recordList: items
+- record:
+  - name: Apple
+- record:
+  - name: Banana
+
+ptml:
+> each: items as $item
+  > text: $item.name
+  > button:
+    > text: Remove
+    - click:
+      ! removeRecord: items $item
+```
+
+### `removeValue`
+
+Action — prefix `! (exclamation)`.
+
+Removes a value from a list by matching the value directly.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to remove the value from
+- `item-value` (required) — The value expression to remove from the list
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+valueList: tags
+- urgent
+- review
+- done
+
+ptml:
+> each: tags as $tag
+  > text: $tag
+  > button:
+    > text: Remove
+    - click:
+      ! removeValue: tags $tag
+```
+
+### `set`
+
+Action — prefix `! (exclamation)`.
+
+Sets a state variable to a value. The variable name must start with $. The value can be a literal or an expression using pipes. A form field is read back with $form.<field>, where the field is an input, textarea, select or checkbox id, or a radio group name -- for example "! set: $email $form.email". Written without the $ it is the literal text "form.email", not the contents of the field.
+
+**Data:** required.
+- `variable-name` (required) — The state variable to set (must start with $)
+- `value-expression` (optional) — Optional value expression. Can be a literal value or an expression using pipes. Variables in the expression must be defined in state, available in the current loop context, be list names, or be function parameters.
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+state:
+- greeting: Hello
+
+ptml:
+> text: $greeting
+> button:
+  > text: Change greeting
+  - click:
+    ! set: $greeting Goodbye
+```
+
+### `setRecord`
+
+Action — prefix `! (exclamation)`.
+
+Sets a record in a list at a specific index. The index can be a number or a variable reference. The record is defined as a child node.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to set the record in
+- `index` (required) — The index (number or variable reference starting with $) where to set the record
+
+**Properties:** `record` (required)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+recordList: users
+- record:
+  - name: Alice
+
+state:
+- index: 0
+
+ptml:
+> button:
+  > text: Update user
+  - click:
+    ! setRecord: users $index
+      - record:
+        - name: Bob
+```
+
+### `setValue`
+
+Action — prefix `! (exclamation)`.
+
+Sets a value in a list at a specific index. The index can be a number or a variable reference. The value can be an expression with variables, pipes, etc.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to set the value in
+- `index` (required) — The index (number or variable reference starting with $) where to set the value
+- `value-expression` (required) — The value expression to set at the specified index (can include variables, pipes, etc.)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+valueList: items
+- Apple
+- Banana
+
+state:
+- index: 0
+
+ptml:
+> button:
+  > text: Replace first item
+  - click:
+    ! setValue: items $index Cherry
+```
+
+### `updateRecord`
+
+Action — prefix `! (exclamation)`.
+
+Updates a record in a list by finding it using a where clause and replacing it with a new record. The where clause specifies which property to match, and the record child defines the new values.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to update a record in
+
+**Properties:** `where` (required), `record` (required)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+recordList: contacts
+- record:
+  - id: 1
+  - name: Alice
+
+state:
+- newName: Bob
+
+ptml:
+> button:
+  > text: Rename to $newName
+  - click:
+    ! updateRecord: contacts
+      - where: id is 1
+      - record:
+        - name: $newName
+```
+
+### `updateValue`
+
+Action — prefix `! (exclamation)`.
+
+Updates a value in a list at a specific index. The index can be a number or a variable reference. The value can be an expression with variables, pipes, etc.
+
+**Data:** required.
+- `list-name` (required) — The name of the list to update the value in
+- `index` (required) — The index (number or variable reference starting with $) where to update the value
+- `value-expression` (required) — The value expression to set at the specified index (can include variables, pipes, etc.)
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+valueList: items
+- Apple
+- Banana
+
+state:
+- index: 0
+
+ptml:
+> button:
+  > text: Update first item
+  - click:
+    ! updateValue: items $index Cherry
+```
+
+### `window`
+
+Action — prefix `! (exclamation)`.
+
+Performs a browser window operation. Currently supports scrollTop to scroll the page to the top. Extensible for future operations.
+
+**Data:** required.
+- `operation` (required) — The window operation to perform. Supported: scrollTop.
+
+**Notes:** must sit inside a click handler, init block or function.
+
+```ptml
+state:
+- page: home
+
+ptml:
+> button:
+  > text: Back to top
+  - click:
+    ! window: scrollTop
+```
+

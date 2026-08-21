@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PTML - Declarative Markup for Web Prototypes</title>
+    <meta
+      name="description"
+      content="PTML is a declarative, line-based markup language for building web prototypes. It compiles to React components, so a prototype is a text file rather than a codebase."
+    />
+    <!-- This site is written in PTML and rendered in the browser, so its HTML is
+         empty to anything that does not run JavaScript. These are the readable copies. -->
+    <link rel="alternate" type="text/markdown" href="/llms.txt" title="PTML overview for language models" />
+    <link rel="alternate" type="text/markdown" href="/llms-full.txt" title="PTML language reference" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,6 +21,22 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>PTML</h1>
+      <p>
+        PTML is a declarative, line-based markup language for building web prototypes. It compiles
+        to React components, so a prototype is a text file rather than a codebase.
+      </p>
+      <p>
+        This site is itself written in PTML and rendered in the browser, so it needs JavaScript to
+        display. Plain text copies of the documentation are available and need no JavaScript:
+      </p>
+      <ul>
+        <li><a href="/llms.txt">/llms.txt</a> &mdash; overview and index</li>
+        <li><a href="/llms-full.txt">/llms-full.txt</a> &mdash; the complete language reference</li>
+        <li><a href="https://github.com/axzr/ptml">Source and issue tracker on GitHub</a></li>
+      </ul>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
