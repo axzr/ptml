@@ -4,6 +4,7 @@ import { parseEachNodeData } from '../../parsers/eachParser';
 import { resolveListFromState } from './eachListResolution';
 import { buildItemLoopVariables } from './eachLoopVariables';
 import { processEachItemChildren } from './eachChildRenderer';
+import { applyEachSort } from './eachSort';
 
 export const eachNodeToReact = (context: RenderContext): React.ReactNode[] => {
   const { node, keyPrefix = '', lists, loopVariables, state } = context;
@@ -13,11 +14,13 @@ export const eachNodeToReact = (context: RenderContext): React.ReactNode[] => {
   }
 
   const { listName, itemVariableName, indexVariableName } = parsed;
-  const list = resolveListFromState(listName, state, loopVariables, lists);
+  const resolved = resolveListFromState(listName, state, loopVariables, lists);
 
-  if (!list || list.length === 0) {
+  if (!resolved || resolved.length === 0) {
     return [];
   }
+
+  const list = applyEachSort(node, resolved);
 
   return list.map((item, index) => {
     const itemLoopVariables = buildItemLoopVariables(

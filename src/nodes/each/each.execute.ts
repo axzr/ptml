@@ -1,5 +1,6 @@
 import { parseEachNodeData } from '../../parsers/eachParser';
 import { resolveListFromState } from './eachListResolution';
+import { applyEachSort } from './eachSort';
 import { executeChildNode } from '../../evaluation/functionOperations';
 import type { Node } from '../../types';
 import type { LoopVariablesMap } from '../../state/state';
@@ -11,9 +12,13 @@ export const executeEachNode = (eachNode: Node, context: ExecutionContext): void
   const parsed = parseEachNodeData(eachNode.data);
   if (!parsed) return;
 
-  const list = resolveListFromState(parsed.listName, context.state, context.loopVariables, context.lists);
+  const resolved = resolveListFromState(parsed.listName, context.state, context.loopVariables, context.lists);
 
-  if (!list || list.length === 0) return;
+  if (!resolved || resolved.length === 0) return;
+
+  // Sorted here too, so an each in a click handler iterates in the same order
+  // the equivalent each renders in.
+  const list = applyEachSort(eachNode, resolved);
 
   const functionParams = context.loopVariables || {};
   const itemVar = parsed.itemVariableName ?? 'item';

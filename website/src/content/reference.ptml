@@ -1093,7 +1093,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: Iterates over a list, rendering its children for each item. Can optionally bind the item and/or index to variables.
+      > text: Iterates over a list, rendering its children for each item. Can optionally bind the item and/or index to variables, and accepts the same children a box does. An optional sort child orders the items at render time without changing the list itself: "- sort: title" orders by that property ascending, "- sort: title desc" reverses it, and "- sort: asc" or "- sort: desc" orders a list of plain values by the values themselves. Numbers compare as numbers, so 10 sorts after 3, and text compares case-insensitively with embedded numbers read naturally, so "item 10" follows "item 9". Items missing the sorted property sort last ascending. Equal items keep their original order. To sort by a property actually named asc or desc, give the direction explicitly: "- sort: desc asc".
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1109,29 +1109,15 @@ ptml:
         - styles: node-doc-detail-value
       > text: CHILDREN
         - styles: node-doc-detail-label
-      > box:
-        - styles: toc-list
-        > text: box
-          - styles: node-doc-tag
-        > text: text
-          - styles: node-doc-tag
-        > text: button
-          - styles: node-doc-tag
-        > text: each
-          - styles: node-doc-tag
-        > text: if
-          - styles: node-doc-tag
-        > text: else
-          - styles: node-doc-tag
-        > text: show
-          - styles: node-doc-tag
-        > text: link
-          - styles: node-doc-tag
+      > text: Any block node (container parent).
+        - styles: node-doc-detail-value
       > text: PROPERTIES
         - styles: node-doc-detail-label
       > box:
         - styles: toc-list
         > text: styles
+          - styles: node-doc-tag
+        > text: sort
           - styles: node-doc-tag
       > text: Supports ? if: and ? else: conditionals.
         - styles: node-doc-detail-value
@@ -1141,23 +1127,31 @@ ptml:
         - styles: node-doc-detail-label
       > box:
         - styles: node-doc-code
-        > text: valueList: colours
+        > text: recordList: tasks
           - newline
-        > text: - Red
+        > text: - record:
           - newline
-        > text: - Green
+        > text:   - title: Wash up
           - newline
-        > text: - Blue
+        > text:   - priority: 3
+          - newline
+        > text: - record:
+          - newline
+        > text:   - title: Buy milk
+          - newline
+        > text:   - priority: 1
           - newline
         > text:  
           - newline
         > text: ptml:
           - newline
-        > text: > each: colours as $colour
+        > text: > each: tasks as $task
           - newline
-        > text:   > box:
+        > text:   - sort: priority
           - newline
-        > text:     > text: $colour
+        > text:   > text: $task.title
+          - newline
+        > text:     - newline:
           - newline
     > box:
       - styles: node-doc-card

@@ -222,6 +222,15 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const SortErrors = {
+  missingSpec: (lineNumber: number) =>
+    `sort node on line ${lineNumber} must say what to sort by, e.g. "- sort: title", "- sort: title desc", or "- sort: desc" to sort plain values by themselves.`,
+  invalidSpec: (lineNumber: number, found: string) =>
+    `sort node on line ${lineNumber} must be a property name, optionally followed by asc or desc. Found: "${found}"`,
+  propertyNotOnRecords: (lineNumber: number, property: string, listName: string, available: string) =>
+    `sort node on line ${lineNumber} sorts by "${property}", which no record in list "${listName}" has, so the order would be unchanged. Available properties: ${available}`,
+};
+
 export const FontsErrors = {
   familyRequired: (lineNumber: number) =>
     `font node on line ${lineNumber} must name a font family (e.g. "- font: Playfair Display").`,

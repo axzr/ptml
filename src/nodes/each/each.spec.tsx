@@ -11,10 +11,18 @@ import {
   setToIndex,
   invalidEachData,
   stateGetEach,
+  eachSortedByProperty,
+  eachSortedDescending,
+  eachSortedNumerically,
+  eachSortedValues,
+  eachSortedByMissingProperty,
+  eachSortWithNoSpec,
+  eachSortWithTooManyParts,
+  eachWithImageChild,
 } from './each.example';
 import { render as renderPtml, validate, parse } from '../../index';
 import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
-import { DataFormatErrors, ValidatorErrors } from '../../errors/messages';
+import { DataFormatErrors, SortErrors, ValidatorErrors } from '../../errors/messages';
 
 describe('Each loops (simpleList)', () => {
   it('validates simpleList', () => {
@@ -308,5 +316,58 @@ describe('State get each (stateGetEach)', () => {
     expect(textContent).toContain('4 characters in John');
     expect(textContent).toContain('8 characters in Jannette');
     expect(textContent).toContain('3 characters in Jim');
+  });
+});
+
+const textOf = (ptml: string): string => render(<div>{renderPtml(ptml)}</div>).container.textContent ?? '';
+
+describe('each sort', () => {
+  it('orders records by a named property', () => {
+    expect(textOf(eachSortedByProperty)).toBe('another job|Buy milk|Wash up|');
+  });
+
+  it('reverses that order with desc', () => {
+    expect(textOf(eachSortedDescending)).toBe('Wash up|Buy milk|');
+  });
+
+  it('compares numbers as numbers, not as text', () => {
+    expect(textOf(eachSortedNumerically)).toBe('2|3|10|');
+  });
+
+  it('sorts a list of plain values by the values themselves', () => {
+    // Natural ordering, so "item 10" comes after "item 9" rather than before it.
+    expect(textOf(eachSortedValues)).toBe('item 2|item 9|item 10|');
+  });
+
+  it('leaves the underlying list untouched, so an unsorted each still sees source order', () => {
+    const both = eachSortedByProperty.replace(
+      '> each: tasks as $task\n  - sort: title\n  > text: $task.title|\n',
+      '> each: tasks as $task\n  - sort: title\n  > text: $task.title|\n> each: tasks as $task\n  > text: $task.title|\n',
+    );
+    expect(textOf(both)).toBe('another job|Buy milk|Wash up|' + 'Wash up|another job|Buy milk|');
+  });
+
+  it('rejects sorting by a property no record has, which would silently do nothing', () => {
+    const validation = validate(eachSortedByMissingProperty);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, SortErrors.propertyNotOnRecords, 0, 'titel', 'tasks', 'title');
+  });
+
+  it('rejects a sort with nothing to sort by', () => {
+    const validation = validate(eachSortWithNoSpec);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, SortErrors.missingSpec, 0);
+  });
+
+  it('rejects a sort with more than a property and a direction', () => {
+    const validation = validate(eachSortWithTooManyParts);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, SortErrors.invalidSpec, 0, 'title desc extra');
+  });
+});
+
+describe('each child nodes', () => {
+  it('accepts any node a box accepts, not a hand-picked few', () => {
+    expect(validate(eachWithImageChild).isValid).toBe(true);
   });
 });
