@@ -4,6 +4,7 @@ import { parse } from '../../parsers/parser';
 import { buildStateAndLists, type StateMap, type ListMap } from '../../state/state';
 import { buildFunctionMap } from '../../evaluation/functionOperations';
 import { validateRootNodes } from './validateRootNodes';
+import { validateIds } from './validateIds';
 import { getSchemaMap } from '../../schemaRegistry/schemaMap';
 import { splitOnWhitespace } from '../../utils/regexPatterns';
 import { StateErrors } from '../../errors/messages';
@@ -215,4 +216,8 @@ export const validateSemantics = (ptml: string, files?: PtmlFilesMap): void => {
   }
 
   validateRootNodes(nodes, context);
+  validateIds(
+    nodes,
+    nodes.some((node) => node.type === 'import'),
+  );
 };

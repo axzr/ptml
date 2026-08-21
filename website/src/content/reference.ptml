@@ -901,7 +901,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). A checkbox needs a binding so that its checked state goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $agree). Styles are optional.
+      > text: A checkbox input field for forms. Checkboxes can be accessed via form.fieldName syntax (e.g., form.agree). A checkbox needs a binding so that its checked state goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $agree). Styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1481,7 +1481,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). An input needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $name). Type is optional and defaults to text. Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint).
+      > text: A text input field element. Input fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.name). An input needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $name). Type is optional and defaults to text. Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint). An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -1535,7 +1535,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A form label that associates text with a form control for accessibility. Use optional "for" (id of the control) to associate with a control elsewhere, or wrap the control and text as children.
+      > text: A form label that associates text with a form control for accessibility. Use optional "for" (id of the control) to associate with a control elsewhere, or wrap the control and text as children. The for value must name an id declared by a field in the same document, or the label links to nothing; a label may instead wrap its field and need no for at all. A for taken from state (e.g. $target) is resolved at render time.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -2341,7 +2341,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional.
+      > text: A dropdown select element for forms. Select fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.country). A select needs a binding so that the chosen option goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable. Takes one or more option children; styles are optional. An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -2653,7 +2653,7 @@ ptml:
           - styles: node-doc-name
         > text: Block
           - styles: category-badge-block
-      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). A textarea needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $notes). Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint).
+      > text: A multi-line text input field element. Textarea fields are typically used within forms and can be accessed via form.fieldName syntax (e.g., form.description). A textarea needs a binding so that what is typed goes somewhere: either an id, which binds it to form.<id>, or a value bound to a state variable (e.g. - value: $notes). Placeholder and styles are optional. Placeholder can be a literal string or a state reference (e.g. $hint). An id must be unique across the document, since two fields sharing one would share a single form value and produce duplicate ids in the page; the exception is fields in different branches of a conditional, which never render together. Inside an each or range, use a per-item id such as "- id: $item.key" rather than a fixed one, which would repeat for every item.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label

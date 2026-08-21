@@ -1,5 +1,5 @@
 import React from 'react';
-import { getNodeStyles } from '../../renderers/helpers';
+import { getNodeStyles, resolveAttributeValue } from '../../renderers/helpers';
 import { renderNode } from '../../renderers/renderNode';
 import type { RenderContext } from '../../renderers/types';
 
@@ -8,7 +8,7 @@ export const labelNodeToReact = (context: RenderContext): React.ReactNode => {
   const style = getNodeStyles(node, namedStyles, state, loopVariables, context.viewportWidth, context.breakpoints);
 
   const forNode = node.children.find((child) => child.type === 'for');
-  const htmlFor = forNode?.data?.trim() || undefined;
+  const htmlFor = resolveAttributeValue(forNode?.data, state, loopVariables) || undefined;
 
   const renderedChildren: React.ReactNode[] = [];
 

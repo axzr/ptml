@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getNodeStyles } from '../../renderers/helpers';
+import { getNodeStyles, resolveAttributeValue } from '../../renderers/helpers';
 import { resolveVariable } from '../../state/state';
 import type { RenderContext } from '../../renderers/types';
 
@@ -86,7 +86,9 @@ export const radioNodeToReact = (context: RenderContext): React.ReactNode => {
   const optionValue = valueNode?.data?.trim() || '';
 
   const idNode = node.children.find((child) => child.type === 'id');
-  const id = idNode?.data?.trim() || '';
+  // Resolved rather than taken literally, so an id can be per-item inside an
+  // each ("- id: $task.id"); a bare literal would give every row the same id.
+  const id = resolveAttributeValue(idNode?.data, state, loopVariables);
 
   const selectedNode = node.children.find((child) => child.type === 'selected');
   const selectedData = selectedNode?.data?.trim() || '';

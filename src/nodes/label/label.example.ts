@@ -33,16 +33,90 @@ const labelInFormWithInput = `ptml:
 `;
 
 const labelWithStyles = `ptml:
-> label:
-  - for: q
-  - text: Search
-  - styles:
-    - display: block
-    - marginBottom: 0.5em
-    - fontWeight: bold
+> form:
+  > label:
+    - for: q
+    - text: Search
+    - styles:
+      - display: block
+      - marginBottom: 0.5em
+      - fontWeight: bold
+  > input:
+    - id: q
+    - type: search
 `;
 
-export { labelWithForAndText, labelWrappingCheckbox, labelInFormWithInput, labelWithStyles };
+const labelForUnknownField = `ptml:
+> form:
+  > label:
+    - for: emial
+    - text: Email
+  > input:
+    - id: email
+    - type: email
+`;
+
+const duplicateFieldIds = `ptml:
+> form:
+  > input:
+    - id: name
+    - type: text
+  > input:
+    - id: name
+    - type: text
+`;
+
+// Legitimate: only one branch ever renders, so the shared id is not a clash.
+const sharedIdAcrossConditionalBranches = `state:
+- mode: email
+
+ptml:
+> form:
+  ? if: $mode is email
+    > input:
+      - id: contact
+      - type: email
+  ? if: $mode is phone
+    > input:
+      - id: contact
+      - type: tel
+`;
+
+const fixedIdInsideLoop = `valueList: rows
+- a
+- b
+
+ptml:
+> each: rows as $row
+  > input:
+    - id: rowField
+    - type: text
+`;
+
+const perItemIdInsideLoop = `recordList: rows
+- record:
+  - key: first
+- record:
+  - key: second
+
+ptml:
+> each: rows as $row
+  > input:
+    - id: $row.key
+    - type: text
+`;
+
+export {
+  labelWithForAndText,
+  labelWrappingCheckbox,
+  labelInFormWithInput,
+  labelWithStyles,
+  labelForUnknownField,
+  duplicateFieldIds,
+  sharedIdAcrossConditionalBranches,
+  fixedIdInsideLoop,
+  perItemIdInsideLoop,
+};
 
 export const docExample = `
 state:

@@ -80,7 +80,9 @@ export const inputNodeToReact = (context: RenderContext): React.ReactNode => {
   const style = getNodeStyles(node, namedStyles, state, loopVariables, context.viewportWidth, context.breakpoints);
 
   const idNode = node.children.find((child) => child.type === 'id');
-  const id = idNode?.data?.trim() || '';
+  // Resolved rather than taken literally, so an id can be per-item inside an
+  // each ("- id: $task.id"); a bare literal would give every row the same id.
+  const id = resolveAttributeValue(idNode?.data, state, loopVariables);
 
   const typeNode = node.children.find((child) => child.type === 'type');
   const type = typeNode?.data?.trim() || 'text';

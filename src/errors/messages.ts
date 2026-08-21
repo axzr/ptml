@@ -222,6 +222,15 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
 
+export const IdErrors = {
+  forTargetNotFound: (lineNumber: number, target: string, known: string) =>
+    `label node on line ${lineNumber} has "- for: ${target}", but no field in this document declares that id, so the label is linked to nothing. ${known}`,
+  duplicateId: (lineNumber: number, id: string, firstLine: number) =>
+    `${'field'} on line ${lineNumber} reuses the id "${id}" already declared on line ${firstLine}. Two fields sharing an id share one form value and produce duplicate ids in the page. Give them different ids, or bind one with "- value: $name" instead.`,
+  idInsideLoop: (lineNumber: number, id: string) =>
+    `field on line ${lineNumber} declares the fixed id "${id}" inside an each, so every item renders the same id and they all share one form value. Use a per-item id such as "- id: $item.id", or bind the field with "- value:" instead.`,
+};
+
 export const SortErrors = {
   missingSpec: (lineNumber: number) =>
     `sort node on line ${lineNumber} must say what to sort by, e.g. "- sort: title", "- sort: title desc", or "- sort: desc" to sort plain values by themselves.`,

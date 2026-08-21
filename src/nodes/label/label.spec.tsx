@@ -1,8 +1,20 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { labelWithForAndText, labelWrappingCheckbox, labelInFormWithInput, labelWithStyles } from './label.example';
+import {
+  labelWithForAndText,
+  labelWrappingCheckbox,
+  labelInFormWithInput,
+  labelWithStyles,
+  labelForUnknownField,
+  duplicateFieldIds,
+  sharedIdAcrossConditionalBranches,
+  fixedIdInsideLoop,
+  perItemIdInsideLoop,
+} from './label.example';
 import { render as renderPtml, validate, parse } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { IdErrors } from '../../errors/messages';
 
 describe('Label (labelWithForAndText)', () => {
   it('validates labelWithForAndText', () => {
@@ -127,7 +139,8 @@ describe('Label (labelWithStyles)', () => {
     const ptmlNode = nodes.find((node) => node.type === 'ptml');
     expect(ptmlNode).toBeDefined();
 
-    const labelNode = ptmlNode?.children.find((node) => node.type === 'label');
+    const formNode = ptmlNode?.children.find((node) => node.type === 'form');
+    const labelNode = formNode?.children.find((node) => node.type === 'label');
     expect(labelNode).toBeDefined();
 
     const forNode = labelNode?.children.find((child) => child.type === 'for');
@@ -149,5 +162,67 @@ describe('Label (labelWithStyles)', () => {
       marginBottom: '0.5em',
       fontWeight: 'bold',
     });
+  });
+});
+
+describe('label for targets', () => {
+  it('accepts a for that names a field in the document', () => {
+    expect(validate(labelWithForAndText).isValid).toBe(true);
+  });
+
+  it('rejects a for that names no field, which would link the label to nothing', () => {
+    const validation = validate(labelForUnknownField);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, IdErrors.forTargetNotFound, 0, 'emial', 'Declared ids: email');
+  });
+
+  it('accepts a label with no for at all, which wraps its field instead', () => {
+    expect(validate(labelWrappingCheckbox).isValid).toBe(true);
+  });
+
+  it('says nothing about a for that is only known at render time', () => {
+    const dynamic = `state:
+- target: email
+
+ptml:
+> form:
+  > label:
+    - for: $target
+    - text: Email
+  > input:
+    - id: email
+    - type: email
+`;
+    expect(validate(dynamic).isValid).toBe(true);
+  });
+});
+
+describe('field id uniqueness', () => {
+  it('rejects two fields declaring the same id', () => {
+    const validation = validate(duplicateFieldIds);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, IdErrors.duplicateId, 0, 'name', 0);
+  });
+
+  it('allows the same id in branches of a conditional that never render together', () => {
+    const result = validate(sharedIdAcrossConditionalBranches);
+    expect(result.isValid ? true : result.errorMessage).toBe(true);
+  });
+
+  it('rejects a fixed id inside a loop, where every row would share one value', () => {
+    const validation = validate(fixedIdInsideLoop);
+    expect(validation.isValid).toBe(false);
+    expectErrorToMatchIgnoringLineNumber(validation, IdErrors.idInsideLoop, 0, 'rowField');
+  });
+
+  it('accepts a per-item id inside a loop', () => {
+    const result = validate(perItemIdInsideLoop);
+    expect(result.isValid ? true : result.errorMessage).toBe(true);
+  });
+
+  it('gives each row its own id when the id comes from the item', () => {
+    const { container } = render(<div>{renderPtml(perItemIdInsideLoop)}</div>);
+    const ids = Array.from(container.querySelectorAll('input')).map((input) => input.id);
+    expect(ids).toEqual(['first', 'second']);
   });
 });
