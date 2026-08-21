@@ -49,10 +49,20 @@ function App() {
 
 ### API
 
-- **`validate(ptml: string)`** -- Returns `{ isValid: true }` or `{ isValid: false; errorMessage: string }`. When `isValid` is false, `errorMessage` is always present.
+- **`validate(ptml: string, files?)`** -- Returns `{ isValid: true }` or `{ isValid: false; errorMessage: string }`. When `isValid` is false, `errorMessage` is always present.
 - **`parse(ptml: string)`** -- Returns the AST (array of root nodes).
-- **`render(ptml: string)`** -- Returns a React node or `null`.
-- **`usePtmlRender(ptml: string)`** -- Hook that returns `{ node, error }` for use in components.
+- **`render(ptml: string, files?, viewportWidth?, externalLists?, onFontsUnavailable?, externalState?)`** -- Returns a React node or `null`. Pure, with no browser dependencies, so it can be used for server rendering.
+- **`usePtmlRender(ptml: string, options?)`** -- Hook that returns `{ node, error }` for use in components.
+
+`usePtmlRender` options:
+
+| Option | Purpose |
+| --- | --- |
+| `files` | Other PTML files this document can `import:` or reference with `file(...)`. |
+| `viewportWidth` | Width that breakpoints resolve against. Omit it and the live window width is used, tracked on resize. Supply it to render at a width other than the real window, such as a device-frame preview. |
+| `externalLists` | Lists supplied by the host, merged over any same-named list the document declares. |
+| `externalState` | State supplied by the host, merged over what the document declares. For values only the host knows, such as which page a URL is showing. |
+| `onFontsUnavailable` | Called with the families from a `fonts:` declaration that did not load, for whatever reason. A console warning is always emitted as well. |
 
 Types **`RenderContext`** and **`NamedStylesMap`** are exported for advanced use (e.g. custom node renderers or tooling).
 
