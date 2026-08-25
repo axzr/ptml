@@ -1,5 +1,47 @@
 # Changelog
 
+## 3.0.0
+
+Imports become transitive, which is what makes it practical to split a prototype across
+more than two files. The change is breaking in two ways, both to do with what happens when
+files disagree or an import cannot be resolved.
+
+### Breaking changes
+
+**Imports are transitive.** An imported file may now import others, and everything
+reachable that way becomes available: templates, named styles, functions, state, lists and
+breakpoints alike. Previously only the files a document imported directly were read, so a
+definition two files away simply did not exist.
+
+**The nearer definition now wins.** Where the same name is declared more than once, the
+document doing the importing beats what it imports, and a nearer import beats a deeper one.
+Between two imports in the same file the later one still wins. Under 2.0.0 an import
+overrode the file that imported it, so a definition in another file could silently capture
+a name declared locally. If you were relying on that -- a shared file deliberately
+overriding a local template -- the fix is to remove the local declaration.
+
+**An import that cannot be resolved is an error.** An import naming a file that was not
+supplied, or a file that is not valid PTML, was skipped in silence: the only symptom was
+that whatever it declared appeared not to exist, reported against the line that used it
+rather than the line that failed to import it. Both are now reported against the import,
+naming the file it appears in and listing the files that were supplied. Validating a
+document with no files map at all still says nothing about imports, since a caller
+validating a document on its own is not claiming what exists.
+
+Circular imports resolve rather than recursing, and a file imported down several paths is
+read once.
+
+### Fixed
+
+- **Calling a function from an imported file was rejected by validation.** The renderer
+  merged functions from imported files, but validation built its function map from the
+  local document alone, so `! call:` on an imported function worked at render time and
+  failed to validate. It had never worked, at any import depth.
+- **Imported files were parsed without being syntax-checked.** Indentation and root-node
+  rules are checked by the validator rather than the parser, so an imported file with bad
+  indentation parsed into the wrong shape and was merged in silently. Imported files are
+  now held to the same file-level syntax rules as the document importing them.
+
 ## 2.0.0
 
 A major release. Most of it is new capability, but validation has been tightened in

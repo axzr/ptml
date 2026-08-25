@@ -3,6 +3,8 @@ import { render as renderRtl, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { parse, validate, render as renderPtml } from '../../index';
+import { expectErrorToMatchIgnoringLineNumber } from '../../errors/testHelpers';
+import { ImportErrors } from '../../errors/messages';
 import {
   importFooPtml,
   importWithPathPtml,
@@ -16,6 +18,16 @@ import {
   mainImportStylesRedStyle,
   filesStylesRedStyle,
   mainImportMissingFile,
+  mainImportUnparseableFile,
+  filesUnparseable,
+  mainImportsTransitively,
+  filesTransitiveChain,
+  mainNearerDefinitionWins,
+  filesNearerAndDeeper,
+  mainImportsCycle,
+  filesCycle,
+  mainImportsMissingNestedFile,
+  filesMissingNested,
   mainDuplicateTemplateLocalAndImport,
   filesOtherImportedTemplate,
   mainPtmlWithImports,
@@ -112,23 +124,51 @@ describe('Import node', () => {
   });
 
   describe('Edge cases', () => {
-    it('missing file in files map leaves template reference unresolved', () => {
-      const files: Record<string, string> = {};
-      const result = validate(mainImportMissingFile, files);
-      expect(result.isValid).toBe(false);
+    it('reports an import naming a file that was not supplied', () => {
+      const validation = validate(mainImportMissingFile, {});
+      expect(validation.isValid).toBe(false);
+      // Reported against the import itself, not against whatever used the
+      // thing the import was supposed to provide.
+      expectErrorToMatchIgnoringLineNumber(
+        validation,
+        ImportErrors.fileNotFound,
+        0,
+        'missing.ptml',
+        '',
+        'No files were supplied alongside this document.',
+      );
     });
 
-    it('duplicate template name in current file and import both resolve (merge order: imported overwrites)', () => {
+    it('lists the files that were supplied, so a typo is obvious', () => {
+      const validation = validate(mainImportMissingFile, { 'templates.ptml': 'template: x\n> text: x' });
+      expect(validation.isValid === false && validation.errorMessage).toContain('Files supplied: templates.ptml');
+    });
+
+    it('reports an import naming a file that is not valid PTML', () => {
+      const validation = validate(mainImportUnparseableFile, filesUnparseable);
+      expect(validation.isValid).toBe(false);
+      expect(validation.isValid === false && validation.errorMessage).toContain('is not valid PTML');
+      expect(validation.isValid === false && validation.errorMessage).toContain('broken.ptml');
+    });
+
+    it('says nothing about imports when no files map is supplied at all', () => {
+      // A caller validating a document on its own is not claiming what exists.
+      expect(validate(importFooPtml).isValid).toBe(true);
+    });
+
+    it('accepts a template declared both here and in an import', () => {
       const result = validate(mainDuplicateTemplateLocalAndImport, filesOtherImportedTemplate);
       expect(result.isValid).toBe(true);
     });
 
-    it('duplicate template name renders imported content (import overwrites local)', () => {
+    it('renders the local template when an import declares the same name', () => {
+      // Nearer wins. Before 2.0.0 an import overrode the importing file, so a
+      // definition in another file could silently capture a local name.
       const node = renderPtml(mainDuplicateTemplateLocalAndImport, filesOtherImportedTemplate);
       expect(node).not.toBeNull();
       renderRtl(<div>{node}</div>);
-      expect(screen.getByText('Imported template')).toBeInTheDocument();
-      expect(screen.queryByText('Local template')).not.toBeInTheDocument();
+      expect(screen.getByText('Local template')).toBeInTheDocument();
+      expect(screen.queryByText('Imported template')).not.toBeInTheDocument();
     });
 
     it('example mainPtmlWithImports validates and renders with importExampleFiles', () => {
@@ -160,5 +200,40 @@ describe('Import node', () => {
       await user.click(screen.getByRole('button', { name: 'increment' }));
       expect(screen.getByText('count is 1')).toBeInTheDocument();
     });
+  });
+});
+
+describe('Transitive imports', () => {
+  const textOf = (ptml: string, files: Record<string, string>): string => {
+    const { container } = renderRtl(<div>{renderPtml(ptml, files)}</div>);
+    return container.textContent ?? '';
+  };
+
+  it('reaches a template and a style declared two files away', () => {
+    const result = validate(mainImportsTransitively, filesTransitiveChain);
+    expect(result.isValid ? true : result.errorMessage).toBe(true);
+    expect(textOf(mainImportsTransitively, filesTransitiveChain)).toContain('From two levels down');
+  });
+
+  it('applies a named style declared two files away', () => {
+    renderRtl(<div>{renderPtml(mainImportsTransitively, filesTransitiveChain)}</div>);
+    expect(screen.getByText('styled')).toHaveStyle({ color: 'rgb(102, 51, 153)' });
+  });
+
+  it('prefers a nearer definition to a deeper one of the same name', () => {
+    expect(textOf(mainNearerDefinitionWins, filesNearerAndDeeper)).toBe('Nearer');
+  });
+
+  it('resolves a circular import rather than recursing forever', () => {
+    expect(validate(mainImportsCycle, filesCycle).isValid).toBe(true);
+    expect(textOf(mainImportsCycle, filesCycle)).toBe('Resolved');
+  });
+
+  it('reports a missing import nested inside another file, naming the file it is in', () => {
+    const validation = validate(mainImportsMissingNestedFile, filesMissingNested);
+    expect(validation.isValid).toBe(false);
+    const message = validation.isValid === false ? validation.errorMessage : '';
+    expect(message).toContain('gone.ptml');
+    expect(message).toContain('of "level-a.ptml"');
   });
 });

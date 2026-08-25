@@ -59,6 +59,76 @@ state:
 ptml:
 > show: home`;
 
+// Imports are transitive: main imports a, a imports b, b declares the template.
+const mainImportsTransitively = `import: level-a.ptml
+
+ptml:
+> box:
+  > show: deep-template
+  > text: styled
+    - styles: deep-style
+`;
+
+const filesTransitiveChain: Record<string, string> = {
+  'level-a.ptml': `import: level-b.ptml`,
+  'level-b.ptml': `template: deep-template
+> text: From two levels down
+
+define: deep-style
+- color: rebeccapurple`,
+};
+
+// The importing file wins over what it imports, and a nearer import wins over
+// a deeper one.
+const mainNearerDefinitionWins = `import: level-a.ptml
+
+ptml:
+> show: card
+`;
+
+const filesNearerAndDeeper: Record<string, string> = {
+  'level-a.ptml': `import: level-b.ptml
+
+template: card
+> text: Nearer`,
+  'level-b.ptml': `template: card
+> text: Deeper`,
+};
+
+const mainImportsCycle = `import: level-a.ptml
+
+ptml:
+> show: card
+`;
+
+const filesCycle: Record<string, string> = {
+  'level-a.ptml': `import: level-b.ptml
+
+template: card
+> text: Resolved`,
+  'level-b.ptml': `import: level-a.ptml`,
+};
+
+const mainImportsMissingNestedFile = `import: level-a.ptml
+
+ptml:
+> text: hello
+`;
+
+const filesMissingNested: Record<string, string> = {
+  'level-a.ptml': `import: gone.ptml`,
+};
+
+const mainImportUnparseableFile = `import: broken.ptml
+ptml:
+> text: hello`;
+
+const filesUnparseable: Record<string, string> = {
+  'broken.ptml': `template: broken
+    > text: badly indented
+  > text: also badly indented`,
+};
+
 const mainDuplicateTemplateLocalAndImport = `import: other.ptml
 template: shared
 > text: Local template
@@ -116,6 +186,16 @@ export {
   mainImportStylesRedStyle,
   filesStylesRedStyle,
   mainImportMissingFile,
+  mainImportUnparseableFile,
+  filesUnparseable,
+  mainImportsTransitively,
+  filesTransitiveChain,
+  mainNearerDefinitionWins,
+  filesNearerAndDeeper,
+  mainImportsCycle,
+  filesCycle,
+  mainImportsMissingNestedFile,
+  filesMissingNested,
   mainDuplicateTemplateLocalAndImport,
   filesOtherImportedTemplate,
   mainPtmlWithImports,

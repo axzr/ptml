@@ -6,6 +6,7 @@ import { buildStateAndLists } from '../state/state';
 import { buildFunctionMap } from '../evaluation/functionOperations';
 import { buildTemplateMap } from '../templates/templateOperations';
 import { parse } from '../parsers/parser';
+import { forEachImportedDocument } from '../imports/importGraph';
 import { executeInitNodes } from './initExecutor';
 import type { FunctionMap, Node, PtmlFilesMap } from '../types';
 import type { StateMap, ListMap } from '../state/state';
@@ -63,58 +64,51 @@ const resolveFileReferencesInState = (state: StateMap, files: PtmlFilesMap): Sta
 };
 
 const buildStateAndListsWithImports = (nodes: Node[], files: PtmlFilesMap): { state: StateMap; lists: ListMap } => {
-  const { state, lists } = buildStateAndLists(nodes);
-  const visited = new Set<string>();
-  nodes.forEach((node) => {
-    if (node.type !== 'import' || !node.data) return;
-    const filename = node.data.trim();
-    if (visited.has(filename)) return;
-    visited.add(filename);
-    const content = files[filename];
-    if (!content || typeof content !== 'string') return;
-    try {
-      const importedNodes = parse(content);
-      const { state: importedState, lists: importedLists } = buildStateAndLists(importedNodes);
-      Object.assign(state, importedState);
-      Object.assign(lists, importedLists);
-    } catch {
-      // ignore parse errors in imported file
-    }
+  const state: StateMap = {};
+  const lists: ListMap = {};
+
+  forEachImportedDocument(nodes, files, ({ nodes: importedNodes }) => {
+    const imported = buildStateAndLists(importedNodes);
+    Object.assign(state, imported.state);
+    Object.assign(lists, imported.lists);
   });
-  const resolvedState = resolveFileReferencesInState(state, files);
-  return { state: resolvedState, lists };
+
+  // Applied last so this document's own declarations win over anything it imports.
+  const local = buildStateAndLists(nodes);
+  Object.assign(state, local.state);
+  Object.assign(lists, local.lists);
+
+  return { state: resolveFileReferencesInState(state, files), lists };
 };
 
-const mergeImportsIntoMaps = (
-  nodes: Node[],
-  files: PtmlFilesMap,
-  templateMap: TemplateMap,
-  namedStyles: NamedStylesMap,
-  functionMap: FunctionMap,
-  visited: Set<string>,
-  templateSourceMap: TemplateSourceMap,
-): void => {
-  nodes.forEach((node) => {
-    if (node.type !== 'import' || !node.data) return;
-    const filename = node.data.trim();
-    if (visited.has(filename)) return;
-    visited.add(filename);
-    const content = files[filename];
-    if (!content || typeof content !== 'string') return;
-    try {
-      const importedNodes = parse(content);
-      const importedTemplates = buildTemplateMap(importedNodes);
-      const importedStyles = buildNamedStylesMap(importedNodes);
-      const importedFunctionMap = buildFunctionMap(importedNodes);
-      Object.assign(templateMap, importedTemplates);
-      Object.assign(namedStyles, importedStyles);
-      Object.assign(functionMap, importedFunctionMap);
-      Object.keys(importedTemplates).forEach((name) => {
-        templateSourceMap[name] = filename;
-      });
-    } catch {
-      // ignore parse errors in imported file
-    }
+type SharedMaps = {
+  templateMap: TemplateMap;
+  namedStyles: NamedStylesMap;
+  functionMap: FunctionMap;
+  templateSourceMap: TemplateSourceMap;
+};
+
+const mergeImportsIntoMaps = (nodes: Node[], files: PtmlFilesMap, maps: SharedMaps): void => {
+  forEachImportedDocument(nodes, files, ({ filename, nodes: importedNodes }) => {
+    const importedTemplates = buildTemplateMap(importedNodes);
+    Object.assign(maps.templateMap, importedTemplates);
+    Object.assign(maps.namedStyles, buildNamedStylesMap(importedNodes));
+    Object.assign(maps.functionMap, buildFunctionMap(importedNodes));
+    Object.keys(importedTemplates).forEach((name) => {
+      maps.templateSourceMap[name] = filename;
+    });
+  });
+};
+
+const mergeLocalIntoMaps = (nodes: Node[], maps: SharedMaps): void => {
+  const localTemplates = buildTemplateMap(nodes);
+  Object.assign(maps.templateMap, localTemplates);
+  Object.assign(maps.namedStyles, buildNamedStylesMap(nodes));
+  Object.assign(maps.functionMap, buildFunctionMap(nodes));
+  // A template declared here belongs to this document, whatever an import called
+  // the same thing, so it must not keep the imported file as its source.
+  Object.keys(localTemplates).forEach((name) => {
+    delete maps.templateSourceMap[name];
   });
 };
 
@@ -127,18 +121,15 @@ const buildImportedBreakpoints = (
   nodes: Node[],
   files: PtmlFilesMap,
 ): ReturnType<typeof buildBreakpointsMap> | undefined => {
-  for (const node of nodes) {
-    if (node.type !== 'import' || !node.data) continue;
-    const content = files[node.data.trim()];
-    if (!content || typeof content !== 'string') continue;
-    try {
-      const imported = buildBreakpointsMap(parse(content));
-      if (imported) return imported;
-    } catch {
-      // ignore parse errors in imported file
+  let breakpoints: ReturnType<typeof buildBreakpointsMap> | undefined;
+  forEachImportedDocument(nodes, files, ({ nodes: importedNodes }) => {
+    const imported = buildBreakpointsMap(importedNodes);
+    // Visited deepest first, so a nearer import overwrites a deeper one.
+    if (imported) {
+      breakpoints = imported;
     }
-  }
-  return undefined;
+  });
+  return breakpoints;
 };
 
 export const buildRenderContextFromNodes = (
@@ -150,20 +141,20 @@ export const buildRenderContextFromNodes = (
   if (renderableNodes.length === 0) {
     return null;
   }
-  const namedStyles = buildNamedStylesMap(nodes);
+  const maps: SharedMaps = { templateMap: {}, namedStyles: {}, functionMap: {}, templateSourceMap: {} };
   let breakpoints = buildBreakpointsMap(nodes);
   const { lists: builtLists } = buildStateAndLists(nodes);
   const currentLists = lists || builtLists;
-  const functionMap = buildFunctionMap(nodes);
-  const templateMap = buildTemplateMap(nodes);
-  const templateSourceMap: TemplateSourceMap = {};
+
   if (files && Object.keys(files).length > 0) {
-    const visited = new Set<string>();
-    mergeImportsIntoMaps(nodes, files, templateMap, namedStyles, functionMap, visited, templateSourceMap);
+    mergeImportsIntoMaps(nodes, files, maps);
     if (breakpoints === undefined) {
       breakpoints = buildImportedBreakpoints(nodes, files);
     }
   }
+  mergeLocalIntoMaps(nodes, maps);
+
+  const { templateMap, namedStyles, functionMap, templateSourceMap } = maps;
   return { renderableNodes, namedStyles, breakpoints, currentLists, functionMap, templateMap, templateSourceMap };
 };
 

@@ -39,7 +39,10 @@ const validateRootNodeIndentation = (ptml: string): void => {
   }
 };
 
-const validateBasicFormatting = (ptml: string): void => {
+// The file-level syntax rules: not empty, root nodes at column zero, even
+// indentation. Applied to imported files as well, so a file that parses into the
+// wrong shape is reported at the import rather than silently mis-nesting.
+export const validateFileSyntax = (ptml: string): void => {
   checkForEmptyFile(ptml);
   validateRootNodeIndentation(ptml);
   const lines = ptml.split('\n');
@@ -48,7 +51,7 @@ const validateBasicFormatting = (ptml: string): void => {
 
 export const validate = (ptml: string, files?: PtmlFilesMap): ValidationResult => {
   try {
-    validateBasicFormatting(ptml);
+    validateFileSyntax(ptml);
     validateSemantics(ptml, files);
 
     return { isValid: true };

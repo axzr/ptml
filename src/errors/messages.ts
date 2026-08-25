@@ -243,6 +243,13 @@ export const SelectErrors = {
     `select node on line ${lineNumber} has no options, so it renders a dropdown with nothing to choose. Add an option child, or an each that generates them.`,
 };
 
+export const ImportErrors = {
+  fileNotFound: (lineNumber: number, filename: string, importedBy: string, available: string) =>
+    `import node on line ${lineNumber}${importedBy} imports "${filename}", which was not supplied to the renderer, so nothing it declares is available. ${available}`,
+  fileNotParseable: (lineNumber: number, filename: string, importedBy: string, reason: string) =>
+    `import node on line ${lineNumber}${importedBy} imports "${filename}", which is not valid PTML, so nothing it declares is available. ${reason}`,
+};
+
 export const IdErrors = {
   forTargetNotFound: (lineNumber: number, target: string, known: string) =>
     `label node on line ${lineNumber} has "- for: ${target}", but no field in this document declares that id, so the label is linked to nothing. ${known}`,
