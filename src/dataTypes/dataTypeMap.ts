@@ -1,6 +1,7 @@
 import type { DataTypeSchema } from './types';
 import { boxRoleSchema } from './boxRole/boxRole.schema';
 import { breakpointReferenceSchema } from './breakpointReference/breakpointReference.schema';
+import { interactionStateSchema } from './interactionState/interactionState.schema';
 import { rowRoleSchema } from './rowRole/rowRole.schema';
 import { headingLevelSchema } from './headingLevel/headingLevel.schema';
 import { styleNameSchema } from './styleName/styleName.schema';
@@ -27,6 +28,7 @@ import { windowOperationSchema } from './windowOperation/windowOperation.schema'
 const dataTypeSchemas: DataTypeSchema[] = [
   boxRoleSchema,
   breakpointReferenceSchema,
+  interactionStateSchema,
   rowRoleSchema,
   headingLevelSchema,
   styleNameSchema,

@@ -58,7 +58,7 @@ ptml:
 
 Declaration: `breakpoints`, `define`, `fonts`, `function`, `import`, `init`, `ptml`, `recordList`, `state`, `template`, `valueList`
 
-Block: `box`, `breakpoint`, `button`, `cell`, `checkbox`, `circle`, `compile`, `debug`, `each`, `ellipse`, `form`, `group`, `header`, `image`, `input`, `label`, `line`, `link`, `list`, `listItem`, `option`, `path`, `polygon`, `polyline`, `radio`, `range`, `rect`, `row`, `select`, `show`, `svg`, `table`, `text`, `textarea`
+Block: `box`, `breakpoint`, `button`, `cell`, `checkbox`, `circle`, `compile`, `debug`, `each`, `ellipse`, `form`, `group`, `header`, `image`, `input`, `label`, `line`, `link`, `list`, `listItem`, `option`, `path`, `polygon`, `polyline`, `radio`, `range`, `rect`, `row`, `select`, `show`, `svg`, `table`, `text`, `textarea`, `when`
 
 Property: `click`, `font`, `record`, `role`, `styles`, `where`
 
@@ -89,12 +89,12 @@ breakpoints:
 
 Declaration — prefix `none (top-level)`.
 
-Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier.
+Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier. A when child adds styles that apply only in an interaction state -- hover, focus, active, disabled or placeholder -- which a named style can express and an inline style cannot, since no pseudo-state can be written as a style attribute. A define carrying when blocks is given a generated class and the document emits a stylesheet for it.
 
 **Data:** required.
 - `style-name` (required) — Style name (required). Must be a valid identifier that can be referenced from styles properties.
 
-**Children:** `breakpoint`
+**Children:** `breakpoint`, `when`
 
 **Properties:** any — Any CSS property name
 
@@ -1108,6 +1108,34 @@ ptml:
   - value: $notes
   - placeholder: Your notes
 > text: You wrote: $notes
+```
+
+### `when`
+
+Block — prefix `> (angle bracket)`.
+
+Styles that apply only while an element is in a given interaction state: hover, focus, active, disabled, placeholder. Valid only inside a define, because these become a real CSS rule attached to a generated class for that named style -- no pseudo-state can be expressed as an inline style, which is how every other PTML style is applied. focus means :focus-visible, so a focus ring appears for keyboard users without sticking to a button after a mouse click. Pair any hover style with a focus style: an affordance only a pointer can reach is invisible to anyone navigating by keyboard.
+
+**Data:** required.
+- `interaction-state` (required) — One of: hover, focus, active, disabled, placeholder
+
+**Properties:** any — CSS properties to apply while in this state.
+
+```ptml
+define: card
+- background-color: #ffffff
+- transition: background-color 0.15s ease
+
+> when: hover
+  - background-color: #f4f4f5
+> when: focus
+  - outline: 2px solid #2563eb
+  - outline-offset: 2px
+
+ptml:
+> button:
+  - styles: card
+  > text: Open
 ```
 
 ## Property nodes

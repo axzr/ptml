@@ -31,6 +31,34 @@ validating a document on its own is not claiming what exists.
 Circular imports resolve rather than recursing, and a file imported down several paths is
 read once.
 
+### Added
+
+- **Interaction styles** -- a `define` may contain `when` blocks giving styles that apply only
+  in a given state: `hover`, `focus`, `active`, `disabled` or `placeholder`. No pseudo-state
+  can be written as an inline style attribute, which is how every other PTML style is applied,
+  so a named style carrying `when` blocks is given a generated class and the document emits a
+  stylesheet for it. Documents without interaction styles emit no stylesheet and no class, and
+  are unchanged.
+
+  `focus` means `:focus-visible`, so a focus ring appears for keyboard users without sticking
+  to a button after a mouse click. Pair any hover style with a focus style: an affordance only
+  a pointer can reach is invisible to anyone navigating by keyboard.
+
+  ```
+  define: card
+  - background-color: #ffffff
+  - transition: background-color 0.15s ease
+  > when: hover
+    - background-color: #f4f4f5
+  > when: focus
+    - outline: 2px solid #2563eb
+  ```
+
+  Interaction declarations are marked `!important`, because the base style of the element being
+  hovered is inline and an inline style otherwise always wins. Authors cannot write raw CSS, so
+  nothing can be competing with it. `when` is valid only inside a `define` -- inline styles have
+  no named style to attach a class to.
+
 ### Fixed
 
 - **Calling a function from an imported file was rejected by validation.** The renderer

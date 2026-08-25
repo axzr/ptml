@@ -105,6 +105,8 @@ ptml:
         - styles: node-doc-tag
       > text: textarea
         - styles: node-doc-tag
+      > text: when
+        - styles: node-doc-tag
     > text: Property
       - styles: toc-category-title
     > box:
@@ -210,7 +212,7 @@ ptml:
           - styles: node-doc-name
         > text: Declaration
           - styles: category-badge-declaration
-      > text: Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier.
+      > text: Root node for defining named CSS styles that can be referenced elsewhere. Style definitions can contain CSS properties (e.g., color, font-size) and conditional styles using if/else nodes. The style name is required and must be a valid identifier. A when child adds styles that apply only in an interaction state -- hover, focus, active, disabled or placeholder -- which a named style can express and an inline style cannot, since no pseudo-state can be written as a style attribute. A define carrying when blocks is given a generated class and the document emits a stylesheet for it.
         - styles: node-doc-desc
       > text: PREFIX
         - styles: node-doc-detail-label
@@ -227,6 +229,8 @@ ptml:
       > box:
         - styles: toc-list
         > text: breakpoint
+          - styles: node-doc-tag
+        > text: when
           - styles: node-doc-tag
       > text: PROPERTIES
         - styles: node-doc-detail-label
@@ -2702,6 +2706,62 @@ ptml:
         > text:   - placeholder: Your notes
           - newline
         > text: > text: You wrote: $notes
+          - newline
+    > box:
+      - styles: node-doc-card
+      > box:
+        - styles: node-doc-header
+        > text: when
+          - styles: node-doc-name
+        > text: Block
+          - styles: category-badge-block
+      > text: Styles that apply only while an element is in a given interaction state: hover, focus, active, disabled, placeholder. Valid only inside a define, because these become a real CSS rule attached to a generated class for that named style -- no pseudo-state can be expressed as an inline style, which is how every other PTML style is applied. focus means :focus-visible, so a focus ring appears for keyboard users without sticking to a button after a mouse click. Pair any hover style with a focus style: an affordance only a pointer can reach is invisible to anyone navigating by keyboard.
+        - styles: node-doc-desc
+      > text: PREFIX
+        - styles: node-doc-detail-label
+      > text: > (angle bracket)
+        - styles: node-doc-detail-value
+      > text: DATA
+        - styles: node-doc-detail-label
+      > text: Required
+        - styles: node-doc-detail-value
+      > text: interaction-state (required) -- One of: hover, focus, active, disabled, placeholder
+        - styles: node-doc-detail-value
+      > text: PROPERTIES
+        - styles: node-doc-detail-label
+      > text: Any property (CSS properties to apply while in this state.)
+        - styles: node-doc-detail-value
+      > text: EXAMPLE
+        - styles: node-doc-detail-label
+      > box:
+        - styles: node-doc-code
+        > text: define: card
+          - newline
+        > text: - background-color: #ffffff
+          - newline
+        > text: - transition: background-color 0.15s ease
+          - newline
+        > text:  
+          - newline
+        > text: > when: hover
+          - newline
+        > text:   - background-color: #f4f4f5
+          - newline
+        > text: > when: focus
+          - newline
+        > text:   - outline: 2px solid #2563eb
+          - newline
+        > text:   - outline-offset: 2px
+          - newline
+        > text:  
+          - newline
+        > text: ptml:
+          - newline
+        > text: > button:
+          - newline
+        > text:   - styles: card
+          - newline
+        > text:   > text: Open
           - newline
   > box:
     - styles: section

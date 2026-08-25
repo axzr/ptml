@@ -1,6 +1,9 @@
 import type { NodeSchema } from '../../schemas/types';
 import { validateDeclarationDefault } from '../../categories/declaration/declaration.validation';
+import React from 'react';
+
 import { renderNodesToReact } from '../../renderers/renderCoordinator';
+import { buildInteractionStylesheet } from '../../styles/interactionStyles';
 
 export const ptmlSchema: NodeSchema = {
   name: 'ptml',
@@ -18,8 +21,8 @@ export const ptmlSchema: NodeSchema = {
   functions: {
     validate: validateDeclarationDefault,
     getContext: () => ({ parentNode: undefined }),
-    render: (context) =>
-      renderNodesToReact(
+    render: (context) => {
+      const content = renderNodesToReact(
         context.node.children,
         context.namedStyles,
         context.state,
@@ -35,6 +38,21 @@ export const ptmlSchema: NodeSchema = {
         context.templateSourceMap,
         context.files,
         context.onFontsUnavailable,
-      ),
+      );
+
+      // One stylesheet per document, carrying the rules for every named style
+      // that has interaction states. Deterministic, so prerendered markup and
+      // the hydrating client produce the same thing.
+      const css = buildInteractionStylesheet(context.namedStyles, context.state, context.loopVariables);
+      if (!css) {
+        return content;
+      }
+      return React.createElement(
+        React.Fragment,
+        null,
+        React.createElement('style', { key: 'ptml-interaction-styles', dangerouslySetInnerHTML: { __html: css } }),
+        content,
+      );
+    },
   },
 };

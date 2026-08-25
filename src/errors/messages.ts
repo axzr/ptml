@@ -234,6 +234,8 @@ export const ValidatorErrors = {
     `${nodeType} node on line ${lineNumber}: breakpoint "${label}" must have a non-negative integer width in pixels (no unit). Found: "${found}"`,
   breakpointReferenceInvalid: (nodeType: string, lineNumber: number, found: string) =>
     `${nodeType} node on line ${lineNumber} must have a breakpoint label or "label or more" or "label or less". Found: "${found}"`,
+  interactionStateInvalid: (lineNumber: number, found: string, known: string) =>
+    `when node on line ${lineNumber} must name an interaction state. Found: "${found}". Known states: ${known}`,
   breakpointNotFound: (nodeType: string, lineNumber: number, label: string) =>
     `${nodeType} node on line ${lineNumber} references breakpoint "${label}" which is not defined in a breakpoints declaration.`,
 };
@@ -289,6 +291,11 @@ export const SvgErrors = {
 export const FormFieldErrors = {
   missingBinding: (nodeType: string, lineNumber: number) =>
     `${nodeType} node on line ${lineNumber} must have an id (binding it to form.<id>) or a value bound to a state variable (e.g. "- value: $name"). With neither, the field renders but nothing can change it.`,
+};
+
+export const InteractionErrors = {
+  whenOutsideDefine: (lineNumber: number) =>
+    `when node on line ${lineNumber} is only valid inside a define. Interaction styles become a CSS rule on a class generated for a named style, so they need one: move these styles into a "define:" and reference it with "- styles: <name>".`,
 };
 
 export const StylesErrors = {

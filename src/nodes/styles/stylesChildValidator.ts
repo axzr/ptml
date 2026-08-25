@@ -1,7 +1,7 @@
 import type { Node } from '../../types';
 import type { ValidationContext } from '../../validation/types';
 import type { ChildValidator } from '../../validation/types';
-import { BreakpointsErrors, HierarchyErrors, ValidationErrors } from '../../errors/messages';
+import { BreakpointsErrors, HierarchyErrors, InteractionErrors, ValidationErrors } from '../../errors/messages';
 import {
   validateConditional,
   conditionalChildValidatorForProperty,
@@ -19,6 +19,9 @@ export const validateElsePropertyInStyles = (node: Node, context: ValidationCont
 export const stylesChildValidator: ChildValidator = (child: Node, context: ValidationContext): void => {
   if (child.type === 'breakpoint') {
     throw new Error(BreakpointsErrors.stylesCannotContainBreakpoint(child.lineNumber ?? 0));
+  }
+  if (child.type === 'when') {
+    throw new Error(InteractionErrors.whenOutsideDefine(child.lineNumber ?? 0));
   }
   if (child.category === 'conditional') {
     if (child.type === 'if') {

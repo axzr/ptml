@@ -128,7 +128,8 @@ const resolveNamedStyle = (
   breakpoints?: BreakpointsConfig,
 ): void => {
   namedStyleNode.children.forEach((child) => {
-    if (child.type === 'if' || child.type === 'else') {
+    // when blocks become CSS rules on a generated class, not inline styles.
+    if (child.type === 'if' || child.type === 'else' || child.type === 'when') {
       return;
     }
     if (child.type === 'breakpoint') {

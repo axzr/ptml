@@ -1,8 +1,10 @@
 import type { DataSourceInfo, RenderContext } from './types';
 import type { StateMap, LoopVariablesMap } from '../state/state';
 import type { Node } from '../types';
+import { interactionClassesForNode } from '../styles/interactionStyles';
 
 type PtmlDataAttributes = {
+  className?: string;
   'data-ptml-type': string;
   'data-ptml-line': string;
   'data-ptml-style'?: string;
@@ -67,6 +69,13 @@ export const buildPtmlDataAttributes = (context: RenderContext): PtmlDataAttribu
 
   if (styleNames.length > 0) {
     attributes['data-ptml-style'] = styleNames.join(',');
+  }
+
+  // Named styles carrying interaction states are applied through a generated
+  // class rather than inline, since no pseudo-state can be an inline style.
+  const interactionClasses = interactionClassesForNode(node, namedStyles);
+  if (interactionClasses) {
+    attributes.className = interactionClasses;
   }
 
   const dataSources: DataSourceInfo[] = [];
